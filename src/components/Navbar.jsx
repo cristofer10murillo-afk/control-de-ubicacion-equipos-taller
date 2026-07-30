@@ -3,12 +3,12 @@ import {
   Boxes, 
   Plus, 
   FileSpreadsheet, 
-  Database, 
   Search, 
   Flame,
   HardDrive
 } from 'lucide-react';
 import { isFirebaseConfigured } from '../firebase/config';
+import PWAInstallPrompt from './PWAInstallPrompt';
 
 export default function Navbar({ 
   searchQuery, 
@@ -23,30 +23,23 @@ export default function Navbar({
         
         {/* Brand */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div style={{ 
-            width: 44, 
-            height: 44, 
-            borderRadius: 12, 
-            background: 'linear-gradient(135deg, #6366f1 0%, #06b6d4 100%)', 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'center',
-            boxShadow: '0 4px 14px rgba(99, 102, 241, 0.4)'
-          }}>
-            <Boxes size={24} color="#ffffff" />
-          </div>
+          <img 
+            src="/pwa-192x192.png" 
+            alt="Logo App" 
+            style={{ width: 44, height: 44, borderRadius: 12, objectFit: 'cover', boxShadow: '0 4px 14px rgba(99, 102, 241, 0.4)' }} 
+          />
           <div>
             <h1 style={{ fontSize: '1.25rem', fontWeight: 800, letterSpacing: '-0.02em', background: 'linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               Control de Ubicación de Equipos
             </h1>
             <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-              Taller & Bodega | Historial & Trazabilidad
+              Taller & Bodega | App Instalable PWA
             </p>
           </div>
         </div>
 
         {/* Global Quick Search */}
-        <div style={{ flex: '1 1 300px', maxWidth: 450, position: 'relative' }}>
+        <div style={{ flex: '1 1 260px', maxWidth: 400, position: 'relative' }}>
           <Search size={18} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-subdued)' }} />
           <input 
             type="text"
@@ -61,6 +54,9 @@ export default function Navbar({
         {/* Action Buttons & Status */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
           
+          {/* PWA Install Button */}
+          <PWAInstallPrompt />
+
           {/* Firebase Connection Badge */}
           <button 
             onClick={onOpenFirebaseModal}
@@ -71,12 +67,12 @@ export default function Navbar({
             {isFirebaseConfigured ? (
               <>
                 <Flame size={15} color="#f97316" />
-                <span style={{ color: '#f97316', fontWeight: 600 }}>Firebase Conectado</span>
+                <span style={{ color: '#f97316', fontWeight: 600 }}>Firebase</span>
               </>
             ) : (
               <>
                 <HardDrive size={15} color="#9ca3af" />
-                <span>Modo Local / Demo</span>
+                <span>Modo Local</span>
               </>
             )}
           </button>
@@ -88,7 +84,7 @@ export default function Navbar({
             style={{ fontSize: '0.85rem' }}
           >
             <FileSpreadsheet size={18} color="#10b981" />
-            <span>Excel / Semilla</span>
+            <span>Excel</span>
           </button>
 
           {/* Add Machine Button */}
@@ -97,7 +93,7 @@ export default function Navbar({
             className="btn btn-primary"
           >
             <Plus size={18} />
-            <span>Agregar Equipo</span>
+            <span>+ Nuevo</span>
           </button>
 
         </div>
