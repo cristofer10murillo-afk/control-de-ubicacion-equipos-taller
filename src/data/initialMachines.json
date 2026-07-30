@@ -1,0 +1,3406 @@
+[
+  {
+    "id": "EQ-0001",
+    "excelId": 1,
+    "modelo": "Opera leyenda",
+    "activo": "N/A",
+    "serie": "42420078",
+    "condicion": "D",
+    "ubicacion": "BVG1171",
+    "responsable": "Carlos Jimenez Solano",
+    "correo": "carlos.jimenez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-0",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1171",
+        "responsable": "Carlos Jimenez Solano",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0002",
+    "excelId": 2,
+    "modelo": "Opera leyenda",
+    "activo": "N/A",
+    "serie": "25020090",
+    "condicion": "D",
+    "ubicacion": "BVG1171",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-1",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1171",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0003",
+    "excelId": 3,
+    "modelo": "Opera leyenda",
+    "activo": "Sin respuesta",
+    "serie": "34420091",
+    "condicion": "D",
+    "ubicacion": "BVG1171",
+    "responsable": "Jeaustin Goni Peña",
+    "correo": "jgoni@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-2",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1171",
+        "responsable": "Jeaustin Goni Peña",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0004",
+    "excelId": 4,
+    "modelo": "Opera leyenda",
+    "activo": "N/A",
+    "serie": "14520154",
+    "condicion": "D",
+    "ubicacion": "BVG1171",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-3",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1171",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0005",
+    "excelId": 5,
+    "modelo": "Opera leyenda",
+    "activo": "N/A",
+    "serie": "25020089",
+    "condicion": "D",
+    "ubicacion": "BVG1171",
+    "responsable": "Carlos Jimenez Solano",
+    "correo": "carlos.jimenez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-4",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1171",
+        "responsable": "Carlos Jimenez Solano",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0006",
+    "excelId": 6,
+    "modelo": "Opera Britt",
+    "activo": "MQ016805",
+    "serie": "43520473",
+    "condicion": "C",
+    "ubicacion": "BVG1171",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-5",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1171",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0007",
+    "excelId": 7,
+    "modelo": "Opera Britt",
+    "activo": "MQ011211",
+    "serie": "24320103",
+    "condicion": "C",
+    "ubicacion": "BVG1171",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-6",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1171",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0008",
+    "excelId": 8,
+    "modelo": "Opera Britt",
+    "activo": "MQ019060",
+    "serie": "50820078",
+    "condicion": "C",
+    "ubicacion": "BVG1171",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-7",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1171",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0009",
+    "excelId": 9,
+    "modelo": "Opera Britt",
+    "activo": "MQ013002",
+    "serie": "33521217",
+    "condicion": "C",
+    "ubicacion": "BVG1171",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-8",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1171",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0010",
+    "excelId": 10,
+    "modelo": "Opera leyenda",
+    "activo": "MQ017882",
+    "serie": "44920151",
+    "condicion": "C",
+    "ubicacion": "BVG1171",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-9",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1171",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0011",
+    "excelId": 11,
+    "modelo": "Opera Britt",
+    "activo": "MQ014179",
+    "serie": "40521214",
+    "condicion": "C",
+    "ubicacion": "BVG1171",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-10",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1171",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0012",
+    "excelId": 12,
+    "modelo": "Opera Britt",
+    "activo": "MQ011771",
+    "serie": "24320091",
+    "condicion": "C",
+    "ubicacion": "BVG1171",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-11",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1171",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0013",
+    "excelId": 13,
+    "modelo": "Opera Britt",
+    "activo": "MQ016925",
+    "serie": "43120300",
+    "condicion": "C",
+    "ubicacion": "BVF1191",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-12",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1191",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0014",
+    "excelId": 14,
+    "modelo": "Maestro",
+    "activo": "MQ020883",
+    "serie": "52120661",
+    "condicion": "D",
+    "ubicacion": "BVF1191",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-13",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1191",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0015",
+    "excelId": 15,
+    "modelo": "Opera Britt",
+    "activo": "MQ011828",
+    "serie": "25020104",
+    "condicion": "C",
+    "ubicacion": "BVF1191",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-14",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1191",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0016",
+    "excelId": 16,
+    "modelo": "Opera Britt",
+    "activo": "MQ016917",
+    "serie": "43520498",
+    "condicion": "C",
+    "ubicacion": "BVF1191",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-15",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1191",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0017",
+    "excelId": 17,
+    "modelo": "Opera Britt",
+    "activo": "MQ013761",
+    "serie": "34420089",
+    "condicion": "C",
+    "ubicacion": "BVF1191",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-16",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1191",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0018",
+    "excelId": 18,
+    "modelo": "Opera Britt",
+    "activo": "MQ013905",
+    "serie": "34420082",
+    "condicion": "C",
+    "ubicacion": "BVF1191",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-17",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1191",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0019",
+    "excelId": 19,
+    "modelo": "Opera leyenda",
+    "activo": "MQ015622",
+    "serie": "42121260",
+    "condicion": "C",
+    "ubicacion": "BVF1191",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-18",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1191",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0020",
+    "excelId": 20,
+    "modelo": "Opera leyenda",
+    "activo": "MQ016454",
+    "serie": "43020147",
+    "condicion": "C",
+    "ubicacion": "BVF1191",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-19",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1191",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0021",
+    "excelId": 21,
+    "modelo": "Opera Britt",
+    "activo": "MQ013723",
+    "serie": "34420067",
+    "condicion": "C",
+    "ubicacion": "BVF1191",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-20",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1191",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0022",
+    "excelId": 22,
+    "modelo": "Maestro",
+    "activo": "MQ021491",
+    "serie": "53520001",
+    "condicion": "C",
+    "ubicacion": "BVF1191",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-21",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1191",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0023",
+    "excelId": 23,
+    "modelo": "Opera leyenda",
+    "activo": "MQ013057",
+    "serie": "33521219",
+    "condicion": "C",
+    "ubicacion": "BVF1191",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-22",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1191",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0024",
+    "excelId": 24,
+    "modelo": "Opera Britt",
+    "activo": "MQ013909",
+    "serie": "34420092",
+    "condicion": "C",
+    "ubicacion": "BVF1191",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-23",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1191",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0025",
+    "excelId": 25,
+    "modelo": "Opera Britt",
+    "activo": "MQ011313",
+    "serie": "24320095",
+    "condicion": "C",
+    "ubicacion": "BVG1151",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-24",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1151",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0026",
+    "excelId": 26,
+    "modelo": "Opera Britt",
+    "activo": "MQ015419",
+    "serie": "42121266",
+    "condicion": "C",
+    "ubicacion": "BVG1151",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-25",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1151",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0027",
+    "excelId": 27,
+    "modelo": "Opera Britt",
+    "activo": "MQ011834",
+    "serie": "25020102",
+    "condicion": "C",
+    "ubicacion": "BVG1151",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-26",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1151",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0028",
+    "excelId": 28,
+    "modelo": "Opera leyenda",
+    "activo": "MQ012216",
+    "serie": "25020092",
+    "condicion": "C",
+    "ubicacion": "BVG1151",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-27",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1151",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0029",
+    "excelId": 29,
+    "modelo": "Opera leyenda",
+    "activo": "MQ013756",
+    "serie": "34420086",
+    "condicion": "C",
+    "ubicacion": "BVG1151",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-28",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1151",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0030",
+    "excelId": 30,
+    "modelo": "Opera leyenda",
+    "activo": "MQ015934",
+    "serie": "42420090",
+    "condicion": "C",
+    "ubicacion": "BVG1151",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-29",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1151",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0031",
+    "excelId": 31,
+    "modelo": "Opera Britt",
+    "activo": "MQ015941",
+    "serie": "42420071",
+    "condicion": "C",
+    "ubicacion": "BVG1151",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-30",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1151",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0032",
+    "excelId": 32,
+    "modelo": "Opera Britt",
+    "activo": "MQ012909",
+    "serie": "32521465",
+    "condicion": "C",
+    "ubicacion": "BVG1151",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-31",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1151",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0033",
+    "excelId": 33,
+    "modelo": "Opera Britt",
+    "activo": "MQ018875",
+    "serie": "45020024",
+    "condicion": "C",
+    "ubicacion": "BVG1151",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-32",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1151",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0034",
+    "excelId": 34,
+    "modelo": "Opera leyenda",
+    "activo": "MQ013059",
+    "serie": "33521218",
+    "condicion": "C",
+    "ubicacion": "BVG1151",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-33",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1151",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0035",
+    "excelId": 35,
+    "modelo": "Opera Britt",
+    "activo": "MQ017038",
+    "serie": "43821850",
+    "condicion": "C",
+    "ubicacion": "BVG1151",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-34",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1151",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0036",
+    "excelId": 36,
+    "modelo": "Opera Britt",
+    "activo": "MQ012771",
+    "serie": "32521476",
+    "condicion": "C",
+    "ubicacion": "BVG1151",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-35",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1151",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0037",
+    "excelId": 37,
+    "modelo": "Opera Britt",
+    "activo": "MQ017776",
+    "serie": "44720921",
+    "condicion": "C",
+    "ubicacion": "BVF1171",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-36",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1171",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0038",
+    "excelId": 38,
+    "modelo": "Opera Britt",
+    "activo": "MQ013838",
+    "serie": "34420100",
+    "condicion": "C",
+    "ubicacion": "BVF1171",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-37",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1171",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0039",
+    "excelId": 39,
+    "modelo": "Opera Britt",
+    "activo": "MQ012328",
+    "serie": "25020088",
+    "condicion": "C",
+    "ubicacion": "BVF1171",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-38",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1171",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0040",
+    "excelId": 40,
+    "modelo": "Opera Britt",
+    "activo": "MQ011525",
+    "serie": "24320092",
+    "condicion": "C",
+    "ubicacion": "BVF1171",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-39",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1171",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0041",
+    "excelId": 41,
+    "modelo": "Opera Britt",
+    "activo": "MQ019033",
+    "serie": "50720155",
+    "condicion": "C",
+    "ubicacion": "BVF1171",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-40",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1171",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0042",
+    "excelId": 42,
+    "modelo": "Opera leyenda",
+    "activo": "MQ011520",
+    "serie": "24320104",
+    "condicion": "C",
+    "ubicacion": "BVF1171",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-41",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1171",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0043",
+    "excelId": 43,
+    "modelo": "Opera Britt",
+    "activo": "MQ013144",
+    "serie": "33521216",
+    "condicion": "C",
+    "ubicacion": "BVF1171",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-42",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1171",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0044",
+    "excelId": 44,
+    "modelo": "Maestro",
+    "activo": "MQ021100",
+    "serie": "52021270",
+    "condicion": "C",
+    "ubicacion": "BVF1171",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-43",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1171",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0045",
+    "excelId": 45,
+    "modelo": "Maestro",
+    "activo": "MQ019744",
+    "serie": "51621039",
+    "condicion": "C",
+    "ubicacion": "BVF1171",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-44",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1171",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0046",
+    "excelId": 46,
+    "modelo": "Maestro",
+    "activo": "MQ021048",
+    "serie": "52120009",
+    "condicion": "C",
+    "ubicacion": "BVF1171",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-45",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1171",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0047",
+    "excelId": 47,
+    "modelo": "Opera Britt",
+    "activo": "MQ017031",
+    "serie": "43821863",
+    "condicion": "B",
+    "ubicacion": "BVF1171",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-46",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1171",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0048",
+    "excelId": 48,
+    "modelo": "Opera leyenda",
+    "activo": "MQ014523",
+    "serie": "41021797",
+    "condicion": "B",
+    "ubicacion": "BVF1171",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-47",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1171",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0049",
+    "excelId": 49,
+    "modelo": "Opera Britt",
+    "activo": "MQ015940",
+    "serie": "42420086",
+    "condicion": "B",
+    "ubicacion": "BVG1131",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-48",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1131",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0050",
+    "excelId": 50,
+    "modelo": "Opera leyenda",
+    "activo": "MQ016464",
+    "serie": "43020150",
+    "condicion": "B",
+    "ubicacion": "BVG1131",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-49",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1131",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0051",
+    "excelId": 51,
+    "modelo": "Opera leyenda",
+    "activo": "MQ011521",
+    "serie": "24320126",
+    "condicion": "B",
+    "ubicacion": "BVG1131",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-50",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1131",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0052",
+    "excelId": 52,
+    "modelo": "Opera Britt",
+    "activo": "MQ013227",
+    "serie": "33521221",
+    "condicion": "B",
+    "ubicacion": "BVG1131",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-51",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1131",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0053",
+    "excelId": 53,
+    "modelo": "Maestro",
+    "activo": "MQ022838",
+    "serie": "54020154",
+    "condicion": "B",
+    "ubicacion": "BVG1131",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-52",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1131",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0054",
+    "excelId": 54,
+    "modelo": "Opera Britt",
+    "activo": "MQ016933",
+    "serie": "43120308",
+    "condicion": "B",
+    "ubicacion": "BVG1131",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-53",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1131",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0055",
+    "excelId": 55,
+    "modelo": "Opera Britt",
+    "activo": "MQ015955",
+    "serie": "42420093",
+    "condicion": "B",
+    "ubicacion": "BVG1131",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-54",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1131",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0056",
+    "excelId": 57,
+    "modelo": "Swing britt",
+    "activo": "MQ020899",
+    "serie": "52421466",
+    "condicion": "B",
+    "ubicacion": "BVG1131",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-55",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1131",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0057",
+    "excelId": 58,
+    "modelo": "Swing britt",
+    "activo": "MQ021111",
+    "serie": "52821529",
+    "condicion": "B",
+    "ubicacion": "BVG1131",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-56",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1131",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0058",
+    "excelId": 59,
+    "modelo": "Opera Britt",
+    "activo": "MQ012857",
+    "serie": "32521471",
+    "condicion": "A",
+    "ubicacion": "BVG1131",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-57",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1131",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0059",
+    "excelId": 60,
+    "modelo": "Maestro",
+    "activo": "MQ023053",
+    "serie": "54120011",
+    "condicion": "B",
+    "ubicacion": "BVF1151",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-58",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1151",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0060",
+    "excelId": 61,
+    "modelo": "Maestro",
+    "activo": "MQ023054",
+    "serie": "53720002",
+    "condicion": "A",
+    "ubicacion": "BVF1151",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-59",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1151",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0061",
+    "excelId": 62,
+    "modelo": "Maestro",
+    "activo": "MQ023049",
+    "serie": "53720010",
+    "condicion": "A",
+    "ubicacion": "BVF1151",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-60",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1151",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0062",
+    "excelId": 63,
+    "modelo": "Maestro",
+    "activo": "MQ013050",
+    "serie": "53720012",
+    "condicion": "A",
+    "ubicacion": "BVG1131",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-61",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1131",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0063",
+    "excelId": 64,
+    "modelo": "Maestro",
+    "activo": "MQ023164",
+    "serie": "53620941",
+    "condicion": "A",
+    "ubicacion": "BVG1131",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-62",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1131",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0064",
+    "excelId": 65,
+    "modelo": "Maestro",
+    "activo": "MQ023051",
+    "serie": "54120012",
+    "condicion": "A",
+    "ubicacion": "BVG1111",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-63",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1111",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0065",
+    "excelId": 66,
+    "modelo": "Maestro",
+    "activo": "MQ023048",
+    "serie": "54120016",
+    "condicion": "A",
+    "ubicacion": "BVG1131",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-64",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1131",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0066",
+    "excelId": 67,
+    "modelo": "Maestro",
+    "activo": "MQ023052",
+    "serie": "53720014",
+    "condicion": "A",
+    "ubicacion": "BVF1151",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-65",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1151",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0067",
+    "excelId": 68,
+    "modelo": "Maestro",
+    "activo": "MQ023047",
+    "serie": "54020148",
+    "condicion": "A",
+    "ubicacion": "BVF1151",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-22",
+    "fechaActualizacion": "2026-07-22",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-66",
+        "fecha": "2026-07-22 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1151",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0068",
+    "excelId": 69,
+    "modelo": "Swing leyenda",
+    "activo": "MQ020637",
+    "serie": "52421431",
+    "condicion": "A",
+    "ubicacion": "BVG1111",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-67",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1111",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0069",
+    "excelId": 70,
+    "modelo": "Swing britt",
+    "activo": "MQ020765",
+    "serie": "52421473",
+    "condicion": "A",
+    "ubicacion": "INSTALADO",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-68",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "INSTALADO",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0070",
+    "excelId": 71,
+    "modelo": "Swing leyenda",
+    "activo": "MQ022280",
+    "serie": "51221233",
+    "condicion": "A",
+    "ubicacion": "BVTALLER",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-69",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVTALLER",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0071",
+    "excelId": 72,
+    "modelo": "Swing leyenda",
+    "activo": "MQ020159",
+    "serie": "51221276",
+    "condicion": "A",
+    "ubicacion": "BVG1111",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-70",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1111",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0072",
+    "excelId": 73,
+    "modelo": "Opera leyenda",
+    "activo": "MQ012846",
+    "serie": "32521484",
+    "condicion": "A",
+    "ubicacion": "INSTALADO",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-71",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "INSTALADO",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0073",
+    "excelId": 74,
+    "modelo": "Maestro",
+    "activo": "MQ022852",
+    "serie": "54120007",
+    "condicion": "A",
+    "ubicacion": "BVG1111",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-72",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1111",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0074",
+    "excelId": 75,
+    "modelo": "Swing britt",
+    "activo": "MQ022686",
+    "serie": "52920591",
+    "condicion": "A",
+    "ubicacion": "BVF1131",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-73",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1131",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0075",
+    "excelId": 77,
+    "modelo": "Swing britt",
+    "activo": "MQ022417",
+    "serie": "51121104",
+    "condicion": "A",
+    "ubicacion": "BVF1131",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-74",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1131",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0076",
+    "excelId": 78,
+    "modelo": "Swing britt",
+    "activo": "MQ022689",
+    "serie": "53621388",
+    "condicion": "A",
+    "ubicacion": "BVF1131",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-75",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1131",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0077",
+    "excelId": 79,
+    "modelo": "Opera leyenda",
+    "activo": "MQ018872",
+    "serie": "44920154",
+    "condicion": "A",
+    "ubicacion": "INSTALADO",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-76",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "INSTALADO",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0078",
+    "excelId": 80,
+    "modelo": "Opera Britt",
+    "activo": "MQ011318",
+    "serie": "24320094",
+    "condicion": "A",
+    "ubicacion": "INSTALADO",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-77",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "INSTALADO",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0079",
+    "excelId": 81,
+    "modelo": "Opera Britt",
+    "activo": "MQ018640",
+    "serie": "45020556",
+    "condicion": "A",
+    "ubicacion": "INSTALADO",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-78",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "INSTALADO",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0080",
+    "excelId": 82,
+    "modelo": "Opera Britt",
+    "activo": "MQ013844",
+    "serie": "34420074",
+    "condicion": "A",
+    "ubicacion": "BVF1131",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-79",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1131",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0081",
+    "excelId": 83,
+    "modelo": "Opera leyenda",
+    "activo": "MQ016939",
+    "serie": "43520483",
+    "condicion": "A",
+    "ubicacion": "BVF1131",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-80",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1131",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0082",
+    "excelId": 84,
+    "modelo": "Opera Britt",
+    "activo": "MQ015331",
+    "serie": "41621281",
+    "condicion": "A",
+    "ubicacion": "BVF1131",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-81",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1131",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0083",
+    "excelId": 85,
+    "modelo": "Opera Britt",
+    "activo": "MQ014211",
+    "serie": "40521181",
+    "condicion": "A",
+    "ubicacion": "BVF1131",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-82",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1131",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0084",
+    "excelId": 86,
+    "modelo": "Opera leyenda",
+    "activo": "MQ013229",
+    "serie": "33521227",
+    "condicion": "A",
+    "ubicacion": "INSTALADO",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-83",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "INSTALADO",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0085",
+    "excelId": 87,
+    "modelo": "Opera leyenda",
+    "activo": "MQ015422",
+    "serie": "42121264",
+    "condicion": "A",
+    "ubicacion": "BVG1111",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-84",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1111",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0086",
+    "excelId": 88,
+    "modelo": "Opera Britt",
+    "activo": "MQ015341",
+    "serie": "41720050",
+    "condicion": "A",
+    "ubicacion": "BVG1111",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-85",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1111",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0087",
+    "excelId": 89,
+    "modelo": "Opera leyenda",
+    "activo": "MQ017289",
+    "serie": "43821859",
+    "condicion": "A",
+    "ubicacion": "BVG1111",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-86",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1111",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0088",
+    "excelId": 91,
+    "modelo": "Opera leyenda",
+    "activo": "MQ017715",
+    "serie": "44720916",
+    "condicion": "A",
+    "ubicacion": "BVG1111",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-87",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1111",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0089",
+    "excelId": 92,
+    "modelo": "Opera leyenda",
+    "activo": "MQ014109",
+    "serie": "40521184",
+    "condicion": "A",
+    "ubicacion": "BVG1111",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-88",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1111",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0090",
+    "excelId": 93,
+    "modelo": "Tango",
+    "activo": "MQ012271",
+    "serie": "30321322",
+    "condicion": "D",
+    "ubicacion": "PASILLO",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-89",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "PASILLO",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0091",
+    "excelId": 94,
+    "modelo": "Tango",
+    "activo": "MQ013975",
+    "serie": "80321314",
+    "condicion": "D",
+    "ubicacion": "PASILLO",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-90",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "PASILLO",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0092",
+    "excelId": 95,
+    "modelo": "Swing britt",
+    "activo": "MQ018634",
+    "serie": "45021194",
+    "condicion": "D",
+    "ubicacion": "PASILLO",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-91",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "PASILLO",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0093",
+    "excelId": 96,
+    "modelo": "Opera Britt",
+    "activo": "MQ015949",
+    "serie": "42420085",
+    "condicion": "C",
+    "ubicacion": "BVF1151",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-92",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1151",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0094",
+    "excelId": 97,
+    "modelo": "Opera leyenda",
+    "activo": "MQ017287",
+    "serie": "43920467",
+    "condicion": "B",
+    "ubicacion": "BVF1151",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-93",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1151",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0095",
+    "excelId": 99,
+    "modelo": "Swing leyenda",
+    "activo": "MQ021343",
+    "serie": "53121259",
+    "condicion": "A",
+    "ubicacion": "BVF1151",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-94",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1151",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0096",
+    "excelId": 100,
+    "modelo": "Swing britt",
+    "activo": "MQ022566",
+    "serie": "53620917",
+    "condicion": "A",
+    "ubicacion": "BVG1091",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-95",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1091",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0097",
+    "excelId": 101,
+    "modelo": "Swing britt",
+    "activo": "MQ022685",
+    "serie": "52920572",
+    "condicion": "A",
+    "ubicacion": "BVG1091",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-96",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1091",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0098",
+    "excelId": 102,
+    "modelo": "Swing britt",
+    "activo": "MQ022688",
+    "serie": "52920565",
+    "condicion": "A",
+    "ubicacion": "BVG1091",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-97",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1091",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0099",
+    "excelId": 103,
+    "modelo": "Swing britt",
+    "activo": "MQ022683",
+    "serie": "53621396",
+    "condicion": "A",
+    "ubicacion": "BVG1091",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-98",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1091",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0100",
+    "excelId": 104,
+    "modelo": "Opera Britt",
+    "activo": "MQ012949",
+    "serie": "33521251",
+    "condicion": "A",
+    "ubicacion": "BVG1091",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072732-99",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1091",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0101",
+    "excelId": 105,
+    "modelo": "Opera Britt",
+    "activo": "MQ017036",
+    "serie": "43920488",
+    "condicion": "A",
+    "ubicacion": "BVTALLER",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-100",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVTALLER",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0102",
+    "excelId": 106,
+    "modelo": "Swing britt",
+    "activo": "MQ019559",
+    "serie": "51221236",
+    "condicion": "A",
+    "ubicacion": "BVG1091",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-101",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1091",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0103",
+    "excelId": 107,
+    "modelo": "Swing britt",
+    "activo": "MQ020809",
+    "serie": "52421451",
+    "condicion": "A",
+    "ubicacion": "BVG1091",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-102",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1091",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0104",
+    "excelId": 108,
+    "modelo": "Swing britt",
+    "activo": "MQ022684",
+    "serie": "53621400",
+    "condicion": "A",
+    "ubicacion": "BVG1091",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-103",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1091",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0105",
+    "excelId": 109,
+    "modelo": "Swing leyenda",
+    "activo": "MQ019756",
+    "serie": "51521085",
+    "condicion": "A",
+    "ubicacion": "INSTALADO",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-104",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "INSTALADO",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0106",
+    "excelId": 110,
+    "modelo": "Maestro",
+    "activo": "MQ023663",
+    "serie": "53720020",
+    "condicion": "A",
+    "ubicacion": "BVG1091",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-105",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1091",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0107",
+    "excelId": 111,
+    "modelo": "Maestro",
+    "activo": "MQ022663",
+    "serie": "52820020",
+    "condicion": "A",
+    "ubicacion": "BVG1091",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-23",
+    "fechaActualizacion": "2026-07-23",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-106",
+        "fecha": "2026-07-23 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1091",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0108",
+    "excelId": 112,
+    "modelo": "Maestro",
+    "activo": "MQ022845",
+    "serie": "54020167",
+    "condicion": "A",
+    "ubicacion": "INSTALADO",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-24",
+    "fechaActualizacion": "2026-07-24",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-107",
+        "fecha": "2026-07-24 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "INSTALADO",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0109",
+    "excelId": 113,
+    "modelo": "Maestro",
+    "activo": "MQ022943",
+    "serie": "54120001",
+    "condicion": "A",
+    "ubicacion": "BVF1111",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-24",
+    "fechaActualizacion": "2026-07-24",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-108",
+        "fecha": "2026-07-24 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1111",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0110",
+    "excelId": 114,
+    "modelo": "Maestro",
+    "activo": "MQ029911",
+    "serie": "51621014",
+    "condicion": "A",
+    "ubicacion": "INSTALADO",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-24",
+    "fechaActualizacion": "2026-07-24",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-109",
+        "fecha": "2026-07-24 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "INSTALADO",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0111",
+    "excelId": 115,
+    "modelo": "Maestro",
+    "activo": "MQ022670",
+    "serie": "52421496",
+    "condicion": "A",
+    "ubicacion": "BVF1111",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-24",
+    "fechaActualizacion": "2026-07-24",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-110",
+        "fecha": "2026-07-24 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1111",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0112",
+    "excelId": 116,
+    "modelo": "Maestro",
+    "activo": "Nueva",
+    "serie": "54020152",
+    "condicion": "A",
+    "ubicacion": "BVF1111",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-24",
+    "fechaActualizacion": "2026-07-24",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-111",
+        "fecha": "2026-07-24 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1111",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0113",
+    "excelId": 117,
+    "modelo": "Maestro",
+    "activo": "Nueva",
+    "serie": "53720019",
+    "condicion": "A",
+    "ubicacion": "BVF1111",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-24",
+    "fechaActualizacion": "2026-07-24",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-112",
+        "fecha": "2026-07-24 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1111",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0114",
+    "excelId": 118,
+    "modelo": "Maestro",
+    "activo": "MQ023300",
+    "serie": "53720021",
+    "condicion": "A",
+    "ubicacion": "BVG1111",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-24",
+    "fechaActualizacion": "2026-07-24",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-113",
+        "fecha": "2026-07-24 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1111",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0115",
+    "excelId": 119,
+    "modelo": "Maestro",
+    "activo": "MQ022671",
+    "serie": "52820037",
+    "condicion": "A",
+    "ubicacion": "BVG1111",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-24",
+    "fechaActualizacion": "2026-07-24",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-114",
+        "fecha": "2026-07-24 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1111",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0116",
+    "excelId": 120,
+    "modelo": "Maestro",
+    "activo": "MQ022844",
+    "serie": "54020150",
+    "condicion": "A",
+    "ubicacion": "BVF1111",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-24",
+    "fechaActualizacion": "2026-07-24",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-115",
+        "fecha": "2026-07-24 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1111",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0117",
+    "excelId": 121,
+    "modelo": "Swing britt",
+    "activo": "MQ021845",
+    "serie": "53121252",
+    "condicion": "A",
+    "ubicacion": "BVG1111",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-24",
+    "fechaActualizacion": "2026-07-24",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-116",
+        "fecha": "2026-07-24 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1111",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0118",
+    "excelId": 122,
+    "modelo": "Opera Britt",
+    "activo": "MQ018856",
+    "serie": "450210034",
+    "condicion": "A",
+    "ubicacion": "BVF1111",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-24",
+    "fechaActualizacion": "2026-07-24",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-117",
+        "fecha": "2026-07-24 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1111",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0119",
+    "excelId": 123,
+    "modelo": "Maestro",
+    "activo": "MQ020379",
+    "serie": "52120011",
+    "condicion": "A",
+    "ubicacion": "BVTALLER",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-24",
+    "fechaActualizacion": "2026-07-24",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-118",
+        "fecha": "2026-07-24 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVTALLER",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0120",
+    "excelId": 124,
+    "modelo": "Opera leyenda",
+    "activo": "MQ014215",
+    "serie": "40521215",
+    "condicion": "A",
+    "ubicacion": "BVTALLER",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-24",
+    "fechaActualizacion": "2026-07-24",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-119",
+        "fecha": "2026-07-24 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVTALLER",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0121",
+    "excelId": 125,
+    "modelo": "Opera leyenda",
+    "activo": "MQ014524",
+    "serie": "41021801",
+    "condicion": "A",
+    "ubicacion": "BVF1111",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-24",
+    "fechaActualizacion": "2026-07-24",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-120",
+        "fecha": "2026-07-24 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1111",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0122",
+    "excelId": 126,
+    "modelo": "Opera leyenda",
+    "activo": "MQ013724",
+    "serie": "34420085",
+    "condicion": "A",
+    "ubicacion": "BVTALLER",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-24",
+    "fechaActualizacion": "2026-07-24",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-121",
+        "fecha": "2026-07-24 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVTALLER",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0123",
+    "excelId": 127,
+    "modelo": "Maestro",
+    "activo": "MQ023302",
+    "serie": "53720009",
+    "condicion": "A",
+    "ubicacion": "BVF1111",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-24",
+    "fechaActualizacion": "2026-07-24",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-122",
+        "fecha": "2026-07-24 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1111",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0124",
+    "excelId": 128,
+    "modelo": "Opera leyenda",
+    "activo": "MQ017790",
+    "serie": "44721682",
+    "condicion": "A",
+    "ubicacion": "BVTALLER",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-24",
+    "fechaActualizacion": "2026-07-24",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-123",
+        "fecha": "2026-07-24 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVTALLER",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0125",
+    "excelId": 129,
+    "modelo": "Swing leyenda",
+    "activo": "MQ014755",
+    "serie": "51521093",
+    "condicion": "A",
+    "ubicacion": "BVE1111",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-24",
+    "fechaActualizacion": "2026-07-24",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-124",
+        "fecha": "2026-07-24 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVE1111",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0126",
+    "excelId": 130,
+    "modelo": "Swing leyenda",
+    "activo": "MQ019224",
+    "serie": "51221248",
+    "condicion": "A",
+    "ubicacion": "INSTALADO",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-24",
+    "fechaActualizacion": "2026-07-24",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-125",
+        "fecha": "2026-07-24 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "INSTALADO",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0127",
+    "excelId": 131,
+    "modelo": "Maestro",
+    "activo": "MQ021814",
+    "serie": "52820065",
+    "condicion": "A",
+    "ubicacion": "BVTALLER",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-24",
+    "fechaActualizacion": "2026-07-24",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-126",
+        "fecha": "2026-07-24 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVTALLER",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0128",
+    "excelId": 133,
+    "modelo": "Opera Britt",
+    "activo": "MQ016426",
+    "serie": "43020576",
+    "condicion": "A",
+    "ubicacion": "INSTALADO",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-24",
+    "fechaActualizacion": "2026-07-24",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-127",
+        "fecha": "2026-07-24 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "INSTALADO",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0129",
+    "excelId": 135,
+    "modelo": "Swing britt",
+    "activo": "MQ019297",
+    "serie": "51121112",
+    "condicion": "A",
+    "ubicacion": "BVF1131",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-24",
+    "fechaActualizacion": "2026-07-24",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-128",
+        "fecha": "2026-07-24 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1131",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0130",
+    "excelId": 136,
+    "modelo": "Maestro",
+    "activo": "MQ020646",
+    "serie": "52120664",
+    "condicion": "A",
+    "ubicacion": "BVF1111",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-24",
+    "fechaActualizacion": "2026-07-24",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-129",
+        "fecha": "2026-07-24 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1111",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0131",
+    "excelId": 137,
+    "modelo": "Maestro",
+    "activo": "MQ023661",
+    "serie": "54020149",
+    "condicion": "A",
+    "ubicacion": "BVG1111",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-24",
+    "fechaActualizacion": "2026-07-24",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-130",
+        "fecha": "2026-07-24 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1111",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0132",
+    "excelId": 138,
+    "modelo": "Swing britt",
+    "activo": "MQ017596",
+    "serie": "43021061",
+    "condicion": "C",
+    "ubicacion": "BVTALLER",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-24",
+    "fechaActualizacion": "2026-07-24",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-131",
+        "fecha": "2026-07-24 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVTALLER",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0133",
+    "excelId": 140,
+    "modelo": "Maestro",
+    "activo": "MQ021068",
+    "serie": "52021267",
+    "condicion": "A",
+    "ubicacion": "BVF1111",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-24",
+    "fechaActualizacion": "2026-07-24",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-132",
+        "fecha": "2026-07-24 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1111",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0134",
+    "excelId": 141,
+    "modelo": "Maestro",
+    "activo": "MQ020128",
+    "serie": "51220615",
+    "condicion": "A",
+    "ubicacion": "BVG1111",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-24",
+    "fechaActualizacion": "2026-07-24",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-133",
+        "fecha": "2026-07-24 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1111",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0135",
+    "excelId": 142,
+    "modelo": "Opera Britt",
+    "activo": "MQ018056",
+    "serie": "44721691",
+    "condicion": "A",
+    "ubicacion": "BVTALLER",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-24",
+    "fechaActualizacion": "2026-07-24",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-134",
+        "fecha": "2026-07-24 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVTALLER",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0136",
+    "excelId": 143,
+    "modelo": "Maestro",
+    "activo": "MQ023301",
+    "serie": "53720001",
+    "condicion": "A",
+    "ubicacion": "BVTALLER",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-24",
+    "fechaActualizacion": "2026-07-24",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-135",
+        "fecha": "2026-07-24 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVTALLER",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0137",
+    "excelId": 144,
+    "modelo": "Swing britt",
+    "activo": "MQ022679",
+    "serie": "53621409",
+    "condicion": "A",
+    "ubicacion": "BVG1111",
+    "responsable": "Jeaustin Goni Peña",
+    "correo": "jgoni@britt.com",
+    "fechaIngreso": "2026-07-27",
+    "fechaActualizacion": "2026-07-27",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-136",
+        "fecha": "2026-07-27 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1111",
+        "responsable": "Jeaustin Goni Peña",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0138",
+    "excelId": 145,
+    "modelo": "Swing leyenda",
+    "activo": "MQ021342",
+    "serie": "53121276",
+    "condicion": "A",
+    "ubicacion": "BVF1171",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-27",
+    "fechaActualizacion": "2026-07-27",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-137",
+        "fecha": "2026-07-27 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1171",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0139",
+    "excelId": 146,
+    "modelo": "Opera leyenda",
+    "activo": "MQ018737",
+    "serie": "50520083",
+    "condicion": "A",
+    "ubicacion": "BVTALLER",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-28",
+    "fechaActualizacion": "2026-07-28",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-138",
+        "fecha": "2026-07-28 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVTALLER",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0140",
+    "excelId": 147,
+    "modelo": "Swing leyenda",
+    "activo": "MQ019627",
+    "serie": "51521065",
+    "condicion": "A",
+    "ubicacion": "BVTALLER",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-28",
+    "fechaActualizacion": "2026-07-28",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-139",
+        "fecha": "2026-07-28 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVTALLER",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0141",
+    "excelId": 148,
+    "modelo": "Opera leyenda",
+    "activo": "MQ017884",
+    "serie": "44920144",
+    "condicion": "A",
+    "ubicacion": "BVF1111",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-28",
+    "fechaActualizacion": "2026-07-28",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-140",
+        "fecha": "2026-07-28 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1111",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0142",
+    "excelId": 149,
+    "modelo": "Swing leyenda",
+    "activo": "MQ020157",
+    "serie": "51521076",
+    "condicion": "A",
+    "ubicacion": "BVG1091",
+    "responsable": "Carlos Jimenez Solano",
+    "correo": "carlos.jimenez@britt.com",
+    "fechaIngreso": "2026-07-30",
+    "fechaActualizacion": "2026-07-30",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-141",
+        "fecha": "2026-07-30 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1091",
+        "responsable": "Carlos Jimenez Solano",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0143",
+    "excelId": 150,
+    "modelo": "Maestro",
+    "activo": "MQ023161",
+    "serie": "54120006",
+    "condicion": "A",
+    "ubicacion": "BVG1091",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-30",
+    "fechaActualizacion": "2026-07-30",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-142",
+        "fecha": "2026-07-30 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVG1091",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0144",
+    "excelId": 151,
+    "modelo": "Swing leyenda",
+    "activo": "MQ022385",
+    "serie": "51921377",
+    "condicion": "A",
+    "ubicacion": "BVF1111",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-30",
+    "fechaActualizacion": "2026-07-30",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-143",
+        "fecha": "2026-07-30 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1111",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0145",
+    "excelId": 152,
+    "modelo": "Swing leyenda",
+    "activo": "MQ019680",
+    "serie": "51521073",
+    "condicion": "A",
+    "ubicacion": "BVF1111",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-30",
+    "fechaActualizacion": "2026-07-30",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-144",
+        "fecha": "2026-07-30 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1111",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0146",
+    "excelId": 153,
+    "modelo": "Opera leyenda",
+    "activo": "MQ019126",
+    "serie": "50820063",
+    "condicion": "A",
+    "ubicacion": "BVF1131",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-30",
+    "fechaActualizacion": "2026-07-30",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-145",
+        "fecha": "2026-07-30 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1131",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0147",
+    "excelId": 154,
+    "modelo": "Opera leyenda",
+    "activo": "MQ017339",
+    "serie": "43520479",
+    "condicion": "A",
+    "ubicacion": "BVF1131",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-30",
+    "fechaActualizacion": "2026-07-30",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-146",
+        "fecha": "2026-07-30 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1131",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  },
+  {
+    "id": "EQ-0148",
+    "excelId": 155,
+    "modelo": "Opera leyenda",
+    "activo": "MQ019131",
+    "serie": "50720151",
+    "condicion": "A",
+    "ubicacion": "BVF1131",
+    "responsable": "Gabriel Alberto Gonzalez Segura",
+    "correo": "gabriel.gonzalez@britt.com",
+    "fechaIngreso": "2026-07-30",
+    "fechaActualizacion": "2026-07-30",
+    "historial": [
+      {
+        "id": "HIST-1785442072733-147",
+        "fecha": "2026-07-30 08:00",
+        "ubicacionAnterior": "N/A (Ingreso Inicial)",
+        "ubicacionNueva": "BVF1131",
+        "responsable": "Gabriel Alberto Gonzalez Segura",
+        "notas": "Registro inicial importado de Excel"
+      }
+    ]
+  }
+]
