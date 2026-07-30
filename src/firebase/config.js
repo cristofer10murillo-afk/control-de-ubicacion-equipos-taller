@@ -2,7 +2,6 @@ import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
-// Default / fallback Firebase credentials or loaded from localStorage / env vars
 const LOCAL_STORAGE_KEY = 'firebase_config_override';
 
 export const getSavedFirebaseConfig = () => {
@@ -14,12 +13,12 @@ export const getSavedFirebaseConfig = () => {
   }
 
   return {
-    apiKey: import.meta.env.VITE_FIREBASE_API_KEY || '',
-    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || '',
-    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || '',
-    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || '',
-    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '',
-    appId: import.meta.env.VITE_FIREBASE_APP_ID || ''
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY || 'AIzaSyA_MlXteetYXxMAvECJMQ4BSE_6xty46Uo',
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || 'ubicacion-equipos-taller-2026.firebaseapp.com',
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || 'ubicacion-equipos-taller-2026',
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || 'ubicacion-equipos-taller-2026.firebasestorage.app',
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '1048937776746',
+    appId: import.meta.env.VITE_FIREBASE_APP_ID || '1:1048937776746:web:40283047c0182dd461ec13'
   };
 };
 
@@ -37,8 +36,7 @@ const currentConfig = getSavedFirebaseConfig();
 
 export const isFirebaseConfigured = Boolean(
   currentConfig.apiKey && 
-  currentConfig.projectId && 
-  currentConfig.projectId !== 'YOUR_PROJECT_ID'
+  currentConfig.projectId
 );
 
 let app = null;
