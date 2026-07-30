@@ -1,22 +1,46 @@
 import React from 'react';
 import { 
-  Boxes, 
   Plus, 
   FileSpreadsheet, 
-  Search, 
-  Flame,
-  HardDrive
+  Search,
+  Download
 } from 'lucide-react';
-import { isFirebaseConfigured } from '../firebase/config';
+import * as XLSX from 'xlsx';
 import PWAInstallPrompt from './PWAInstallPrompt';
 
 export default function Navbar({ 
   searchQuery, 
   setSearchQuery, 
-  onOpenAddModal, 
-  onOpenImportModal,
-  onOpenFirebaseModal
+  onOpenAddModal,
+  machines
 }) {
+  // Export current inventory directly to Excel
+  const handleExportExcel = () => {
+    if (!machines || machines.length === 0) {
+      alert('No hay datos para exportar.');
+      return;
+    }
+
+    const exportData = machines.map((m, i) => ({
+      Id: i + 1,
+      'Modelo / Tipo': m.modelo,
+      'N° Activo': m.activo,
+      'N° Serie': m.serie,
+      Condicion: m.condicion,
+      Ubicacion: m.ubicacion,
+      Responsable: m.responsable,
+      'Correo electrónico': m.correo,
+      'Fecha Ingreso': m.fechaIngreso,
+      'Última Reubicación': m.fechaActualizacion || m.fechaIngreso,
+      'Total Reubicaciones': m.historial ? m.historial.length : 1
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Inventario Bodega');
+    XLSX.writeFile(workbook, `Inventario_Maquinas_Bodega_${new Date().toISOString().split('T')[0]}.xlsx`);
+  };
+
   return (
     <header className="glass-card" style={{ borderRadius: 0, borderTop: 0, borderLeft: 0, borderRight: 0, position: 'sticky', top: 0, zIndex: 40, padding: '14px 24px' }}>
       <div style={{ maxWidth: 1400, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' }}>
@@ -33,13 +57,13 @@ export default function Navbar({
               Control de Ubicación de Equipos
             </h1>
             <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-              Taller & Bodega | App Instalable PWA
+              Taller & Bodega | Tiempo Real
             </p>
           </div>
         </div>
 
         {/* Global Quick Search */}
-        <div style={{ flex: '1 1 260px', maxWidth: 400, position: 'relative' }}>
+        <div style={{ flex: '1 1 260px', maxWidth: 420, position: 'relative' }}>
           <Search size={18} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-subdued)' }} />
           <input 
             type="text"
@@ -51,40 +75,21 @@ export default function Navbar({
           />
         </div>
 
-        {/* Action Buttons & Status */}
+        {/* Action Buttons */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
           
           {/* PWA Install Button */}
           <PWAInstallPrompt />
 
-          {/* Firebase Connection Badge */}
+          {/* Export to Excel Button */}
           <button 
-            onClick={onOpenFirebaseModal}
+            onClick={handleExportExcel}
             className="btn btn-secondary"
-            title="Configurar conexión con Firebase Firestore"
-            style={{ fontSize: '0.78rem', padding: '6px 12px' }}
+            title="Exportar inventario actual a un archivo Excel (.xlsx)"
+            style={{ fontSize: '0.82rem' }}
           >
-            {isFirebaseConfigured ? (
-              <>
-                <Flame size={15} color="#f97316" />
-                <span style={{ color: '#f97316', fontWeight: 600 }}>Firebase</span>
-              </>
-            ) : (
-              <>
-                <HardDrive size={15} color="#9ca3af" />
-                <span>Modo Local</span>
-              </>
-            )}
-          </button>
-
-          {/* Import / Export Excel */}
-          <button 
-            onClick={onOpenImportModal}
-            className="btn btn-secondary"
-            style={{ fontSize: '0.85rem' }}
-          >
-            <FileSpreadsheet size={18} color="#10b981" />
-            <span>Excel</span>
+            <FileSpreadsheet size={17} color="#10b981" />
+            <span>Exportar Excel</span>
           </button>
 
           {/* Add Machine Button */}
@@ -93,7 +98,7 @@ export default function Navbar({
             className="btn btn-primary"
           >
             <Plus size={18} />
-            <span>+ Nuevo</span>
+            <span>+ Agregar Equipo</span>
           </button>
 
         </div>

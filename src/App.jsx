@@ -6,8 +6,6 @@ import MachineTable from './components/MachineTable';
 import MoveMachineModal from './components/MoveMachineModal';
 import LocationHistoryModal from './components/LocationHistoryModal';
 import AddEditMachineModal from './components/AddEditMachineModal';
-import ExcelImportModal from './components/ExcelImportModal';
-import FirebaseConfigModal from './components/FirebaseConfigModal';
 
 import { 
   subscribeToMachines, 
@@ -36,10 +34,8 @@ export default function App() {
   // Active Modals state
   const [movingMachine, setMovingMachine] = useState(null);
   const [historyMachine, setHistoryMachine] = useState(null);
-  const [editingMachine, setEditingMachine] = useState(null); // null = closed, {} = add new, machineObj = edit
+  const [editingMachine, setEditingMachine] = useState(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
-  const [isFirebaseModalOpen, setIsFirebaseModalOpen] = useState(false);
 
   // Subscribe to machines (Firestore / LocalStorage)
   useEffect(() => {
@@ -129,8 +125,7 @@ export default function App() {
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         onOpenAddModal={() => setIsAddModalOpen(true)}
-        onOpenImportModal={() => setIsImportModalOpen(true)}
-        onOpenFirebaseModal={() => setIsFirebaseModalOpen(true)}
+        machines={machines}
       />
 
       {/* Main Container */}
@@ -151,7 +146,7 @@ export default function App() {
         {/* Machine Table / Cards list */}
         {loading ? (
           <div className="glass-card" style={{ padding: 48, textAlign: 'center' }}>
-            <p style={{ color: 'var(--text-muted)' }}>Cargando inventario de equipos...</p>
+            <p style={{ color: 'var(--text-muted)' }}>Cargando inventario de equipos en tiempo real...</p>
           </div>
         ) : (
           <MachineTable 
@@ -167,7 +162,7 @@ export default function App() {
 
       {/* Footer */}
       <footer style={{ borderTop: '1px solid var(--border-color)', padding: '16px 24px', textAlign: 'center', fontSize: '0.8rem', color: 'var(--text-subdued)', background: 'rgba(11, 15, 25, 0.8)' }}>
-        Sistema de Control de Ubicación y Equipos de Taller &copy; {new Date().getFullYear()} | Listo para Firebase & Netlify
+        Sistema de Control de Ubicación y Equipos de Taller &copy; {new Date().getFullYear()}
       </footer>
 
       {/* Modals */}
@@ -194,20 +189,6 @@ export default function App() {
             setEditingMachine(null);
           }}
           onSave={handleSaveMachine}
-        />
-      )}
-
-      {isImportModalOpen && (
-        <ExcelImportModal 
-          machines={machines}
-          onClose={() => setIsImportModalOpen(false)}
-          onRefreshData={() => window.location.reload()}
-        />
-      )}
-
-      {isFirebaseModalOpen && (
-        <FirebaseConfigModal 
-          onClose={() => setIsFirebaseModalOpen(false)}
         />
       )}
 
