@@ -1,47 +1,89 @@
 import React, { useState, useEffect } from 'react';
-import { X, Plus, Edit3, Tag, Key, Barcode, MapPin, User, Mail } from 'lucide-react';
+import { X, Plus, Edit3, Tag, Key, Barcode, MapPin, User } from 'lucide-react';
 
-export default function AddEditMachineModal({ machine, onClose, onSave }) {
+const DEFAULT_MODELS = [
+  'Maestro',
+  'Opera Britt',
+  'Opera leyenda',
+  'Swing britt',
+  'Swing leyenda',
+  'Tango'
+];
+
+export default function AddEditMachineModal({ machine, availableModels = [], onClose, onSave }) {
   const isEditing = Boolean(machine);
 
+  // Combine default models with any dynamically existing models
+  const modelOptions = Array.from(
+    new Set([...DEFAULT_MODELS, ...availableModels.filter(Boolean)])
+  ).sort();
+
   const [formData, setFormData] = useState({
-    modelo: '',
+    modelo: modelOptions[0] || 'Maestro',
+    customModelo: '',
     activo: '',
     serie: '',
     condicion: 'C',
     ubicacion: '',
     responsable: '',
-    correo: '',
     notas: ''
   });
 
+  const [isCustomModel, setIsCustomModel] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (machine) {
+      const existingModelo = machine.modelo || '';
+      const isKnown = modelOptions.includes(existingModelo);
+
       setFormData({
-        modelo: machine.modelo || '',
+        modelo: isKnown ? existingModelo : 'OTRO',
+        customModelo: isKnown ? '' : existingModelo,
         activo: machine.activo || '',
         serie: machine.serie || '',
         condicion: machine.condicion || 'C',
         ubicacion: machine.ubicacion || '',
         responsable: machine.responsable || '',
-        correo: machine.correo || '',
         notas: ''
       });
+      setIsCustomModel(!isKnown && Boolean(existingModelo));
     }
   }, [machine]);
 
+  const handleModelChange = (e) => {
+    const val = e.target.value;
+    if (val === 'OTRO') {
+      setIsCustomModel(true);
+      setFormData(prev => ({ ...prev, modelo: 'OTRO' }));
+    } else {
+      setIsCustomModel(false);
+      setFormData(prev => ({ ...prev, modelo: val, customModelo: '' }));
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.modelo.trim() || !formData.ubicacion.trim()) {
-      alert('Por favor completa el Modelo y la Ubicación.');
+    const finalModelo = isCustomModel ? formData.customModelo.trim() : formData.modelo;
+
+    if (!finalModelo || !formData.ubicacion.trim()) {
+      alert('Por favor selecciona el Modelo y completa la Ubicación.');
       return;
     }
 
     try {
       setIsSubmitting(true);
-      await onSave(formData, machine ? machine.id : null);
+      const dataToSave = {
+        modelo: finalModelo,
+        activo: formData.activo,
+        serie: formData.serie,
+        condicion: formData.condicion,
+        ubicacion: formData.ubicacion,
+        responsable: formData.responsable,
+        notas: formData.notas
+      };
+
+      await onSave(dataToSave, machine ? machine.id : null);
       onClose();
     } catch (err) {
       alert('Error al guardar equipo: ' + err.message);
@@ -77,20 +119,35 @@ export default function AddEditMachineModal({ machine, onClose, onSave }) {
           
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16, marginBottom: 16 }}>
             
-            {/* Modelo / Tipo */}
+            {/* Modelo / Tipo Dropdown Select */}
             <div style={{ gridColumn: '1 / -1' }}>
               <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.85rem', fontWeight: 600, marginBottom: 6 }}>
                 <Tag size={15} color="var(--primary)" />
-                Modelo de Máquina / Tipo: *
+                Modelo / Tipo: *
               </label>
-              <input 
-                type="text"
-                required
+              <select 
                 className="input-control"
-                placeholder="Ej. Opera leyenda, Maestro, Opera Britt..."
-                value={formData.modelo}
-                onChange={(e) => setFormData(prev => ({ ...prev, modelo: e.target.value }))}
-              />
+                value={isCustomModel ? 'OTRO' : formData.modelo}
+                onChange={handleModelChange}
+              >
+                {modelOptions.map(m => (
+                  <option key={m} value={m}>{m}</option>
+                ))}
+                <option value="OTRO">+ Agregar otro modelo personalizado...</option>
+              </select>
+
+              {/* Custom Model Input if OTRO is selected */}
+              {isCustomModel && (
+                <input 
+                  type="text"
+                  required
+                  className="input-control"
+                  placeholder="Escribe el nuevo modelo..."
+                  style={{ marginTop: 8 }}
+                  value={formData.customModelo}
+                  onChange={(e) => setFormData(prev => ({ ...prev, customModelo: e.target.value }))}
+                />
+              )}
             </div>
 
             {/* N° Activo */}
@@ -157,7 +214,7 @@ export default function AddEditMachineModal({ machine, onClose, onSave }) {
             </div>
 
             {/* Responsable */}
-            <div>
+            <div style={{ gridColumn: '1 / -1' }}>
               <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.85rem', fontWeight: 600, marginBottom: 6 }}>
                 <User size={15} color="var(--text-muted)" />
                 Nombre Responsable:
@@ -168,21 +225,6 @@ export default function AddEditMachineModal({ machine, onClose, onSave }) {
                 placeholder="Nombre del técnico..."
                 value={formData.responsable}
                 onChange={(e) => setFormData(prev => ({ ...prev, responsable: e.target.value }))}
-              />
-            </div>
-
-            {/* Correo */}
-            <div>
-              <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.85rem', fontWeight: 600, marginBottom: 6 }}>
-                <Mail size={15} color="var(--text-muted)" />
-                Correo Electrónico:
-              </label>
-              <input 
-                type="email"
-                className="input-control"
-                placeholder="correo@empresa.com"
-                value={formData.correo}
-                onChange={(e) => setFormData(prev => ({ ...prev, correo: e.target.value }))}
               />
             </div>
 

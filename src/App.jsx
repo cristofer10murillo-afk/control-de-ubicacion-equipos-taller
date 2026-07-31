@@ -184,6 +184,7 @@ export default function App() {
       {(isAddModalOpen || editingMachine) && (
         <AddEditMachineModal 
           machine={editingMachine}
+          availableModels={availableModels}
           onClose={() => {
             setIsAddModalOpen(false);
             setEditingMachine(null);
