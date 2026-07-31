@@ -10,13 +10,44 @@ const DEFAULT_MODELS = [
   'Tango'
 ];
 
-export default function AddEditMachineModal({ machine, availableModels = [], onClose, onSave }) {
+const DEFAULT_LOCATIONS = [
+  'BVE1111',
+  'BVF1111',
+  'BVF1131',
+  'BVF1151',
+  'BVF1171',
+  'BVF1191',
+  'BVG1091',
+  'BVG1111',
+  'BVG1131',
+  'BVG1151',
+  'BVG1171',
+  'BVTALLER',
+  'PASILLO',
+  'INSTALADO'
+];
+
+export default function AddEditMachineModal({ 
+  machine, 
+  availableModels = [], 
+  availableLocations = [], 
+  onClose, 
+  onSave 
+}) {
   const isEditing = Boolean(machine);
 
-  // Combine default models with any dynamically existing models
+  // Models list
   const modelOptions = Array.from(
     new Set([...DEFAULT_MODELS, ...availableModels.filter(Boolean)])
   ).sort();
+
+  // Locations list
+  const allLocations = Array.from(
+    new Set([...DEFAULT_LOCATIONS, ...availableLocations.filter(Boolean)])
+  );
+  const bodegaLocations = allLocations
+    .filter(u => u.toUpperCase().trim() !== 'INSTALADO')
+    .sort();
 
   const [formData, setFormData] = useState({
     modelo: modelOptions[0] || 'Maestro',
@@ -24,30 +55,38 @@ export default function AddEditMachineModal({ machine, availableModels = [], onC
     activo: '',
     serie: '',
     condicion: 'C',
-    ubicacion: '',
+    ubicacion: bodegaLocations[0] || 'BVF1171',
+    customUbicacion: '',
     responsable: '',
     notas: ''
   });
 
   const [isCustomModel, setIsCustomModel] = useState(false);
+  const [isCustomLocation, setIsCustomLocation] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (machine) {
       const existingModelo = machine.modelo || '';
-      const isKnown = modelOptions.includes(existingModelo);
+      const isKnownModel = modelOptions.includes(existingModelo);
+
+      const existingUbicacion = machine.ubicacion || '';
+      const isKnownLocation = allLocations.includes(existingUbicacion);
 
       setFormData({
-        modelo: isKnown ? existingModelo : 'OTRO',
-        customModelo: isKnown ? '' : existingModelo,
+        modelo: isKnownModel ? existingModelo : 'OTRO',
+        customModelo: isKnownModel ? '' : existingModelo,
         activo: machine.activo || '',
         serie: machine.serie || '',
         condicion: machine.condicion || 'C',
-        ubicacion: machine.ubicacion || '',
+        ubicacion: isKnownLocation ? existingUbicacion : 'OTRA',
+        customUbicacion: isKnownLocation ? '' : existingUbicacion,
         responsable: machine.responsable || '',
         notas: ''
       });
-      setIsCustomModel(!isKnown && Boolean(existingModelo));
+
+      setIsCustomModel(!isKnownModel && Boolean(existingModelo));
+      setIsCustomLocation(!isKnownLocation && Boolean(existingUbicacion));
     }
   }, [machine]);
 
@@ -62,12 +101,24 @@ export default function AddEditMachineModal({ machine, availableModels = [], onC
     }
   };
 
+  const handleLocationChange = (e) => {
+    const val = e.target.value;
+    if (val === 'OTRA') {
+      setIsCustomLocation(true);
+      setFormData(prev => ({ ...prev, ubicacion: 'OTRA' }));
+    } else {
+      setIsCustomLocation(false);
+      setFormData(prev => ({ ...prev, ubicacion: val, customUbicacion: '' }));
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const finalModelo = isCustomModel ? formData.customModelo.trim() : formData.modelo;
+    const finalUbicacion = isCustomLocation ? formData.customUbicacion.trim() : formData.ubicacion;
 
-    if (!finalModelo || !formData.ubicacion.trim()) {
-      alert('Por favor selecciona el Modelo y completa la Ubicación.');
+    if (!finalModelo || !finalUbicacion) {
+      alert('Por favor selecciona un Modelo y una Ubicación válidos.');
       return;
     }
 
@@ -78,7 +129,7 @@ export default function AddEditMachineModal({ machine, availableModels = [], onC
         activo: formData.activo,
         serie: formData.serie,
         condicion: formData.condicion,
-        ubicacion: formData.ubicacion,
+        ubicacion: finalUbicacion,
         responsable: formData.responsable,
         notas: formData.notas
       };
@@ -136,7 +187,6 @@ export default function AddEditMachineModal({ machine, availableModels = [], onC
                 <option value="OTRO">+ Agregar otro modelo personalizado...</option>
               </select>
 
-              {/* Custom Model Input if OTRO is selected */}
               {isCustomModel && (
                 <input 
                   type="text"
@@ -197,20 +247,41 @@ export default function AddEditMachineModal({ machine, availableModels = [], onC
               </select>
             </div>
 
-            {/* Ubicación */}
+            {/* Ubicación Dropdown Select */}
             <div>
               <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.85rem', fontWeight: 600, marginBottom: 6 }}>
                 <MapPin size={15} color="var(--accent-amber)" />
-                Ubicación Actual: *
+                Ubicación Inicial: *
               </label>
-              <input 
-                type="text"
-                required
+              <select 
                 className="input-control"
-                placeholder="Ej. BVG1171, BVF1191..."
-                value={formData.ubicacion}
-                onChange={(e) => setFormData(prev => ({ ...prev, ubicacion: e.target.value }))}
-              />
+                value={isCustomLocation ? 'OTRA' : formData.ubicacion}
+                onChange={handleLocationChange}
+              >
+                <optgroup label="⚡ Fuera de Bodega">
+                  <option value="INSTALADO">INSTALADO (Fuera de Taller / Cliente)</option>
+                </optgroup>
+
+                <optgroup label="🏢 En Bodega / Taller">
+                  {bodegaLocations.map(loc => (
+                    <option key={loc} value={loc}>{loc}</option>
+                  ))}
+                </optgroup>
+
+                <option value="OTRA">+ Agregar otra ubicación nueva...</option>
+              </select>
+
+              {isCustomLocation && (
+                <input 
+                  type="text"
+                  required
+                  className="input-control"
+                  placeholder="Escribe la nueva ubicación..."
+                  style={{ marginTop: 8 }}
+                  value={formData.customUbicacion}
+                  onChange={(e) => setFormData(prev => ({ ...prev, customUbicacion: e.target.value }))}
+                />
+              )}
             </div>
 
             {/* Responsable */}

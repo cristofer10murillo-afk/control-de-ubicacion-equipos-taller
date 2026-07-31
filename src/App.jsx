@@ -178,6 +178,7 @@ export default function App() {
       {movingMachine && (
         <MoveMachineModal 
           machine={movingMachine}
+          availableLocations={availableLocations}
           onClose={() => setMovingMachine(null)}
           onSave={handleSaveMove}
         />
@@ -194,6 +195,7 @@ export default function App() {
         <AddEditMachineModal 
           machine={editingMachine}
           availableModels={availableModels}
+          availableLocations={availableLocations}
           onClose={() => {
             setIsAddModalOpen(false);
             setEditingMachine(null);
