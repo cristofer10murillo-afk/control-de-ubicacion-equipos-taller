@@ -3,13 +3,17 @@ import {
   Package, 
   MapPin, 
   History, 
-  CheckCircle2, 
   AlertTriangle,
-  HelpCircle
+  Building2,
+  CheckCircle2
 } from 'lucide-react';
 
 export default function DashboardStats({ machines }) {
   const totalMachines = machines.length;
+
+  // Distinguish installed (outside bodega/taller) vs inside bodega/taller
+  const installedMachines = machines.filter(m => (m.ubicacion || '').toUpperCase().trim() === 'INSTALADO');
+  const inBodegaMachines = machines.filter(m => (m.ubicacion || '').toUpperCase().trim() !== 'INSTALADO');
 
   const countByCond = {
     A: machines.filter(m => m.condicion === 'A').length,
@@ -18,7 +22,9 @@ export default function DashboardStats({ machines }) {
     D: machines.filter(m => m.condicion === 'D').length,
   };
 
-  const uniqueLocations = new Set(machines.map(m => m.ubicacion).filter(Boolean)).size;
+  const uniqueLocationsInBodega = new Set(
+    inBodegaMachines.map(m => m.ubicacion).filter(Boolean)
+  ).size;
 
   const totalMoves = machines.reduce((acc, m) => {
     return acc + ((m.historial && m.historial.length > 1) ? m.historial.length - 1 : 0);
@@ -27,7 +33,7 @@ export default function DashboardStats({ machines }) {
   return (
     <div style={{ 
       display: 'grid', 
-      gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', 
+      gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', 
       gap: 16,
       marginBottom: 24
     }}>
@@ -43,10 +49,34 @@ export default function DashboardStats({ machines }) {
         </div>
       </div>
 
-      {/* Condición D (Alerta/Taller) */}
+      {/* En Bodega / Taller (Dentro) */}
+      <div className="glass-card" style={{ padding: '18px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', border: '1px solid rgba(6, 182, 212, 0.3)' }}>
+        <div>
+          <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 500 }}>En Bodega / Taller</p>
+          <p style={{ fontSize: '1.75rem', fontWeight: 800, marginTop: 2, color: '#22d3ee' }}>{inBodegaMachines.length}</p>
+          <p style={{ fontSize: '0.72rem', color: 'var(--text-subdued)', marginTop: 2 }}>{uniqueLocationsInBodega} estantes/racks</p>
+        </div>
+        <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(6, 182, 212, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Building2 size={22} color="#22d3ee" />
+        </div>
+      </div>
+
+      {/* Instalados (Fuera de Bodega) */}
+      <div className="glass-card" style={{ padding: '18px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', border: '1px solid rgba(16, 185, 129, 0.3)' }}>
+        <div>
+          <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 500 }}>Instalados (Fuera)</p>
+          <p style={{ fontSize: '1.75rem', fontWeight: 800, marginTop: 2, color: '#34d399' }}>{installedMachines.length}</p>
+          <p style={{ fontSize: '0.72rem', color: '#34d399', marginTop: 2, fontWeight: 600 }}>En servicio / Cliente</p>
+        </div>
+        <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(16, 185, 129, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <CheckCircle2 size={22} color="#34d399" />
+        </div>
+      </div>
+
+      {/* Condición D (Crítica/Taller) */}
       <div className="glass-card" style={{ padding: '18px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
-          <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 500 }}>Condición D (Crítica)</p>
+          <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 500 }}>Condición D (Revisión)</p>
           <p style={{ fontSize: '1.75rem', fontWeight: 800, marginTop: 2, color: '#f87171' }}>{countByCond.D}</p>
         </div>
         <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(244, 63, 94, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -54,36 +84,14 @@ export default function DashboardStats({ machines }) {
         </div>
       </div>
 
-      {/* Condición C / Regular */}
+      {/* Total Reubicaciones */}
       <div className="glass-card" style={{ padding: '18px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
-          <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 500 }}>Condición C (Regular)</p>
-          <p style={{ fontSize: '1.75rem', fontWeight: 800, marginTop: 2, color: '#fbbf24' }}>{countByCond.C}</p>
+          <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 500 }}>Reubicaciones</p>
+          <p style={{ fontSize: '1.75rem', fontWeight: 800, marginTop: 2, color: '#fbbf24' }}>{totalMoves}</p>
         </div>
         <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(245, 158, 11, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <HelpCircle size={22} color="#fbbf24" />
-        </div>
-      </div>
-
-      {/* Ubicaciones Únicas */}
-      <div className="glass-card" style={{ padding: '18px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div>
-          <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 500 }}>Ubicaciones Activas</p>
-          <p style={{ fontSize: '1.75rem', fontWeight: 800, marginTop: 2, color: '#22d3ee' }}>{uniqueLocations}</p>
-        </div>
-        <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(6, 182, 212, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <MapPin size={22} color="#22d3ee" />
-        </div>
-      </div>
-
-      {/* Historial de Movimientos */}
-      <div className="glass-card" style={{ padding: '18px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div>
-          <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 500 }}>Reubicaciones Realizadas</p>
-          <p style={{ fontSize: '1.75rem', fontWeight: 800, marginTop: 2, color: '#34d399' }}>{totalMoves}</p>
-        </div>
-        <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(16, 185, 129, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <History size={22} color="#34d399" />
+          <History size={22} color="#fbbf24" />
         </div>
       </div>
 

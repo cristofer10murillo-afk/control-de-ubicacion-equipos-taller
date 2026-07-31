@@ -1,5 +1,5 @@
 import React from 'react';
-import { Filter, RotateCcw } from 'lucide-react';
+import { Filter, RotateCcw, Building2, CheckCircle2, Layers } from 'lucide-react';
 
 export default function MachineFilters({ 
   filters, 
@@ -15,16 +15,75 @@ export default function MachineFilters({
     }));
   };
 
+  const handleScopeFilter = (scope) => {
+    // scope: 'ALL' | 'BODEGA' | 'INSTALADO'
+    if (scope === 'ALL') {
+      setFilters(prev => ({ ...prev, scope: '', ubicacion: '' }));
+    } else if (scope === 'INSTALADO') {
+      setFilters(prev => ({ ...prev, scope: 'INSTALADO', ubicacion: '' }));
+    } else if (scope === 'BODEGA') {
+      setFilters(prev => ({ ...prev, scope: 'BODEGA', ubicacion: '' }));
+    }
+  };
+
   const hasActiveFilters = Boolean(
-    filters.modelo || filters.condicion || filters.activo || filters.serie || filters.ubicacion
+    filters.modelo || filters.condicion || filters.activo || filters.serie || filters.ubicacion || filters.scope
   );
+
+  // Separate installed vs bodega locations for dropdown
+  const bodegaLocations = availableLocations.filter(u => u.toUpperCase().trim() !== 'INSTALADO');
+  const isInstalledInList = availableLocations.some(u => u.toUpperCase().trim() === 'INSTALADO');
 
   return (
     <div className="glass-card" style={{ padding: '16px 20px', marginBottom: 24 }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14, flexWrap: 'wrap', gap: 10 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <Filter size={18} color="var(--primary)" />
-          <h3 style={{ fontSize: '0.95rem', fontWeight: 700 }}>Filtros de Búsqueda Avanzada</h3>
+      
+      {/* Top Scope Tabs + Filter Header */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16, flexWrap: 'wrap', gap: 12 }}>
+        
+        {/* Quick Scope Filter Pills */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+          
+          <button 
+            type="button"
+            onClick={() => handleScopeFilter('ALL')}
+            className={`btn ${!filters.scope ? 'btn-primary' : 'btn-secondary'}`}
+            style={{ fontSize: '0.8rem', padding: '6px 12px' }}
+          >
+            <Layers size={15} />
+            <span>Todos los Equipos</span>
+          </button>
+
+          <button 
+            type="button"
+            onClick={() => handleScopeFilter('BODEGA')}
+            className={`btn ${filters.scope === 'BODEGA' ? 'btn-primary' : 'btn-secondary'}`}
+            style={{ 
+              fontSize: '0.8rem', 
+              padding: '6px 12px',
+              borderColor: filters.scope === 'BODEGA' ? 'var(--accent-cyan)' : 'var(--border-color)',
+              color: filters.scope === 'BODEGA' ? '#ffffff' : 'var(--text-main)'
+            }}
+          >
+            <Building2 size={15} color="#22d3ee" />
+            <span>En Bodega / Taller</span>
+          </button>
+
+          <button 
+            type="button"
+            onClick={() => handleScopeFilter('INSTALADO')}
+            className={`btn ${filters.scope === 'INSTALADO' ? 'btn-primary' : 'btn-secondary'}`}
+            style={{ 
+              fontSize: '0.8rem', 
+              padding: '6px 12px',
+              background: filters.scope === 'INSTALADO' ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)' : 'rgba(255, 255, 255, 0.05)',
+              color: filters.scope === 'INSTALADO' ? '#ffffff' : '#34d399',
+              borderColor: 'rgba(16, 185, 129, 0.3)'
+            }}
+          >
+            <CheckCircle2 size={15} />
+            <span>Instalados (Fuera de Taller)</span>
+          </button>
+
         </div>
 
         {hasActiveFilters && (
@@ -39,6 +98,7 @@ export default function MachineFilters({
         )}
       </div>
 
+      {/* Inputs Grid */}
       <div style={{ 
         display: 'grid', 
         gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', 
@@ -108,10 +168,10 @@ export default function MachineFilters({
           />
         </div>
 
-        {/* Ubicación */}
+        {/* Ubicación Grouped Select */}
         <div>
           <label style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: 4, fontWeight: 600 }}>
-            Ubicación:
+            Ubicación Específica:
           </label>
           <select 
             className="input-control"
@@ -119,9 +179,18 @@ export default function MachineFilters({
             onChange={(e) => handleChange('ubicacion', e.target.value)}
           >
             <option value="">-- Todas las Ubicaciones --</option>
-            {availableLocations.map(u => (
-              <option key={u} value={u}>{u}</option>
-            ))}
+            
+            {isInstalledInList && (
+              <optgroup label="⚡ Fuera de Bodega">
+                <option value="INSTALADO">INSTALADO (Fuera de Taller / Cliente)</option>
+              </optgroup>
+            )}
+
+            <optgroup label="🏢 En Bodega / Taller">
+              {bodegaLocations.map(u => (
+                <option key={u} value={u}>{u}</option>
+              ))}
+            </optgroup>
           </select>
         </div>
 

@@ -9,7 +9,9 @@ import {
   LayoutGrid,
   ChevronLeft,
   ChevronRight,
-  PackageCheck
+  PackageCheck,
+  CheckCircle2,
+  Building2
 } from 'lucide-react';
 
 export default function MachineTable({ 
@@ -41,6 +43,36 @@ export default function MachineTable({
       case 'D': return 'badge-cond-D';
       default: return 'badge-cond-C';
     }
+  };
+
+  const renderLocationBadge = (location) => {
+    const isInstalled = (location || '').toUpperCase().trim() === 'INSTALADO';
+
+    if (isInstalled) {
+      return (
+        <span 
+          className="badge" 
+          style={{ 
+            background: 'rgba(16, 185, 129, 0.2)', 
+            color: '#34d399', 
+            border: '1px solid rgba(16, 185, 129, 0.5)',
+            fontFamily: 'JetBrains Mono, monospace',
+            padding: '5px 10px'
+          }}
+          title="Equipo fuera de bodega / Instalado en cliente"
+        >
+          <CheckCircle2 size={13} color="#34d399" />
+          INSTALADO (Fuera)
+        </span>
+      );
+    }
+
+    return (
+      <span className="badge badge-location" title="Ubicación dentro de bodega/taller">
+        <Building2 size={12} />
+        {location}
+      </span>
+    );
   };
 
   return (
@@ -98,99 +130,101 @@ export default function MachineTable({
                 <th style={{ padding: '12px 14px' }}>N° Activo</th>
                 <th style={{ padding: '12px 14px' }}>N° Serie</th>
                 <th style={{ padding: '12px 14px' }}>Condición</th>
-                <th style={{ padding: '12px 14px' }}>Ubicación Actual</th>
+                <th style={{ padding: '12px 14px' }}>Ubicación / Estado</th>
                 <th style={{ padding: '12px 14px' }}>Responsable</th>
                 <th style={{ padding: '12px 14px', textAlign: 'right' }}>Acciones</th>
               </tr>
             </thead>
             <tbody>
-              {currentMachines.map((m, index) => (
-                <tr 
-                  key={m.id} 
-                  style={{ 
-                    borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
-                    transition: 'background 0.15s ease'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)'}
-                  onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
-                >
-                  <td style={{ padding: '14px', color: 'var(--text-subdued)', fontSize: '0.75rem' }} className="font-mono">
-                    {startIndex + index + 1}
-                  </td>
-                  <td style={{ padding: '14px', fontWeight: 600 }}>
-                    {m.modelo}
-                  </td>
-                  <td style={{ padding: '14px' }} className="font-mono">
-                    <span style={{ color: m.activo === 'N/A' ? 'var(--text-subdued)' : 'var(--accent-cyan)' }}>
-                      {m.activo}
-                    </span>
-                  </td>
-                  <td style={{ padding: '14px' }} className="font-mono">
-                    <span style={{ color: m.serie === 'N/A' ? 'var(--text-subdued)' : 'var(--text-main)' }}>
-                      {m.serie}
-                    </span>
-                  </td>
-                  <td style={{ padding: '14px' }}>
-                    <span className={`badge ${getCondBadgeClass(m.condicion)}`}>
-                      Cond. {m.condicion}
-                    </span>
-                  </td>
-                  <td style={{ padding: '14px' }}>
-                    <span className="badge badge-location">
-                      <MapPin size={12} />
-                      {m.ubicacion}
-                    </span>
-                  </td>
-                  <td style={{ padding: '14px', color: 'var(--text-muted)', fontSize: '0.8rem' }}>
-                    {m.responsable || 'Sistema'}
-                  </td>
-                  <td style={{ padding: '14px', textAlign: 'right' }}>
-                    <div style={{ display: 'inline-flex', gap: 6 }}>
-                      
-                      {/* Cambiar Ubicación */}
-                      <button 
-                        onClick={() => onMoveClick(m)}
-                        className="btn btn-secondary"
-                        style={{ padding: '5px 10px', fontSize: '0.75rem' }}
-                        title="Cambiar ubicación"
-                      >
-                        <ArrowRightLeft size={14} color="var(--primary)" />
-                        <span>Mover</span>
-                      </button>
+              {currentMachines.map((m, index) => {
+                const isInstalled = (m.ubicacion || '').toUpperCase().trim() === 'INSTALADO';
 
-                      {/* Ver Historial */}
-                      <button 
-                        onClick={() => onHistoryClick(m)}
-                        className="btn btn-secondary"
-                        style={{ padding: '5px 10px', fontSize: '0.75rem' }}
-                        title="Ver historial de reubicaciones"
-                      >
-                        <History size={14} color="var(--accent-emerald)" />
-                        <span>Historial</span>
-                      </button>
+                return (
+                  <tr 
+                    key={m.id} 
+                    style={{ 
+                      borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
+                      background: isInstalled ? 'rgba(16, 185, 129, 0.03)' : 'transparent',
+                      transition: 'background 0.15s ease'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = isInstalled ? 'rgba(16, 185, 129, 0.08)' : 'rgba(255, 255, 255, 0.03)'}
+                    onMouseLeave={(e) => e.currentTarget.style.background = isInstalled ? 'rgba(16, 185, 129, 0.03)' : 'transparent'}
+                  >
+                    <td style={{ padding: '14px', color: 'var(--text-subdued)', fontSize: '0.75rem' }} className="font-mono">
+                      {startIndex + index + 1}
+                    </td>
+                    <td style={{ padding: '14px', fontWeight: 600 }}>
+                      {m.modelo}
+                    </td>
+                    <td style={{ padding: '14px' }} className="font-mono">
+                      <span style={{ color: m.activo === 'N/A' ? 'var(--text-subdued)' : 'var(--accent-cyan)' }}>
+                        {m.activo}
+                      </span>
+                    </td>
+                    <td style={{ padding: '14px' }} className="font-mono">
+                      <span style={{ color: m.serie === 'N/A' ? 'var(--text-subdued)' : 'var(--text-main)' }}>
+                        {m.serie}
+                      </span>
+                    </td>
+                    <td style={{ padding: '14px' }}>
+                      <span className={`badge ${getCondBadgeClass(m.condicion)}`}>
+                        Cond. {m.condicion}
+                      </span>
+                    </td>
+                    <td style={{ padding: '14px' }}>
+                      {renderLocationBadge(m.ubicacion)}
+                    </td>
+                    <td style={{ padding: '14px', color: 'var(--text-muted)', fontSize: '0.8rem' }}>
+                      {m.responsable || 'Sistema'}
+                    </td>
+                    <td style={{ padding: '14px', textAlign: 'right' }}>
+                      <div style={{ display: 'inline-flex', gap: 6 }}>
+                        
+                        {/* Cambiar Ubicación */}
+                        <button 
+                          onClick={() => onMoveClick(m)}
+                          className="btn btn-secondary"
+                          style={{ padding: '5px 10px', fontSize: '0.75rem' }}
+                          title="Cambiar ubicación"
+                        >
+                          <ArrowRightLeft size={14} color="var(--primary)" />
+                          <span>Mover</span>
+                        </button>
 
-                      {/* Editar */}
-                      <button 
-                        onClick={() => onEditClick(m)}
-                        className="btn btn-icon"
-                        title="Editar máquina"
-                      >
-                        <Edit3 size={15} color="var(--text-muted)" />
-                      </button>
+                        {/* Ver Historial */}
+                        <button 
+                          onClick={() => onHistoryClick(m)}
+                          className="btn btn-secondary"
+                          style={{ padding: '5px 10px', fontSize: '0.75rem' }}
+                          title="Ver historial de reubicaciones"
+                        >
+                          <History size={14} color="var(--accent-emerald)" />
+                          <span>Historial</span>
+                        </button>
 
-                      {/* Eliminar */}
-                      <button 
-                        onClick={() => onDeleteClick(m)}
-                        className="btn btn-icon"
-                        title="Eliminar máquina"
-                      >
-                        <Trash2 size={15} color="var(--accent-rose)" />
-                      </button>
+                        {/* Editar */}
+                        <button 
+                          onClick={() => onEditClick(m)}
+                          className="btn btn-icon"
+                          title="Editar máquina"
+                        >
+                          <Edit3 size={15} color="var(--text-muted)" />
+                        </button>
 
-                    </div>
-                  </td>
-                </tr>
-              ))}
+                        {/* Eliminar */}
+                        <button 
+                          onClick={() => onDeleteClick(m)}
+                          className="btn btn-icon"
+                          title="Eliminar máquina"
+                        >
+                          <Trash2 size={15} color="var(--accent-rose)" />
+                        </button>
+
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
@@ -198,66 +232,78 @@ export default function MachineTable({
         
         /* GRID VIEW */
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
-          {currentMachines.map(m => (
-            <div key={m.id} className="glass-panel" style={{ padding: 16, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-              <div>
-                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8, marginBottom: 10 }}>
-                  <h4 style={{ fontSize: '1rem', fontWeight: 700 }}>{m.modelo}</h4>
-                  <span className={`badge ${getCondBadgeClass(m.condicion)}`}>
-                    Cond. {m.condicion}
-                  </span>
-                </div>
+          {currentMachines.map(m => {
+            const isInstalled = (m.ubicacion || '').toUpperCase().trim() === 'INSTALADO';
 
-                <div style={{ fontSize: '0.8rem', display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 14 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span style={{ color: 'var(--text-muted)' }}>N° Activo:</span>
-                    <span className="font-mono" style={{ color: '#22d3ee', fontWeight: 600 }}>{m.activo}</span>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span style={{ color: 'var(--text-muted)' }}>N° Serie:</span>
-                    <span className="font-mono">{m.serie}</span>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 4 }}>
-                    <span style={{ color: 'var(--text-muted)' }}>Ubicación:</span>
-                    <span className="badge badge-location">
-                      <MapPin size={12} />
-                      {m.ubicacion}
+            return (
+              <div 
+                key={m.id} 
+                className="glass-panel" 
+                style={{ 
+                  padding: 16, 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  justify: 'space-between',
+                  border: isInstalled ? '1px solid rgba(16, 185, 129, 0.4)' : '1px solid var(--border-color)',
+                  background: isInstalled ? 'rgba(16, 185, 129, 0.05)' : 'rgba(31, 41, 61, 0.6)'
+                }}
+              >
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8, marginBottom: 10 }}>
+                    <h4 style={{ fontSize: '1rem', fontWeight: 700 }}>{m.modelo}</h4>
+                    <span className={`badge ${getCondBadgeClass(m.condicion)}`}>
+                      Cond. {m.condicion}
                     </span>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-subdued)', fontSize: '0.75rem', marginTop: 2 }}>
-                    <span>Resp: {m.responsable || 'N/A'}</span>
-                    <span>{m.historial ? `${m.historial.length} reg.` : '1 reg.'}</span>
+
+                  <div style={{ fontSize: '0.8rem', display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 14 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <span style={{ color: 'var(--text-muted)' }}>N° Activo:</span>
+                      <span className="font-mono" style={{ color: '#22d3ee', fontWeight: 600 }}>{m.activo}</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <span style={{ color: 'var(--text-muted)' }}>N° Serie:</span>
+                      <span className="font-mono">{m.serie}</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 4 }}>
+                      <span style={{ color: 'var(--text-muted)' }}>Ubicación:</span>
+                      {renderLocationBadge(m.ubicacion)}
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-subdued)', fontSize: '0.75rem', marginTop: 2 }}>
+                      <span>Resp: {m.responsable || 'N/A'}</span>
+                      <span>{m.historial ? `${m.historial.length} reg.` : '1 reg.'}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Action Buttons */}
-              <div style={{ display: 'flex', gap: 8, borderTop: '1px solid var(--border-color)', paddingTop: 12 }}>
-                <button 
-                  onClick={() => onMoveClick(m)}
-                  className="btn btn-primary"
-                  style={{ flex: 1, padding: '6px 10px', fontSize: '0.75rem' }}
-                >
-                  <ArrowRightLeft size={14} />
-                  <span>Mover</span>
-                </button>
-                <button 
-                  onClick={() => onHistoryClick(m)}
-                  className="btn btn-secondary"
-                  style={{ flex: 1, padding: '6px 10px', fontSize: '0.75rem' }}
-                >
-                  <History size={14} />
-                  <span>Historial</span>
-                </button>
-                <button 
-                  onClick={() => onEditClick(m)}
-                  className="btn btn-icon"
-                >
-                  <Edit3 size={15} />
-                </button>
+                {/* Action Buttons */}
+                <div style={{ display: 'flex', gap: 8, borderTop: '1px solid var(--border-color)', paddingTop: 12 }}>
+                  <button 
+                    onClick={() => onMoveClick(m)}
+                    className="btn btn-primary"
+                    style={{ flex: 1, padding: '6px 10px', fontSize: '0.75rem' }}
+                  >
+                    <ArrowRightLeft size={14} />
+                    <span>Mover</span>
+                  </button>
+                  <button 
+                    onClick={() => onHistoryClick(m)}
+                    className="btn btn-secondary"
+                    style={{ flex: 1, padding: '6px 10px', fontSize: '0.75rem' }}
+                  >
+                    <History size={14} />
+                    <span>Historial</span>
+                  </button>
+                  <button 
+                    onClick={() => onEditClick(m)}
+                    className="btn btn-icon"
+                  >
+                    <Edit3 size={15} />
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
 

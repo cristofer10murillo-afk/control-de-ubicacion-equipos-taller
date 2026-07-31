@@ -24,6 +24,7 @@ export default function App() {
 
   // Advanced Filters State
   const [filters, setFilters] = useState({
+    scope: '', // '' (ALL) | 'BODEGA' | 'INSTALADO'
     modelo: '',
     condicion: '',
     activo: '',
@@ -60,9 +61,16 @@ export default function App() {
     return Array.from(set).sort();
   }, [machines]);
 
-  // Filter machines based on search + advanced filters
+  // Filter machines based on search + scope + advanced filters
   const filteredMachines = useMemo(() => {
     return machines.filter(m => {
+      const loc = (m.ubicacion || '').toUpperCase().trim();
+      const isInstalled = loc === 'INSTALADO';
+
+      // Scope Pill Filter
+      if (filters.scope === 'INSTALADO' && !isInstalled) return false;
+      if (filters.scope === 'BODEGA' && isInstalled) return false;
+
       // Global Search
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase().trim();
@@ -109,6 +117,7 @@ export default function App() {
   const handleResetFilters = () => {
     setSearchQuery('');
     setFilters({
+      scope: '',
       modelo: '',
       condicion: '',
       activo: '',
