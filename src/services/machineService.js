@@ -5,8 +5,7 @@ import {
   setDoc, 
   updateDoc, 
   deleteDoc, 
-  writeBatch,
-  serverTimestamp 
+  writeBatch 
 } from 'firebase/firestore';
 import { db, isFirebaseConfigured } from '../firebase/config';
 import initialMachines from '../data/initialMachines.json';
@@ -17,7 +16,10 @@ const LOCAL_STORAGE_KEY = 'workshop_machines_data';
 const getLocalMachines = () => {
   try {
     const data = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (data) return JSON.parse(data);
+    if (data) {
+      const parsed = JSON.parse(data);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
   } catch (e) {
     console.error('Error reading local machines:', e);
   }
@@ -27,40 +29,72 @@ const getLocalMachines = () => {
 };
 
 const saveLocalMachines = (machines) => {
-  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(machines));
+  try {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(machines));
+  } catch (e) {
+    console.error('Error saving local machines:', e);
+  }
 };
 
 /**
- * Subscribe to real-time machine updates (Firestore or LocalStorage fallback)
+ * Helper to sort machines: newest updated / created first
+ */
+const sortMachines = (list) => {
+  return [...list].sort((a, b) => {
+    // Extract numerical sequence or date
+    const idA = typeof a.excelId === 'number' ? a.excelId : 0;
+    const idB = typeof b.excelId === 'number' ? b.excelId : 0;
+    
+    // Sort by excelId descending (newest at top) or fallback
+    return idB - idA;
+  });
+};
+
+/**
+ * Subscribe to real-time machine updates (Firestore + LocalStorage merged safety)
  */
 export const subscribeToMachines = (callback) => {
   if (isFirebaseConfigured && db) {
     const machinesRef = collection(db, 'maquinas');
+    
     const unsubscribe = onSnapshot(machinesRef, (snapshot) => {
+      const localMachines = getLocalMachines();
+
       if (snapshot.empty) {
-        // If Firestore collection is empty, trigger callback with initial local data
-        callback(getLocalMachines());
+        // If Firestore is empty, auto-seed to Firestore so data is preserved in cloud
+        seedMachinesToFirebase(localMachines).catch(err => {
+          console.warn('Auto-seed to Firestore failed:', err);
+        });
+        callback(sortMachines(localMachines));
       } else {
-        const machinesList = snapshot.docs.map(docSnap => ({
+        const firestoreList = snapshot.docs.map(docSnap => ({
           id: docSnap.id,
           ...docSnap.data()
         }));
-        // Sort by excelId or numeric sequence
-        machinesList.sort((a, b) => (a.excelId || 9999) - (b.excelId || 9999));
-        callback(machinesList);
+
+        // Merge Firestore docs + local machines (so nothing is ever lost if Firestore was partially seeded)
+        const firestoreIds = new Set(firestoreList.map(m => m.id));
+        const combined = [
+          ...firestoreList,
+          ...localMachines.filter(m => !firestoreIds.has(m.id))
+        ];
+
+        const sorted = sortMachines(combined);
+        saveLocalMachines(sorted); // Cache merged state
+        callback(sorted);
       }
     }, (error) => {
-      console.warn('Firestore subscription error, using local storage:', error);
-      callback(getLocalMachines());
+      console.warn('Firestore subscription error, fallback to local:', error);
+      callback(sortMachines(getLocalMachines()));
     });
+
     return unsubscribe;
   } else {
     // LocalStorage fallback mode
     const localData = getLocalMachines();
-    callback(localData);
+    callback(sortMachines(localData));
     
-    // Listen for storage events across tabs
-    const handleStorage = () => callback(getLocalMachines());
+    const handleStorage = () => callback(sortMachines(getLocalMachines()));
     window.addEventListener('storage', handleStorage);
     return () => window.removeEventListener('storage', handleStorage);
   }
@@ -70,19 +104,24 @@ export const subscribeToMachines = (callback) => {
  * Add a new machine
  */
 export const addMachine = async (newMachineData) => {
+  const localList = getLocalMachines();
+  
+  // Calculate next excelId for sequence
+  const maxExcelId = localList.reduce((max, m) => Math.max(max, Number(m.excelId) || 0), 0);
+  const nextExcelId = maxExcelId + 1;
+
   const newId = `EQ-${Date.now().toString().slice(-6)}`;
   const nowStr = new Date().toLocaleString('es-CR');
 
   const machineObj = {
     id: newId,
-    excelId: Date.now(),
+    excelId: nextExcelId,
     modelo: newMachineData.modelo.trim(),
     activo: newMachineData.activo ? newMachineData.activo.trim() : 'N/A',
     serie: newMachineData.serie ? newMachineData.serie.trim() : 'N/A',
     condicion: newMachineData.condicion || 'C',
     ubicacion: newMachineData.ubicacion.trim(),
     responsable: newMachineData.responsable ? newMachineData.responsable.trim() : 'Sistema',
-    correo: newMachineData.correo ? newMachineData.correo.trim() : '',
     fechaIngreso: nowStr,
     fechaActualizacion: nowStr,
     historial: [
@@ -97,15 +136,20 @@ export const addMachine = async (newMachineData) => {
     ]
   };
 
-  if (isFirebaseConfigured && db) {
-    const docRef = doc(db, 'maquinas', newId);
-    await setDoc(docRef, machineObj);
-  }
-
-  // Always update LocalStorage
-  const localList = getLocalMachines();
+  // 1. Save to LocalStorage immediately so user sees it at the top
   const updatedList = [machineObj, ...localList];
-  saveLocalMachines(updatedList);
+  const sorted = sortMachines(updatedList);
+  saveLocalMachines(sorted);
+
+  // 2. Save to Firestore
+  if (isFirebaseConfigured && db) {
+    try {
+      const docRef = doc(db, 'maquinas', newId);
+      await setDoc(docRef, machineObj);
+    } catch (e) {
+      console.error('Error writing new machine to Firestore:', e);
+    }
+  }
 
   return machineObj;
 };
@@ -139,14 +183,19 @@ export const moveMachine = async (machineId, newLocation, responsable, notas) =>
     historial: updatedHistory
   };
 
-  if (isFirebaseConfigured && db) {
-    const docRef = doc(db, 'maquinas', machineId);
-    await updateDoc(docRef, updatedFields);
-  }
-
   // Update local
   const updatedList = localList.map(m => m.id === machineId ? { ...m, ...updatedFields } : m);
-  saveLocalMachines(updatedList);
+  saveLocalMachines(sortMachines(updatedList));
+
+  // Sync to Firestore
+  if (isFirebaseConfigured && db) {
+    try {
+      const docRef = doc(db, 'maquinas', machineId);
+      await updateDoc(docRef, updatedFields);
+    } catch (e) {
+      console.error('Error updating move in Firestore:', e);
+    }
+  }
 
   return updatedFields;
 };
@@ -165,13 +214,17 @@ export const updateMachine = async (machineId, fields) => {
     fechaActualizacion: nowStr
   };
 
-  if (isFirebaseConfigured && db) {
-    const docRef = doc(db, 'maquinas', machineId);
-    await updateDoc(docRef, updatedFields);
-  }
-
   const updatedList = localList.map(m => m.id === machineId ? { ...m, ...updatedFields } : m);
-  saveLocalMachines(updatedList);
+  saveLocalMachines(sortMachines(updatedList));
+
+  if (isFirebaseConfigured && db) {
+    try {
+      const docRef = doc(db, 'maquinas', machineId);
+      await updateDoc(docRef, updatedFields);
+    } catch (e) {
+      console.error('Error updating machine in Firestore:', e);
+    }
+  }
 
   return updatedFields;
 };
@@ -180,14 +233,18 @@ export const updateMachine = async (machineId, fields) => {
  * Delete a machine
  */
 export const deleteMachine = async (machineId) => {
-  if (isFirebaseConfigured && db) {
-    const docRef = doc(db, 'maquinas', machineId);
-    await deleteDoc(docRef);
-  }
-
   const localList = getLocalMachines();
   const updatedList = localList.filter(m => m.id !== machineId);
   saveLocalMachines(updatedList);
+
+  if (isFirebaseConfigured && db) {
+    try {
+      const docRef = doc(db, 'maquinas', machineId);
+      await deleteDoc(docRef);
+    } catch (e) {
+      console.error('Error deleting machine in Firestore:', e);
+    }
+  }
 };
 
 /**
@@ -196,10 +253,9 @@ export const deleteMachine = async (machineId) => {
 export const seedMachinesToFirebase = async (machinesList = null) => {
   const dataToSeed = machinesList || getLocalMachines();
   if (!isFirebaseConfigured || !db) {
-    throw new Error('Firebase no está configurado aún. Ingresa tus credenciales primero.');
+    throw new Error('Firebase no está configurado.');
   }
 
-  // Process in batches of 400 (Firestore limit is 500)
   const batchSize = 400;
   for (let i = 0; i < dataToSeed.length; i += batchSize) {
     const chunk = dataToSeed.slice(i, i + batchSize);

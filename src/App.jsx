@@ -18,6 +18,7 @@ import {
 export default function App() {
   const [machines, setMachines] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [notification, setNotification] = useState(null);
 
   // Global Quick Search
   const [searchQuery, setSearchQuery] = useState('');
@@ -37,6 +38,11 @@ export default function App() {
   const [historyMachine, setHistoryMachine] = useState(null);
   const [editingMachine, setEditingMachine] = useState(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+  const showToast = (message, type = 'success') => {
+    setNotification({ message, type });
+    setTimeout(() => setNotification(null), 4000);
+  };
 
   // Subscribe to machines (Firestore / LocalStorage)
   useEffect(() => {
@@ -98,19 +104,33 @@ export default function App() {
   // Handlers for machine CRUD & re-location
   const handleSaveMove = async (machineId, newLocation, responsable, notas) => {
     await moveMachine(machineId, newLocation, responsable, notas);
+    showToast('Reubicación registrada y guardada exitosamente.');
   };
 
   const handleSaveMachine = async (formData, machineId) => {
     if (machineId) {
       await updateMachine(machineId, formData);
+      showToast('Equipo actualizado correctamente.');
     } else {
-      await addMachine(formData);
+      const newObj = await addMachine(formData);
+      // Clear filters so user sees newly added item at top
+      setSearchQuery('');
+      setFilters({
+        scope: '',
+        modelo: '',
+        condicion: '',
+        activo: '',
+        serie: '',
+        ubicacion: ''
+      });
+      showToast(`¡Nuevo equipo "${newObj.modelo}" agregado y guardado exitosamente!`);
     }
   };
 
   const handleDeleteMachine = async (machine) => {
     if (window.confirm(`¿Estás seguro de eliminar la máquina "${machine.modelo}" (Activo: ${machine.activo})?`)) {
       await deleteMachine(machine.id);
+      showToast('Equipo eliminado del inventario.');
     }
   };
 
@@ -129,6 +149,28 @@ export default function App() {
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       
+      {/* Toast Notification Banner */}
+      {notification && (
+        <div style={{
+          position: 'fixed',
+          top: 80,
+          right: 24,
+          zIndex: 100,
+          background: notification.type === 'error' ? 'rgba(244, 63, 94, 0.95)' : 'rgba(16, 185, 129, 0.95)',
+          color: '#ffffff',
+          padding: '12px 20px',
+          borderRadius: 10,
+          fontWeight: 600,
+          boxShadow: '0 10px 25px rgba(0,0,0,0.3)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 10,
+          animation: 'fadeIn 0.3s ease-out'
+        }}>
+          <span>{notification.message}</span>
+        </div>
+      )}
+
       {/* Top Navbar */}
       <Navbar 
         searchQuery={searchQuery}
