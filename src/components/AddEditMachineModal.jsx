@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Plus, Edit3, Tag, Key, Barcode, MapPin, User } from 'lucide-react';
+import { X, Plus, Edit3, Tag, Key, Barcode, MapPin, User, UserCheck } from 'lucide-react';
 
 const DEFAULT_MODELS = [
   'Maestro',
@@ -58,6 +58,8 @@ export default function AddEditMachineModal({
     ubicacion: bodegaLocations[0] || 'BVF1171',
     customUbicacion: '',
     responsable: '',
+    clienteAsignado: false,
+    nombreCliente: '',
     notas: ''
   });
 
@@ -82,6 +84,8 @@ export default function AddEditMachineModal({
         ubicacion: isKnownLocation ? existingUbicacion : 'OTRA',
         customUbicacion: isKnownLocation ? '' : existingUbicacion,
         responsable: machine.responsable || '',
+        clienteAsignado: Boolean(machine.clienteAsignado),
+        nombreCliente: machine.nombreCliente || '',
         notas: ''
       });
 
@@ -131,6 +135,8 @@ export default function AddEditMachineModal({
         condicion: formData.condicion,
         ubicacion: finalUbicacion,
         responsable: formData.responsable,
+        clienteAsignado: formData.clienteAsignado,
+        nombreCliente: formData.nombreCliente,
         notas: formData.notas
       };
 
@@ -297,6 +303,44 @@ export default function AddEditMachineModal({
                 value={formData.responsable}
                 onChange={(e) => setFormData(prev => ({ ...prev, responsable: e.target.value }))}
               />
+            </div>
+
+            {/* Asignación a Cliente Checkbox & Input */}
+            <div style={{ 
+              gridColumn: '1 / -1', 
+              background: formData.clienteAsignado ? 'rgba(99, 102, 241, 0.12)' : 'rgba(255, 255, 255, 0.03)', 
+              padding: 14, 
+              borderRadius: 10, 
+              border: formData.clienteAsignado ? '1px solid rgba(99, 102, 241, 0.4)' : '1px solid var(--border-color)',
+              transition: 'all 0.2s ease'
+            }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', fontWeight: 700, fontSize: '0.88rem' }}>
+                <input 
+                  type="checkbox"
+                  checked={formData.clienteAsignado}
+                  onChange={(e) => setFormData(prev => ({ ...prev, clienteAsignado: e.target.checked }))}
+                  style={{ width: 18, height: 18, accentColor: 'var(--primary)', cursor: 'pointer' }}
+                />
+                <UserCheck size={18} color={formData.clienteAsignado ? '#818cf8' : 'var(--text-muted)'} />
+                <span style={{ color: formData.clienteAsignado ? '#ffffff' : 'var(--text-main)' }}>
+                  Equipo en bodega ya tiene cliente asignado / reservado
+                </span>
+              </label>
+
+              {formData.clienteAsignado && (
+                <div style={{ marginTop: 12 }}>
+                  <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 4, fontWeight: 600 }}>
+                    Nombre del Cliente Asignado:
+                  </label>
+                  <input 
+                    type="text"
+                    className="input-control"
+                    placeholder="Ej. Hotel Westin, Cafetería Central, Cliente XYZ..."
+                    value={formData.nombreCliente}
+                    onChange={(e) => setFormData(prev => ({ ...prev, nombreCliente: e.target.value }))}
+                  />
+                </div>
+              )}
             </div>
 
           </div>

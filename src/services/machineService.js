@@ -122,6 +122,8 @@ export const addMachine = async (newMachineData) => {
     condicion: newMachineData.condicion || 'C',
     ubicacion: newMachineData.ubicacion.trim(),
     responsable: newMachineData.responsable ? newMachineData.responsable.trim() : 'Sistema',
+    clienteAsignado: Boolean(newMachineData.clienteAsignado),
+    nombreCliente: newMachineData.nombreCliente ? newMachineData.nombreCliente.trim() : '',
     fechaIngreso: nowStr,
     fechaActualizacion: nowStr,
     historial: [
@@ -157,7 +159,7 @@ export const addMachine = async (newMachineData) => {
 /**
  * Change machine location and record location history
  */
-export const moveMachine = async (machineId, newLocation, responsable, notas) => {
+export const moveMachine = async (machineId, newLocation, responsable, notas, clienteAsignado, nombreCliente) => {
   const localList = getLocalMachines();
   const machine = localList.find(m => m.id === machineId);
   if (!machine) throw new Error('Máquina no encontrada');
@@ -182,6 +184,11 @@ export const moveMachine = async (machineId, newLocation, responsable, notas) =>
     fechaActualizacion: nowStr,
     historial: updatedHistory
   };
+
+  if (typeof clienteAsignado === 'boolean') {
+    updatedFields.clienteAsignado = clienteAsignado;
+    updatedFields.nombreCliente = nombreCliente ? nombreCliente.trim() : '';
+  }
 
   // Update local
   const updatedList = localList.map(m => m.id === machineId ? { ...m, ...updatedFields } : m);

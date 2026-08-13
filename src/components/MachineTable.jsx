@@ -11,7 +11,8 @@ import {
   ChevronRight,
   PackageCheck,
   CheckCircle2,
-  Building2
+  Building2,
+  UserCheck
 } from 'lucide-react';
 
 export default function MachineTable({ 
@@ -75,6 +76,27 @@ export default function MachineTable({
     );
   };
 
+  const renderClientBadge = (m) => {
+    if (!m.clienteAsignado) return null;
+
+    return (
+      <span 
+        className="badge" 
+        style={{ 
+          background: 'rgba(168, 85, 247, 0.2)', 
+          color: '#c084fc', 
+          border: '1px solid rgba(168, 85, 247, 0.4)',
+          padding: '4px 8px',
+          fontSize: '0.73rem'
+        }}
+        title={`Reservado / Asignado a: ${m.nombreCliente || 'Cliente Asignado'}`}
+      >
+        <UserCheck size={12} color="#c084fc" />
+        {m.nombreCliente ? `Cliente: ${m.nombreCliente}` : 'Asignado a Cliente'}
+      </span>
+    );
+  };
+
   return (
     <div className="glass-card" style={{ padding: 20 }}>
       
@@ -131,6 +153,7 @@ export default function MachineTable({
                 <th style={{ padding: '12px 14px' }}>N° Serie</th>
                 <th style={{ padding: '12px 14px' }}>Condición</th>
                 <th style={{ padding: '12px 14px' }}>Ubicación / Estado</th>
+                <th style={{ padding: '12px 14px' }}>Reserva / Cliente</th>
                 <th style={{ padding: '12px 14px' }}>Responsable</th>
                 <th style={{ padding: '12px 14px', textAlign: 'right' }}>Acciones</th>
               </tr>
@@ -144,11 +167,11 @@ export default function MachineTable({
                     key={m.id} 
                     style={{ 
                       borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
-                      background: isInstalled ? 'rgba(16, 185, 129, 0.03)' : 'transparent',
+                      background: isInstalled ? 'rgba(16, 185, 129, 0.03)' : (m.clienteAsignado ? 'rgba(168, 85, 247, 0.03)' : 'transparent'),
                       transition: 'background 0.15s ease'
                     }}
-                    onMouseEnter={(e) => e.currentTarget.style.background = isInstalled ? 'rgba(16, 185, 129, 0.08)' : 'rgba(255, 255, 255, 0.03)'}
-                    onMouseLeave={(e) => e.currentTarget.style.background = isInstalled ? 'rgba(16, 185, 129, 0.03)' : 'transparent'}
+                    onMouseEnter={(e) => e.currentTarget.style.background = isInstalled ? 'rgba(16, 185, 129, 0.08)' : (m.clienteAsignado ? 'rgba(168, 85, 247, 0.08)' : 'rgba(255, 255, 255, 0.03)')}
+                    onMouseLeave={(e) => e.currentTarget.style.background = isInstalled ? 'rgba(16, 185, 129, 0.03)' : (m.clienteAsignado ? 'rgba(168, 85, 247, 0.03)' : 'transparent')}
                   >
                     <td style={{ padding: '14px', color: 'var(--text-subdued)', fontSize: '0.75rem' }} className="font-mono">
                       {startIndex + index + 1}
@@ -173,6 +196,9 @@ export default function MachineTable({
                     </td>
                     <td style={{ padding: '14px' }}>
                       {renderLocationBadge(m.ubicacion)}
+                    </td>
+                    <td style={{ padding: '14px' }}>
+                      {renderClientBadge(m) || <span style={{ fontSize: '0.75rem', color: 'var(--text-subdued)' }}>Sin asignar</span>}
                     </td>
                     <td style={{ padding: '14px', color: 'var(--text-muted)', fontSize: '0.8rem' }}>
                       {m.responsable || 'Sistema'}
@@ -244,8 +270,8 @@ export default function MachineTable({
                   display: 'flex', 
                   flexDirection: 'column', 
                   justify: 'space-between',
-                  border: isInstalled ? '1px solid rgba(16, 185, 129, 0.4)' : '1px solid var(--border-color)',
-                  background: isInstalled ? 'rgba(16, 185, 129, 0.05)' : 'rgba(31, 41, 61, 0.6)'
+                  border: isInstalled ? '1px solid rgba(16, 185, 129, 0.4)' : (m.clienteAsignado ? '1px solid rgba(168, 85, 247, 0.4)' : '1px solid var(--border-color)'),
+                  background: isInstalled ? 'rgba(16, 185, 129, 0.05)' : (m.clienteAsignado ? 'rgba(168, 85, 247, 0.05)' : 'rgba(31, 41, 61, 0.6)')
                 }}
               >
                 <div>
@@ -269,6 +295,12 @@ export default function MachineTable({
                       <span style={{ color: 'var(--text-muted)' }}>Ubicación:</span>
                       {renderLocationBadge(m.ubicacion)}
                     </div>
+                    {m.clienteAsignado && (
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 4 }}>
+                        <span style={{ color: 'var(--text-muted)' }}>Reserva:</span>
+                        {renderClientBadge(m)}
+                      </div>
+                    )}
                     <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-subdued)', fontSize: '0.75rem', marginTop: 2 }}>
                       <span>Resp: {m.responsable || 'N/A'}</span>
                       <span>{m.historial ? `${m.historial.length} reg.` : '1 reg.'}</span>

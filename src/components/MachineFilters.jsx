@@ -1,5 +1,5 @@
 import React from 'react';
-import { Filter, RotateCcw, Building2, CheckCircle2, Layers } from 'lucide-react';
+import { Filter, RotateCcw, Building2, CheckCircle2, Layers, UserCheck } from 'lucide-react';
 
 export default function MachineFilters({ 
   filters, 
@@ -16,13 +16,15 @@ export default function MachineFilters({
   };
 
   const handleScopeFilter = (scope) => {
-    // scope: 'ALL' | 'BODEGA' | 'INSTALADO'
+    // scope: 'ALL' | 'BODEGA' | 'INSTALADO' | 'CLIENTE_ASIGNADO'
     if (scope === 'ALL') {
       setFilters(prev => ({ ...prev, scope: '', ubicacion: '' }));
     } else if (scope === 'INSTALADO') {
       setFilters(prev => ({ ...prev, scope: 'INSTALADO', ubicacion: '' }));
     } else if (scope === 'BODEGA') {
       setFilters(prev => ({ ...prev, scope: 'BODEGA', ubicacion: '' }));
+    } else if (scope === 'CLIENTE_ASIGNADO') {
+      setFilters(prev => ({ ...prev, scope: 'CLIENTE_ASIGNADO', ubicacion: '' }));
     }
   };
 
@@ -66,6 +68,22 @@ export default function MachineFilters({
           >
             <Building2 size={15} color="#22d3ee" />
             <span>En Bodega / Taller</span>
+          </button>
+
+          <button 
+            type="button"
+            onClick={() => handleScopeFilter('CLIENTE_ASIGNADO')}
+            className={`btn ${filters.scope === 'CLIENTE_ASIGNADO' ? 'btn-primary' : 'btn-secondary'}`}
+            style={{ 
+              fontSize: '0.8rem', 
+              padding: '6px 12px',
+              background: filters.scope === 'CLIENTE_ASIGNADO' ? 'linear-gradient(135deg, #a855f7 0%, #7e22ce 100%)' : 'rgba(255, 255, 255, 0.05)',
+              color: filters.scope === 'CLIENTE_ASIGNADO' ? '#ffffff' : '#c084fc',
+              borderColor: 'rgba(168, 85, 247, 0.4)'
+            }}
+          >
+            <UserCheck size={15} />
+            <span>Con Cliente Asignado</span>
           </button>
 
           <button 

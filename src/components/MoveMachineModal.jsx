@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, ArrowRightLeft, MapPin, User, FileText, CheckCircle2, Building2 } from 'lucide-react';
+import { X, ArrowRightLeft, MapPin, User, FileText, CheckCircle2, Building2, UserCheck } from 'lucide-react';
 
 const DEFAULT_LOCATIONS = [
   'BVE1111',
@@ -33,12 +33,26 @@ export default function MoveMachineModal({ machine, availableLocations = [], onC
   const [isCustom, setIsCustom] = useState(false);
 
   const [responsable, setResponsable] = useState(machine?.responsable || '');
+  const [clienteAsignado, setClienteAsignado] = useState(Boolean(machine?.clienteAsignado));
+  const [nombreCliente, setNombreCliente] = useState(machine?.nombreCliente || '');
   const [notas, setNotas] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (machine) {
       setResponsable(machine.responsable || '');
+      setClienteAsignado(Boolean(machine.clienteAsignado));
+      setNombreCliente(machine.nombreCliente || '');
+
+      const existingLoc = machine.ubicacion || '';
+      if (allLocations.includes(existingLoc)) {
+        setSelectedLocation(existingLoc);
+        setIsCustom(false);
+      } else {
+        setSelectedLocation('OTRA');
+        setCustomLocation(existingLoc);
+        setIsCustom(true);
+      }
     }
   }, [machine]);
 
@@ -65,15 +79,9 @@ export default function MoveMachineModal({ machine, availableLocations = [], onC
       return;
     }
 
-    if (finalLocation === machine.ubicacion) {
-      if (!window.confirm(`El equipo ya se encuentra registrado en "${finalLocation}". ¿Deseas actualizar los datos del movimiento de todas formas?`)) {
-        return;
-      }
-    }
-
     try {
       setIsSubmitting(true);
-      await onSave(machine.id, finalLocation, responsable, notas);
+      await onSave(machine.id, finalLocation, responsable, notas, clienteAsignado, nombreCliente);
       onClose();
     } catch (err) {
       alert('Error al reubicar equipo: ' + err.message);
@@ -151,7 +159,6 @@ export default function MoveMachineModal({ machine, availableLocations = [], onC
               <option value="OTRA">+ Agregar otra ubicación nueva...</option>
             </select>
 
-            {/* Custom Location input if OTRA selected */}
             {isCustom && (
               <input 
                 type="text"
@@ -178,6 +185,44 @@ export default function MoveMachineModal({ machine, availableLocations = [], onC
               value={responsable}
               onChange={(e) => setResponsable(e.target.value)}
             />
+          </div>
+
+          {/* Cliente Asignado Checkbox */}
+          <div style={{ 
+            marginBottom: 16, 
+            background: clienteAsignado ? 'rgba(99, 102, 241, 0.12)' : 'rgba(255, 255, 255, 0.03)', 
+            padding: 14, 
+            borderRadius: 10, 
+            border: clienteAsignado ? '1px solid rgba(99, 102, 241, 0.4)' : '1px solid var(--border-color)',
+            transition: 'all 0.2s ease'
+          }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', fontWeight: 700, fontSize: '0.88rem' }}>
+              <input 
+                type="checkbox"
+                checked={clienteAsignado}
+                onChange={(e) => setClienteAsignado(e.target.checked)}
+                style={{ width: 18, height: 18, accentColor: 'var(--primary)', cursor: 'pointer' }}
+              />
+              <UserCheck size={18} color={clienteAsignado ? '#818cf8' : 'var(--text-muted)'} />
+              <span style={{ color: clienteAsignado ? '#ffffff' : 'var(--text-main)' }}>
+                Equipo en bodega ya tiene cliente asignado / reservado
+              </span>
+            </label>
+
+            {clienteAsignado && (
+              <div style={{ marginTop: 12 }}>
+                <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: 4, fontWeight: 600 }}>
+                  Nombre del Cliente Asignado:
+                </label>
+                <input 
+                  type="text"
+                  className="input-control"
+                  placeholder="Ej. Hotel Westin, Cafetería Central, Cliente XYZ..."
+                  value={nombreCliente}
+                  onChange={(e) => setNombreCliente(e.target.value)}
+                />
+              </div>
+            )}
           </div>
 
           {/* Notes / Reason Input */}

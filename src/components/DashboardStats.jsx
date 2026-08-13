@@ -1,11 +1,11 @@
 import React from 'react';
 import { 
   Package, 
-  MapPin, 
   History, 
   AlertTriangle,
   Building2,
-  CheckCircle2
+  CheckCircle2,
+  UserCheck
 } from 'lucide-react';
 
 export default function DashboardStats({ machines }) {
@@ -14,6 +14,9 @@ export default function DashboardStats({ machines }) {
   // Distinguish installed (outside bodega/taller) vs inside bodega/taller
   const installedMachines = machines.filter(m => (m.ubicacion || '').toUpperCase().trim() === 'INSTALADO');
   const inBodegaMachines = machines.filter(m => (m.ubicacion || '').toUpperCase().trim() !== 'INSTALADO');
+
+  // Customer reserved / assigned machines
+  const assignedMachines = machines.filter(m => Boolean(m.clienteAsignado));
 
   const countByCond = {
     A: machines.filter(m => m.condicion === 'A').length,
@@ -33,7 +36,7 @@ export default function DashboardStats({ machines }) {
   return (
     <div style={{ 
       display: 'grid', 
-      gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', 
+      gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
       gap: 16,
       marginBottom: 24
     }}>
@@ -58,6 +61,18 @@ export default function DashboardStats({ machines }) {
         </div>
         <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(6, 182, 212, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Building2 size={22} color="#22d3ee" />
+        </div>
+      </div>
+
+      {/* Asignadas a Cliente */}
+      <div className="glass-card" style={{ padding: '18px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', border: '1px solid rgba(168, 85, 247, 0.3)' }}>
+        <div>
+          <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 500 }}>Cliente Asignado</p>
+          <p style={{ fontSize: '1.75rem', fontWeight: 800, marginTop: 2, color: '#c084fc' }}>{assignedMachines.length}</p>
+          <p style={{ fontSize: '0.72rem', color: '#c084fc', marginTop: 2, fontWeight: 600 }}>Reservadas / Cliente</p>
+        </div>
+        <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(168, 85, 247, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <UserCheck size={22} color="#c084fc" />
         </div>
       </div>
 

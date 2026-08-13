@@ -25,7 +25,7 @@ export default function App() {
 
   // Advanced Filters State
   const [filters, setFilters] = useState({
-    scope: '', // '' (ALL) | 'BODEGA' | 'INSTALADO'
+    scope: '', // '' (ALL) | 'BODEGA' | 'INSTALADO' | 'CLIENTE_ASIGNADO'
     modelo: '',
     condicion: '',
     activo: '',
@@ -76,6 +76,7 @@ export default function App() {
       // Scope Pill Filter
       if (filters.scope === 'INSTALADO' && !isInstalled) return false;
       if (filters.scope === 'BODEGA' && isInstalled) return false;
+      if (filters.scope === 'CLIENTE_ASIGNADO' && !m.clienteAsignado) return false;
 
       // Global Search
       if (searchQuery.trim()) {
@@ -86,6 +87,7 @@ export default function App() {
           (m.serie && m.serie.toLowerCase().includes(q)) ||
           (m.condicion && m.condicion.toLowerCase().includes(q)) ||
           (m.ubicacion && m.ubicacion.toLowerCase().includes(q)) ||
+          (m.nombreCliente && m.nombreCliente.toLowerCase().includes(q)) ||
           (m.responsable && m.responsable.toLowerCase().includes(q));
         if (!matchGlobal) return false;
       }
@@ -102,9 +104,9 @@ export default function App() {
   }, [machines, searchQuery, filters]);
 
   // Handlers for machine CRUD & re-location
-  const handleSaveMove = async (machineId, newLocation, responsable, notas) => {
-    await moveMachine(machineId, newLocation, responsable, notas);
-    showToast('Reubicación registrada y guardada exitosamente.');
+  const handleSaveMove = async (machineId, newLocation, responsable, notas, clienteAsignado, nombreCliente) => {
+    await moveMachine(machineId, newLocation, responsable, notas, clienteAsignado, nombreCliente);
+    showToast('Reubicación y estado de cliente registrados exitosamente.');
   };
 
   const handleSaveMachine = async (formData, machineId) => {
