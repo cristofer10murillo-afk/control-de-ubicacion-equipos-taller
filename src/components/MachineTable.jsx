@@ -162,23 +162,63 @@ export default function MachineTable({
             <tbody>
               {currentMachines.map((m, index) => {
                 const isInstalled = (m.ubicacion || '').toUpperCase().trim() === 'INSTALADO';
+                const hasComment = Boolean(m.comentarios && m.comentarios.trim());
+
+                // Row background & highlighting
+                let rowBg = 'transparent';
+                let borderLeftStyle = 'none';
+
+                if (hasComment) {
+                  rowBg = 'rgba(6, 182, 212, 0.08)'; // Cyan highlight for comments
+                  borderLeftStyle = '4px solid #06b6d4';
+                } else if (isInstalled) {
+                  rowBg = 'rgba(16, 185, 129, 0.03)';
+                  borderLeftStyle = '4px solid #10b981';
+                } else if (m.clienteAsignado) {
+                  rowBg = 'rgba(168, 85, 247, 0.03)';
+                  borderLeftStyle = '4px solid #a855f7';
+                }
 
                 return (
                   <tr 
                     key={m.id} 
                     style={{ 
                       borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
-                      background: isInstalled ? 'rgba(16, 185, 129, 0.03)' : (m.clienteAsignado ? 'rgba(168, 85, 247, 0.03)' : 'transparent'),
+                      borderLeft: borderLeftStyle,
+                      background: rowBg,
                       transition: 'background 0.15s ease'
                     }}
-                    onMouseEnter={(e) => e.currentTarget.style.background = isInstalled ? 'rgba(16, 185, 129, 0.08)' : (m.clienteAsignado ? 'rgba(168, 85, 247, 0.08)' : 'rgba(255, 255, 255, 0.03)')}
-                    onMouseLeave={(e) => e.currentTarget.style.background = isInstalled ? 'rgba(16, 185, 129, 0.03)' : (m.clienteAsignado ? 'rgba(168, 85, 247, 0.03)' : 'transparent')}
+                    onMouseEnter={(e) => {
+                      if (hasComment) e.currentTarget.style.background = 'rgba(6, 182, 212, 0.15)';
+                      else if (isInstalled) e.currentTarget.style.background = 'rgba(16, 185, 129, 0.08)';
+                      else if (m.clienteAsignado) e.currentTarget.style.background = 'rgba(168, 85, 247, 0.08)';
+                      else e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)';
+                    }}
+                    onMouseLeave={(e) => e.currentTarget.style.background = rowBg}
                   >
                     <td style={{ padding: '14px', color: 'var(--text-subdued)', fontSize: '0.75rem' }} className="font-mono">
                       {startIndex + index + 1}
                     </td>
                     <td style={{ padding: '14px', fontWeight: 600 }}>
-                      {m.modelo}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <span>{m.modelo}</span>
+                        {hasComment && (
+                          <span 
+                            className="badge" 
+                            style={{ 
+                              background: 'rgba(6, 182, 212, 0.25)', 
+                              color: '#22d3ee', 
+                              border: '1px solid rgba(6, 182, 212, 0.5)',
+                              fontSize: '0.68rem',
+                              padding: '2px 6px'
+                            }}
+                            title="Esta máquina contiene notas/características especiales"
+                          >
+                            <MessageSquare size={10} />
+                            Nota
+                          </span>
+                        )}
+                      </div>
                     </td>
                     <td style={{ padding: '14px' }} className="font-mono">
                       <span style={{ color: m.activo === 'N/A' ? 'var(--text-subdued)' : 'var(--accent-cyan)' }}>
@@ -202,23 +242,25 @@ export default function MachineTable({
                       {renderClientBadge(m) || <span style={{ fontSize: '0.75rem', color: 'var(--text-subdued)' }}>Sin asignar</span>}
                     </td>
                     <td style={{ padding: '14px', maxWidth: 220 }}>
-                      {m.comentarios ? (
+                      {hasComment ? (
                         <div 
                           style={{ 
                             display: 'flex', 
                             alignItems: 'center', 
                             gap: 6, 
-                            background: 'rgba(6, 182, 212, 0.1)', 
+                            background: 'rgba(6, 182, 212, 0.18)', 
                             color: '#22d3ee', 
-                            padding: '4px 8px', 
-                            borderRadius: 6, 
-                            border: '1px solid rgba(6, 182, 212, 0.3)',
-                            fontSize: '0.78rem',
-                            lineHeight: 1.3
+                            padding: '6px 10px', 
+                            borderRadius: 8, 
+                            border: '1px solid rgba(6, 182, 212, 0.4)',
+                            fontSize: '0.8rem',
+                            fontWeight: 600,
+                            lineHeight: 1.3,
+                            boxShadow: '0 2px 8px rgba(6, 182, 212, 0.15)'
                           }}
                           title={m.comentarios}
                         >
-                          <MessageSquare size={13} style={{ flexShrink: 0 }} />
+                          <MessageSquare size={14} style={{ flexShrink: 0 }} color="#22d3ee" />
                           <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                             {m.comentarios}
                           </span>
@@ -284,6 +326,25 @@ export default function MachineTable({
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
           {currentMachines.map(m => {
             const isInstalled = (m.ubicacion || '').toUpperCase().trim() === 'INSTALADO';
+            const hasComment = Boolean(m.comentarios && m.comentarios.trim());
+
+            let cardBorder = '1px solid var(--border-color)';
+            let cardBg = 'rgba(31, 41, 61, 0.6)';
+            let borderLeftStyle = 'none';
+
+            if (hasComment) {
+              cardBorder = '1px solid rgba(6, 182, 212, 0.5)';
+              cardBg = 'rgba(6, 182, 212, 0.08)';
+              borderLeftStyle = '4px solid #06b6d4';
+            } else if (isInstalled) {
+              cardBorder = '1px solid rgba(16, 185, 129, 0.4)';
+              cardBg = 'rgba(16, 185, 129, 0.05)';
+              borderLeftStyle = '4px solid #10b981';
+            } else if (m.clienteAsignado) {
+              cardBorder = '1px solid rgba(168, 85, 247, 0.4)';
+              cardBg = 'rgba(168, 85, 247, 0.05)';
+              borderLeftStyle = '4px solid #a855f7';
+            }
 
             return (
               <div 
@@ -294,13 +355,31 @@ export default function MachineTable({
                   display: 'flex', 
                   flexDirection: 'column', 
                   justify: 'space-between',
-                  border: isInstalled ? '1px solid rgba(16, 185, 129, 0.4)' : (m.clienteAsignado ? '1px solid rgba(168, 85, 247, 0.4)' : '1px solid var(--border-color)'),
-                  background: isInstalled ? 'rgba(16, 185, 129, 0.05)' : (m.clienteAsignado ? 'rgba(168, 85, 247, 0.05)' : 'rgba(31, 41, 61, 0.6)')
+                  border: cardBorder,
+                  borderLeft: borderLeftStyle,
+                  background: cardBg
                 }}
               >
                 <div>
                   <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8, marginBottom: 10 }}>
-                    <h4 style={{ fontSize: '1rem', fontWeight: 700 }}>{m.modelo}</h4>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                      <h4 style={{ fontSize: '1rem', fontWeight: 700 }}>{m.modelo}</h4>
+                      {hasComment && (
+                        <span 
+                          className="badge" 
+                          style={{ 
+                            background: 'rgba(6, 182, 212, 0.25)', 
+                            color: '#22d3ee', 
+                            border: '1px solid rgba(6, 182, 212, 0.5)',
+                            fontSize: '0.68rem',
+                            padding: '2px 6px'
+                          }}
+                        >
+                          <MessageSquare size={10} />
+                          Nota
+                        </span>
+                      )}
+                    </div>
                     <span className={`badge ${getCondBadgeClass(m.condicion)}`}>
                       Cond. {m.condicion}
                     </span>
@@ -325,13 +404,13 @@ export default function MachineTable({
                         {renderClientBadge(m)}
                       </div>
                     )}
-                    {m.comentarios && (
-                      <div style={{ background: 'rgba(6, 182, 212, 0.08)', border: '1px solid rgba(6, 182, 212, 0.25)', padding: '6px 10px', borderRadius: 6, marginTop: 4 }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 4, color: '#22d3ee', fontSize: '0.72rem', fontWeight: 700, marginBottom: 2 }}>
+                    {hasComment && (
+                      <div style={{ background: 'rgba(6, 182, 212, 0.12)', border: '1px solid rgba(6, 182, 212, 0.4)', padding: '8px 10px', borderRadius: 8, marginTop: 4, boxShadow: '0 2px 8px rgba(6, 182, 212, 0.12)' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 4, color: '#22d3ee', fontSize: '0.74rem', fontWeight: 800, marginBottom: 2 }}>
                           <MessageSquare size={12} />
                           <span>Características Especiales:</span>
                         </div>
-                        <p style={{ fontSize: '0.78rem', color: 'var(--text-main)', lineHeight: 1.3 }}>{m.comentarios}</p>
+                        <p style={{ fontSize: '0.8rem', color: '#ffffff', fontWeight: 500, lineHeight: 1.3 }}>{m.comentarios}</p>
                       </div>
                     )}
                     <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-subdued)', fontSize: '0.75rem', marginTop: 2 }}>

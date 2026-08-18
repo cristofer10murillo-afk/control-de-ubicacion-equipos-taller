@@ -1,5 +1,5 @@
 import React from 'react';
-import { Filter, RotateCcw, Building2, CheckCircle2, Layers, UserCheck } from 'lucide-react';
+import { Filter, RotateCcw, Building2, CheckCircle2, Layers, UserCheck, MessageSquare } from 'lucide-react';
 
 export default function MachineFilters({ 
   filters, 
@@ -16,7 +16,7 @@ export default function MachineFilters({
   };
 
   const handleScopeFilter = (scope) => {
-    // scope: 'ALL' | 'BODEGA' | 'INSTALADO' | 'CLIENTE_ASIGNADO'
+    // scope: 'ALL' | 'BODEGA' | 'INSTALADO' | 'CLIENTE_ASIGNADO' | 'CON_COMENTARIO'
     if (scope === 'ALL') {
       setFilters(prev => ({ ...prev, scope: '', ubicacion: '' }));
     } else if (scope === 'INSTALADO') {
@@ -25,6 +25,8 @@ export default function MachineFilters({
       setFilters(prev => ({ ...prev, scope: 'BODEGA', ubicacion: '' }));
     } else if (scope === 'CLIENTE_ASIGNADO') {
       setFilters(prev => ({ ...prev, scope: 'CLIENTE_ASIGNADO', ubicacion: '' }));
+    } else if (scope === 'CON_COMENTARIO') {
+      setFilters(prev => ({ ...prev, scope: 'CON_COMENTARIO', ubicacion: '' }));
     }
   };
 
@@ -68,6 +70,22 @@ export default function MachineFilters({
           >
             <Building2 size={15} color="#22d3ee" />
             <span>En Bodega / Taller</span>
+          </button>
+
+          <button 
+            type="button"
+            onClick={() => handleScopeFilter('CON_COMENTARIO')}
+            className={`btn ${filters.scope === 'CON_COMENTARIO' ? 'btn-primary' : 'btn-secondary'}`}
+            style={{ 
+              fontSize: '0.8rem', 
+              padding: '6px 12px',
+              background: filters.scope === 'CON_COMENTARIO' ? 'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)' : 'rgba(255, 255, 255, 0.05)',
+              color: filters.scope === 'CON_COMENTARIO' ? '#ffffff' : '#22d3ee',
+              borderColor: 'rgba(6, 182, 212, 0.4)'
+            }}
+          >
+            <MessageSquare size={15} />
+            <span>Con Notas / Características</span>
           </button>
 
           <button 

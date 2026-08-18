@@ -25,7 +25,7 @@ export default function App() {
 
   // Advanced Filters State
   const [filters, setFilters] = useState({
-    scope: '', // '' (ALL) | 'BODEGA' | 'INSTALADO' | 'CLIENTE_ASIGNADO'
+    scope: '', // '' (ALL) | 'BODEGA' | 'INSTALADO' | 'CLIENTE_ASIGNADO' | 'CON_COMENTARIO'
     modelo: '',
     condicion: '',
     activo: '',
@@ -72,11 +72,13 @@ export default function App() {
     return machines.filter(m => {
       const loc = (m.ubicacion || '').toUpperCase().trim();
       const isInstalled = loc === 'INSTALADO';
+      const hasComment = Boolean(m.comentarios && m.comentarios.trim());
 
       // Scope Pill Filter
       if (filters.scope === 'INSTALADO' && !isInstalled) return false;
       if (filters.scope === 'BODEGA' && isInstalled) return false;
       if (filters.scope === 'CLIENTE_ASIGNADO' && !m.clienteAsignado) return false;
+      if (filters.scope === 'CON_COMENTARIO' && !hasComment) return false;
 
       // Global Search (including comentarios / características especiales)
       if (searchQuery.trim()) {
