@@ -78,7 +78,7 @@ export default function App() {
       if (filters.scope === 'BODEGA' && isInstalled) return false;
       if (filters.scope === 'CLIENTE_ASIGNADO' && !m.clienteAsignado) return false;
 
-      // Global Search
+      // Global Search (including comentarios / características especiales)
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase().trim();
         const matchGlobal = 
@@ -88,6 +88,7 @@ export default function App() {
           (m.condicion && m.condicion.toLowerCase().includes(q)) ||
           (m.ubicacion && m.ubicacion.toLowerCase().includes(q)) ||
           (m.nombreCliente && m.nombreCliente.toLowerCase().includes(q)) ||
+          (m.comentarios && m.comentarios.toLowerCase().includes(q)) ||
           (m.responsable && m.responsable.toLowerCase().includes(q));
         if (!matchGlobal) return false;
       }

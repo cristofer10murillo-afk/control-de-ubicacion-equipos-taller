@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Plus, Edit3, Tag, Key, Barcode, MapPin, User, UserCheck, AlertCircle } from 'lucide-react';
+import { X, Plus, Edit3, Tag, Key, Barcode, MapPin, User, UserCheck, AlertCircle, MessageSquare } from 'lucide-react';
 
 const DEFAULT_MODELS = [
   'Maestro',
@@ -61,6 +61,7 @@ export default function AddEditMachineModal({
     responsable: '',
     clienteAsignado: false,
     nombreCliente: '',
+    comentarios: '',
     notas: ''
   });
 
@@ -88,6 +89,7 @@ export default function AddEditMachineModal({
         responsable: machine.responsable || '',
         clienteAsignado: Boolean(machine.clienteAsignado),
         nombreCliente: machine.nombreCliente || '',
+        comentarios: machine.comentarios || '',
         notas: ''
       });
 
@@ -171,6 +173,7 @@ export default function AddEditMachineModal({
         responsable: formData.responsable,
         clienteAsignado: formData.clienteAsignado,
         nombreCliente: formData.nombreCliente,
+        comentarios: formData.comentarios ? formData.comentarios.trim() : '',
         notas: formData.notas
       };
 
@@ -400,6 +403,22 @@ export default function AddEditMachineModal({
                   />
                 </div>
               )}
+            </div>
+
+            {/* Características Especiales / Comentarios */}
+            <div style={{ gridColumn: '1 / -1' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.85rem', fontWeight: 600, marginBottom: 6 }}>
+                <MessageSquare size={15} color="var(--accent-cyan)" />
+                Características Especiales / Comentarios:
+              </label>
+              <textarea 
+                rows={3}
+                className="input-control"
+                placeholder="Ej. Requiere transformador 220V, incluye molino adicional, faltan accesorios, detalle estético en puerta..."
+                value={formData.comentarios}
+                onChange={(e) => setFormData(prev => ({ ...prev, comentarios: e.target.value }))}
+                style={{ resize: 'vertical' }}
+              />
             </div>
 
           </div>

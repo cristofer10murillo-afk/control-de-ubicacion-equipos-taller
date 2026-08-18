@@ -12,7 +12,8 @@ import {
   PackageCheck,
   CheckCircle2,
   Building2,
-  UserCheck
+  UserCheck,
+  MessageSquare
 } from 'lucide-react';
 
 export default function MachineTable({ 
@@ -154,7 +155,7 @@ export default function MachineTable({
                 <th style={{ padding: '12px 14px' }}>Condición</th>
                 <th style={{ padding: '12px 14px' }}>Ubicación / Estado</th>
                 <th style={{ padding: '12px 14px' }}>Reserva / Cliente</th>
-                <th style={{ padding: '12px 14px' }}>Responsable</th>
+                <th style={{ padding: '12px 14px' }}>Características / Notas</th>
                 <th style={{ padding: '12px 14px', textAlign: 'right' }}>Acciones</th>
               </tr>
             </thead>
@@ -200,8 +201,31 @@ export default function MachineTable({
                     <td style={{ padding: '14px' }}>
                       {renderClientBadge(m) || <span style={{ fontSize: '0.75rem', color: 'var(--text-subdued)' }}>Sin asignar</span>}
                     </td>
-                    <td style={{ padding: '14px', color: 'var(--text-muted)', fontSize: '0.8rem' }}>
-                      {m.responsable || 'Sistema'}
+                    <td style={{ padding: '14px', maxWidth: 220 }}>
+                      {m.comentarios ? (
+                        <div 
+                          style={{ 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            gap: 6, 
+                            background: 'rgba(6, 182, 212, 0.1)', 
+                            color: '#22d3ee', 
+                            padding: '4px 8px', 
+                            borderRadius: 6, 
+                            border: '1px solid rgba(6, 182, 212, 0.3)',
+                            fontSize: '0.78rem',
+                            lineHeight: 1.3
+                          }}
+                          title={m.comentarios}
+                        >
+                          <MessageSquare size={13} style={{ flexShrink: 0 }} />
+                          <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                            {m.comentarios}
+                          </span>
+                        </div>
+                      ) : (
+                        <span style={{ fontSize: '0.75rem', color: 'var(--text-subdued)' }}>-</span>
+                      )}
                     </td>
                     <td style={{ padding: '14px', textAlign: 'right' }}>
                       <div style={{ display: 'inline-flex', gap: 6 }}>
@@ -232,7 +256,7 @@ export default function MachineTable({
                         <button 
                           onClick={() => onEditClick(m)}
                           className="btn btn-icon"
-                          title="Editar máquina"
+                          title="Editar máquina / comentarios"
                         >
                           <Edit3 size={15} color="var(--text-muted)" />
                         </button>
@@ -301,6 +325,15 @@ export default function MachineTable({
                         {renderClientBadge(m)}
                       </div>
                     )}
+                    {m.comentarios && (
+                      <div style={{ background: 'rgba(6, 182, 212, 0.08)', border: '1px solid rgba(6, 182, 212, 0.25)', padding: '6px 10px', borderRadius: 6, marginTop: 4 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 4, color: '#22d3ee', fontSize: '0.72rem', fontWeight: 700, marginBottom: 2 }}>
+                          <MessageSquare size={12} />
+                          <span>Características Especiales:</span>
+                        </div>
+                        <p style={{ fontSize: '0.78rem', color: 'var(--text-main)', lineHeight: 1.3 }}>{m.comentarios}</p>
+                      </div>
+                    )}
                     <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-subdued)', fontSize: '0.75rem', marginTop: 2 }}>
                       <span>Resp: {m.responsable || 'N/A'}</span>
                       <span>{m.historial ? `${m.historial.length} reg.` : '1 reg.'}</span>
@@ -329,6 +362,7 @@ export default function MachineTable({
                   <button 
                     onClick={() => onEditClick(m)}
                     className="btn btn-icon"
+                    title="Editar máquina / comentarios"
                   >
                     <Edit3 size={15} />
                   </button>
