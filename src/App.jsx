@@ -238,6 +238,7 @@ export default function App() {
       {(isAddModalOpen || editingMachine) && (
         <AddEditMachineModal 
           machine={editingMachine}
+          allMachines={machines}
           availableModels={availableModels}
           availableLocations={availableLocations}
           onClose={() => {

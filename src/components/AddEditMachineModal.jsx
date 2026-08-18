@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Plus, Edit3, Tag, Key, Barcode, MapPin, User, UserCheck } from 'lucide-react';
+import { X, Plus, Edit3, Tag, Key, Barcode, MapPin, User, UserCheck, AlertCircle } from 'lucide-react';
 
 const DEFAULT_MODELS = [
   'Maestro',
@@ -29,6 +29,7 @@ const DEFAULT_LOCATIONS = [
 
 export default function AddEditMachineModal({ 
   machine, 
+  allMachines = [],
   availableModels = [], 
   availableLocations = [], 
   onClose, 
@@ -65,6 +66,7 @@ export default function AddEditMachineModal({
 
   const [isCustomModel, setIsCustomModel] = useState(false);
   const [isCustomLocation, setIsCustomLocation] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -96,6 +98,7 @@ export default function AddEditMachineModal({
 
   const handleModelChange = (e) => {
     const val = e.target.value;
+    setErrorMessage('');
     if (val === 'OTRO') {
       setIsCustomModel(true);
       setFormData(prev => ({ ...prev, modelo: 'OTRO' }));
@@ -107,6 +110,7 @@ export default function AddEditMachineModal({
 
   const handleLocationChange = (e) => {
     const val = e.target.value;
+    setErrorMessage('');
     if (val === 'OTRA') {
       setIsCustomLocation(true);
       setFormData(prev => ({ ...prev, ubicacion: 'OTRA' }));
@@ -118,20 +122,50 @@ export default function AddEditMachineModal({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage('');
+
     const finalModelo = isCustomModel ? formData.customModelo.trim() : formData.modelo;
     const finalUbicacion = isCustomLocation ? formData.customUbicacion.trim() : formData.ubicacion;
+    const finalActivo = (formData.activo || '').trim();
+    const finalSerie = (formData.serie || '').trim();
 
     if (!finalModelo || !finalUbicacion) {
-      alert('Por favor selecciona un Modelo y una Ubicación válidos.');
+      setErrorMessage('Por favor selecciona un Modelo y una Ubicación válidos.');
       return;
+    }
+
+    // Uniqueness validation for N° Activo
+    if (finalActivo && finalActivo.toUpperCase() !== 'N/A' && !finalActivo.toUpperCase().includes('SIN RESPUESTA') && finalActivo.toUpperCase() !== 'NUEVA') {
+      const duplicateActivo = allMachines.find(m => {
+        if (machine && m.id === machine.id) return false;
+        return (m.activo || '').trim().toUpperCase() === finalActivo.toUpperCase();
+      });
+
+      if (duplicateActivo) {
+        setErrorMessage(`⚠️ El N° de Activo "${finalActivo}" ya existe registrado en la máquina "${duplicateActivo.modelo}" (Serie: ${duplicateActivo.serie}). No se permiten activos duplicados.`);
+        return;
+      }
+    }
+
+    // Uniqueness validation for N° Serie
+    if (finalSerie && finalSerie.toUpperCase() !== 'N/A' && !finalSerie.toUpperCase().includes('SIN RESPUESTA')) {
+      const duplicateSerie = allMachines.find(m => {
+        if (machine && m.id === machine.id) return false;
+        return (m.serie || '').trim().toUpperCase() === finalSerie.toUpperCase();
+      });
+
+      if (duplicateSerie) {
+        setErrorMessage(`⚠️ El N° de Serie "${finalSerie}" ya existe registrado en la máquina "${duplicateSerie.modelo}" (Activo: ${duplicateSerie.activo}). No se permiten series duplicadas.`);
+        return;
+      }
     }
 
     try {
       setIsSubmitting(true);
       const dataToSave = {
         modelo: finalModelo,
-        activo: formData.activo,
-        serie: formData.serie,
+        activo: finalActivo || 'N/A',
+        serie: finalSerie || 'N/A',
         condicion: formData.condicion,
         ubicacion: finalUbicacion,
         responsable: formData.responsable,
@@ -143,7 +177,7 @@ export default function AddEditMachineModal({
       await onSave(dataToSave, machine ? machine.id : null);
       onClose();
     } catch (err) {
-      alert('Error al guardar equipo: ' + err.message);
+      setErrorMessage('Error al guardar equipo: ' + err.message);
     } finally {
       setIsSubmitting(false);
     }
@@ -174,6 +208,25 @@ export default function AddEditMachineModal({
         {/* Form Body */}
         <form onSubmit={handleSubmit} style={{ padding: 24 }}>
           
+          {/* Error Message Banner */}
+          {errorMessage && (
+            <div style={{ 
+              background: 'rgba(244, 63, 94, 0.15)', 
+              border: '1px solid rgba(244, 63, 94, 0.4)', 
+              color: '#f87171', 
+              padding: '12px 16px', 
+              borderRadius: 8, 
+              fontSize: '0.82rem', 
+              marginBottom: 16, 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: 10 
+            }}>
+              <AlertCircle size={20} style={{ flexShrink: 0 }} />
+              <span>{errorMessage}</span>
+            </div>
+          )}
+
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16, marginBottom: 16 }}>
             
             {/* Modelo / Tipo Dropdown Select */}
@@ -210,14 +263,17 @@ export default function AddEditMachineModal({
             <div>
               <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.85rem', fontWeight: 600, marginBottom: 6 }}>
                 <Key size={15} color="var(--accent-cyan)" />
-                N° Activo:
+                N° Activo (Único):
               </label>
               <input 
                 type="text"
                 className="input-control"
                 placeholder="Ej. MQ016805 o N/A"
                 value={formData.activo}
-                onChange={(e) => setFormData(prev => ({ ...prev, activo: e.target.value }))}
+                onChange={(e) => {
+                  setErrorMessage('');
+                  setFormData(prev => ({ ...prev, activo: e.target.value }));
+                }}
               />
             </div>
 
@@ -225,14 +281,17 @@ export default function AddEditMachineModal({
             <div>
               <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.85rem', fontWeight: 600, marginBottom: 6 }}>
                 <Barcode size={15} color="var(--accent-emerald)" />
-                N° Serie:
+                N° Serie (Único):
               </label>
               <input 
                 type="text"
                 className="input-control"
                 placeholder="Ej. 42420078"
                 value={formData.serie}
-                onChange={(e) => setFormData(prev => ({ ...prev, serie: e.target.value }))}
+                onChange={(e) => {
+                  setErrorMessage('');
+                  setFormData(prev => ({ ...prev, serie: e.target.value }));
+                }}
               />
             </div>
 
