@@ -90,10 +90,12 @@ export default function App() {
       if (filters.scope === 'CLIENTE_ASIGNADO' && !m.clienteAsignado) return false;
       if (filters.scope === 'CON_COMENTARIO' && !hasComment) return false;
 
-      // Global Search (including comentarios / características especiales)
+      // Global Comprehensive Search across all attributes & historical relationships
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase().trim();
-        const matchGlobal = 
+
+        // 1. Direct Field Matches
+        const matchDirect = 
           (m.modelo && m.modelo.toLowerCase().includes(q)) ||
           (m.activo && m.activo.toLowerCase().includes(q)) ||
           (m.serie && m.serie.toLowerCase().includes(q)) ||
@@ -102,7 +104,16 @@ export default function App() {
           (m.nombreCliente && m.nombreCliente.toLowerCase().includes(q)) ||
           (m.comentarios && m.comentarios.toLowerCase().includes(q)) ||
           (m.responsable && m.responsable.toLowerCase().includes(q));
-        if (!matchGlobal) return false;
+
+        // 2. Historical Relationships Match (past locations, past clients, move notes, past responsibles)
+        const matchHistory = Array.isArray(m.historial) && m.historial.some(h => 
+          (h.ubicacionAnterior && h.ubicacionAnterior.toLowerCase().includes(q)) ||
+          (h.ubicacionNueva && h.ubicacionNueva.toLowerCase().includes(q)) ||
+          (h.responsable && h.responsable.toLowerCase().includes(q)) ||
+          (h.notas && h.notas.toLowerCase().includes(q))
+        );
+
+        if (!matchDirect && !matchHistory) return false;
       }
 
       // Advanced Filters
