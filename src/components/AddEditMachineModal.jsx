@@ -141,33 +141,58 @@ export default function AddEditMachineModal({
       return;
     }
 
-    // Check if Activo or Serie matches an existing machine
-    const matchingMachine = allMachines.find(m => {
-      if (machine && m.id === machine.id) return false;
-      const matchAct = finalActivo && finalActivo.toUpperCase() !== 'N/A' && !finalActivo.toUpperCase().includes('SIN RESPUESTA') && finalActivo.toUpperCase() !== 'NUEVA' && (m.activo || '').trim().toUpperCase() === finalActivo.toUpperCase();
-      const matchSer = finalSerie && finalSerie.toUpperCase() !== 'N/A' && !finalSerie.toUpperCase().includes('SIN RESPUESTA') && (m.serie || '').trim().toUpperCase() === finalSerie.toUpperCase();
-      return matchAct || matchSer;
-    });
+    // 1. Strict Duplicate Check for N° Activo
+    if (finalActivo && finalActivo.toUpperCase() !== 'N/A' && !finalActivo.toUpperCase().includes('SIN RESPUESTA') && finalActivo.toUpperCase() !== 'NUEVA') {
+      const matchActivo = allMachines.find(m => {
+        if (machine && m.id === machine.id) return false;
+        return (m.activo || '').trim().toUpperCase() === finalActivo.toUpperCase();
+      });
 
-    if (matchingMachine) {
-      const matchIsInstalled = (matchingMachine.ubicacion || '').toUpperCase().trim() === 'INSTALADO' || matchingMachine.clienteAsignado;
-      const targetIsBodega = finalUbicacion.toUpperCase().trim() !== 'INSTALADO';
+      if (matchActivo) {
+        const isInstalled = (matchActivo.ubicacion || '').toUpperCase().trim() === 'INSTALADO' || matchActivo.clienteAsignado;
+        const targetIsBodega = finalUbicacion.toUpperCase().trim() !== 'INSTALADO';
 
-      // Special Case: Equipment is INSTALADO and user is entering/re-locating it back to Bodega/Taller
-      if (matchIsInstalled && targetIsBodega) {
-        setReentryMatch({
-          machine: matchingMachine,
-          targetLocation: finalUbicacion,
-          finalModelo,
-          finalActivo,
-          finalSerie
-        });
+        if (!isEditing && isInstalled && targetIsBodega) {
+          setReentryMatch({
+            machine: matchActivo,
+            targetLocation: finalUbicacion,
+            finalModelo,
+            finalActivo,
+            finalSerie
+          });
+          return;
+        }
+
+        setErrorMessage(`⚠️ No se puede crear/guardar: El N° de Activo "${finalActivo}" ya existe registrado en la máquina "${matchActivo.modelo}" (Serie: ${matchActivo.serie}, Ubicación: ${matchActivo.ubicacion}). No se permiten activos duplicados.`);
         return;
       }
+    }
 
-      // Otherwise, standard duplicate error
-      setErrorMessage(`⚠️ El equipo (Activo: "${matchingMachine.activo}", Serie: "${matchingMachine.serie}") ya existe registrado en el inventario (${matchingMachine.modelo}). No se permiten registros duplicados.`);
-      return;
+    // 2. Strict Duplicate Check for N° Serie
+    if (finalSerie && finalSerie.toUpperCase() !== 'N/A' && !finalSerie.toUpperCase().includes('SIN RESPUESTA')) {
+      const matchSerie = allMachines.find(m => {
+        if (machine && m.id === machine.id) return false;
+        return (m.serie || '').trim().toUpperCase() === finalSerie.toUpperCase();
+      });
+
+      if (matchSerie) {
+        const isInstalled = (matchSerie.ubicacion || '').toUpperCase().trim() === 'INSTALADO' || matchSerie.clienteAsignado;
+        const targetIsBodega = finalUbicacion.toUpperCase().trim() !== 'INSTALADO';
+
+        if (!isEditing && isInstalled && targetIsBodega) {
+          setReentryMatch({
+            machine: matchSerie,
+            targetLocation: finalUbicacion,
+            finalModelo,
+            finalActivo,
+            finalSerie
+          });
+          return;
+        }
+
+        setErrorMessage(`⚠️ No se puede crear/guardar: El N° de Serie "${finalSerie}" ya existe registrado en la máquina "${matchSerie.modelo}" (Activo: ${matchSerie.activo}, Ubicación: ${matchSerie.ubicacion}). No se permiten series duplicadas.`);
+        return;
+      }
     }
 
     try {
@@ -240,7 +265,7 @@ export default function AddEditMachineModal({
             </div>
             <div>
               <h3 style={{ fontSize: '1.1rem', fontWeight: 700 }}>
-                {isEditing ? 'Editar Registro de Equipo' : 'Agregar / Reingresar Equipo'}
+                {isEditing ? 'Editar Registro de Equipo' : 'Agregar Nuevo Equipo'}
               </h3>
               <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
                 {isEditing ? `Modificar ID: ${machine.id}` : 'Ingrese los datos generales del equipo'}
@@ -522,7 +547,7 @@ export default function AddEditMachineModal({
                   Cancelar
                 </button>
                 <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
-                  {isSubmitting ? 'Guardando...' : (isEditing ? 'Guardar Cambios' : 'Crear / Guardar Equipo')}
+                  {isSubmitting ? 'Guardando...' : (isEditing ? 'Guardar Cambios' : 'Crear Equipo')}
                 </button>
               </div>
             </>
