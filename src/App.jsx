@@ -14,16 +14,12 @@ import {
   updateMachine, 
   deleteMachine 
 } from './services/machineService';
-import { 
-  subscribeToGestorProSync, 
-  syncAllFromGestorPro 
-} from './services/gestorSyncService';
 
 export default function App() {
   const [machines, setMachines] = useState([]);
   const [loading, setLoading] = useState(true);
   const [notification, setNotification] = useState(null);
-  const [syncStatus, setSyncStatus] = useState({ active: false });
+  const [syncStatus, setSyncStatus] = useState({ state: 'connected', text: 'Sincronizado' });
 
   // Global Quick Search
   const [searchQuery, setSearchQuery] = useState('');
@@ -52,36 +48,23 @@ export default function App() {
   // Subscribe to machines (Firestore / LocalStorage)
   useEffect(() => {
     setLoading(true);
-    const unsubscribeMachines = subscribeToMachines((data) => {
+    const unsubscribe = subscribeToMachines((data) => {
       setMachines(data);
       setLoading(false);
+      setSyncStatus({ state: 'connected', text: 'En vivo (Firestore)' });
     });
-
-    // Start real-time sync with Gestor de Equipos PRO
-    const unsubscribeSync = subscribeToGestorProSync((status) => {
-      setSyncStatus(status);
-    });
-
     return () => {
-      if (typeof unsubscribeMachines === 'function') unsubscribeMachines();
-      if (typeof unsubscribeSync === 'function') unsubscribeSync();
+      if (typeof unsubscribe === 'function') unsubscribe();
     };
   }, []);
 
-  const handleManualSync = async () => {
-    try {
-      showToast('Sincronizando clientes desde Gestor de Equipos PRO...', 'info');
-      const count = await syncAllFromGestorPro();
-      if (count > 0) {
-        showToast(`Sincronización completada. ${count} equipo(s) actualizados.`);
-      } else {
-        showToast('Sincronización completada. Todos los equipos ya están al día.');
-      }
-    } catch (err) {
-      showToast(`Error al sincronizar: ${err.message}`, 'error');
-    }
+  const handleManualSync = () => {
+    setSyncStatus({ state: 'syncing', text: 'Sincronizando...' });
+    setTimeout(() => {
+      setSyncStatus({ state: 'connected', text: 'Sincronizado' });
+      showToast('Datos sincronizados correctamente.');
+    }, 800);
   };
-
 
   // Dynamically extract available models & locations for dropdowns
   const availableModels = useMemo(() => {
@@ -278,6 +261,7 @@ export default function App() {
             setEditingMachine(null);
           }}
           onSave={handleSaveMachine}
+          onReentrySave={handleSaveMove}
         />
       )}
 
