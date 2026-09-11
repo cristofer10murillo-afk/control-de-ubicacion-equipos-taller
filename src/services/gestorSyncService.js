@@ -88,17 +88,50 @@ export const subscribeToGestorProSync = (onStatusChange) => {
           const updates = {};
           let changed = false;
 
-          // 1. Client sync & auto-set Condición A when assigned to a client
+          // 1. Client sync & history recording of previous clients
           if (hasValidClient) {
             if (!targetMachine.clienteAsignado || targetMachine.nombreCliente !== rawClient || targetMachine.condicion !== 'A') {
+              const oldClientName = targetMachine.nombreCliente || 'Sin cliente';
+              const nowStr = new Date().toLocaleString('es-CR');
+
               updates.clienteAsignado = true;
               updates.nombreCliente = rawClient;
               updates.condicion = 'A';
+
+              // Record history of client change if client name actually changed
+              if (targetMachine.nombreCliente !== rawClient) {
+                const clientHistEntry = {
+                  id: `HIST-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+                  fecha: nowStr,
+                  ubicacionAnterior: targetMachine.ubicacion || 'Bodega/Taller',
+                  ubicacionNueva: isOperativo ? 'INSTALADO' : (targetMachine.ubicacion || 'Bodega/Taller'),
+                  responsable: 'Gestor PRO (Auto)',
+                  notas: targetMachine.clienteAsignado && oldClientName !== 'Sin cliente'
+                    ? `Reasignación de cliente: Anterior ("${oldClientName}") ➔ Nuevo ("${rawClient}")`
+                    : `Asignación de cliente: "${rawClient}"`
+                };
+                updates.historial = [clientHistEntry, ...(updates.historial || targetMachine.historial || [])];
+              }
+
               changed = true;
             }
           } else if (eq.equipoRetirado || (rawClient.toLowerCase().startsWith('[retirado') && targetMachine.clienteAsignado)) {
+            const oldClientName = targetMachine.nombreCliente || 'Cliente';
+            const nowStr = new Date().toLocaleString('es-CR');
+
             updates.clienteAsignado = false;
             updates.nombreCliente = '';
+            
+            const clientHistEntry = {
+              id: `HIST-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+              fecha: nowStr,
+              ubicacionAnterior: targetMachine.ubicacion || 'Bodega/Taller',
+              ubicacionNueva: targetMachine.ubicacion || 'Bodega/Taller',
+              responsable: 'Gestor PRO (Auto)',
+              notas: `Cliente retirado / desasignado (Cliente anterior: "${oldClientName}")`
+            };
+            updates.historial = [clientHistEntry, ...(updates.historial || targetMachine.historial || [])];
+
             changed = true;
           }
 
@@ -107,17 +140,17 @@ export const subscribeToGestorProSync = (onStatusChange) => {
             const nowStr = new Date().toLocaleString('es-CR');
             const oldLoc = targetMachine.ubicacion || 'Bodega/Taller';
             updates.ubicacion = 'INSTALADO';
-            updates.historial = [
-              {
-                id: `HIST-${Date.now()}`,
-                fecha: nowStr,
-                ubicacionAnterior: oldLoc,
-                ubicacionNueva: 'INSTALADO',
-                responsable: 'Gestor PRO (Auto)',
-                notas: `Marcado como Equipo Operativo (Instalado fuera de taller para cliente ${rawClient || targetMachine.nombreCliente || 'Cliente'})`
-              },
-              ...(targetMachine.historial || [])
-            ];
+            
+            const locationHistEntry = {
+              id: `HIST-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+              fecha: nowStr,
+              ubicacionAnterior: oldLoc,
+              ubicacionNueva: 'INSTALADO',
+              responsable: 'Gestor PRO (Auto)',
+              notas: `Marcado como Equipo Operativo (Instalado fuera de taller para cliente: ${rawClient || targetMachine.nombreCliente || 'Cliente'})`
+            };
+            updates.historial = [locationHistEntry, ...(updates.historial || targetMachine.historial || [])];
+            
             changed = true;
           }
 
@@ -189,9 +222,27 @@ export const syncAllFromGestorPro = async () => {
 
       if (hasValidClient) {
         if (!targetMachine.clienteAsignado || targetMachine.nombreCliente !== rawClient || targetMachine.condicion !== 'A') {
+          const oldClientName = targetMachine.nombreCliente || 'Sin cliente';
+          const nowStr = new Date().toLocaleString('es-CR');
+
           updates.clienteAsignado = true;
           updates.nombreCliente = rawClient;
           updates.condicion = 'A';
+
+          if (targetMachine.nombreCliente !== rawClient) {
+            const clientHistEntry = {
+              id: `HIST-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+              fecha: nowStr,
+              ubicacionAnterior: targetMachine.ubicacion || 'Bodega/Taller',
+              ubicacionNueva: isOperativo ? 'INSTALADO' : (targetMachine.ubicacion || 'Bodega/Taller'),
+              responsable: 'Gestor PRO (Auto)',
+              notas: targetMachine.clienteAsignado && oldClientName !== 'Sin cliente'
+                ? `Reasignación de cliente: Anterior ("${oldClientName}") ➔ Nuevo ("${rawClient}")`
+                : `Asignación de cliente: "${rawClient}"`
+            };
+            updates.historial = [clientHistEntry, ...(updates.historial || targetMachine.historial || [])];
+          }
+
           changed = true;
         }
       }
@@ -200,17 +251,17 @@ export const syncAllFromGestorPro = async () => {
         const nowStr = new Date().toLocaleString('es-CR');
         const oldLoc = targetMachine.ubicacion || 'Bodega/Taller';
         updates.ubicacion = 'INSTALADO';
-        updates.historial = [
-          {
-            id: `HIST-${Date.now()}`,
-            fecha: nowStr,
-            ubicacionAnterior: oldLoc,
-            ubicacionNueva: 'INSTALADO',
-            responsable: 'Gestor PRO (Auto)',
-            notas: `Marcado como Equipo Operativo (Instalado fuera de taller para cliente ${rawClient || targetMachine.nombreCliente || 'Cliente'})`
-          },
-          ...(targetMachine.historial || [])
-        ];
+
+        const locationHistEntry = {
+          id: `HIST-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+          fecha: nowStr,
+          ubicacionAnterior: oldLoc,
+          ubicacionNueva: 'INSTALADO',
+          responsable: 'Gestor PRO (Auto)',
+          notas: `Marcado como Equipo Operativo (Instalado fuera de taller para cliente: ${rawClient || targetMachine.nombreCliente || 'Cliente'})`
+        };
+        updates.historial = [locationHistEntry, ...(updates.historial || targetMachine.historial || [])];
+
         changed = true;
       }
 
