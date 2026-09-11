@@ -43,6 +43,9 @@ const getFreshLocalMachines = () => {
 
 /**
  * Process single equipo doc from Gestor PRO into Control de Ubicación
+ * Rules:
+ * 1. When equipo is LISTO (equipoListo === true || equipoOperativo === true || valid client): sync client name & set Condición A.
+ * 2. When equipo is OPERATIVO (equipoOperativo === true): set location to INSTALADO (Fuera de taller) & add to history.
  */
 const syncSingleEquipo = async (eq, currentMachines) => {
   if (!eq) return false;
@@ -52,6 +55,12 @@ const syncSingleEquipo = async (eq, currentMachines) => {
 
   if (!eqActivo && !eqSerie) return false;
 
+  const isListo = Boolean(eq.equipoListo);
+  const isOperativo = Boolean(eq.equipoOperativo);
+  const rawClient = eq.cliente ? eq.cliente.trim() : '';
+  const hasValidClient = isValidClient(rawClient);
+
+  // Match existing machine by Activo or Serie
   const targetMachine = currentMachines.find(m => {
     const mActivo = normalizeKey(m.activo);
     const mSerie = normalizeKey(m.serie);
@@ -59,16 +68,14 @@ const syncSingleEquipo = async (eq, currentMachines) => {
            (eqSerie && eqSerie !== 'NA' && mSerie === eqSerie);
   });
 
-  const rawClient = eq.cliente ? eq.cliente.trim() : '';
-  const hasValidClient = isValidClient(rawClient);
-  const isOperativo = Boolean(eq.equipoOperativo);
+  const shouldSyncClientAndCondition = (isListo || isOperativo || hasValidClient) && hasValidClient;
 
   if (targetMachine) {
     const updates = {};
     let changed = false;
 
-    // 1. Client sync & history recording
-    if (hasValidClient) {
+    // RULE 1: Sincronizar Cliente y Condición A cuando el equipo pasa a LISTO u OPERATIVO
+    if (shouldSyncClientAndCondition) {
       if (!targetMachine.clienteAsignado || targetMachine.nombreCliente !== rawClient || targetMachine.condicion !== 'A') {
         const oldClientName = targetMachine.nombreCliente || 'Sin cliente';
         const nowStr = new Date().toLocaleString('es-CR');
@@ -85,8 +92,8 @@ const syncSingleEquipo = async (eq, currentMachines) => {
             ubicacionNueva: isOperativo ? 'INSTALADO' : (targetMachine.ubicacion || 'Bodega/Taller'),
             responsable: 'Gestor PRO (Auto)',
             notas: targetMachine.clienteAsignado && oldClientName !== 'Sin cliente'
-              ? `Reasignación de cliente: Anterior ("${oldClientName}") ➔ Nuevo ("${rawClient}")`
-              : `Asignación de cliente: "${rawClient}"`
+              ? `Reasignación de cliente: Anterior ("${oldClientName}") ➔ Nuevo ("${rawClient}") [Equipo Listo]`
+              : `Asignación de cliente en Equipos Listos: "${rawClient}"`
           };
           updates.historial = [clientHistEntry, ...(updates.historial || targetMachine.historial || [])];
         }
@@ -113,7 +120,7 @@ const syncSingleEquipo = async (eq, currentMachines) => {
       changed = true;
     }
 
-    // 2. Operativo status -> INSTALADO location sync
+    // RULE 2: Cuando el equipo pasa a OPERATIVO -> Ubicación cambia automáticamente a INSTALADO (Fuera de taller)
     if (isOperativo && targetMachine.ubicacion !== 'INSTALADO') {
       const nowStr = new Date().toLocaleString('es-CR');
       const oldLoc = targetMachine.ubicacion || 'Bodega/Taller';
@@ -125,7 +132,7 @@ const syncSingleEquipo = async (eq, currentMachines) => {
         ubicacionAnterior: oldLoc,
         ubicacionNueva: 'INSTALADO',
         responsable: 'Gestor PRO (Auto)',
-        notas: `Marcado como Equipo Operativo (Instalado fuera de taller para cliente: ${rawClient || targetMachine.nombreCliente || 'Cliente'})`
+        notas: `Equipo promovido a OPERATIVO (Instalado fuera de taller para cliente: ${rawClient || targetMachine.nombreCliente || 'Cliente'})`
       };
       updates.historial = [locationHistEntry, ...(updates.historial || targetMachine.historial || [])];
       
@@ -136,21 +143,22 @@ const syncSingleEquipo = async (eq, currentMachines) => {
       await updateMachine(targetMachine.id, updates);
       return true;
     }
-  } else {
-    // Machine exists in Gestor de Equipos PRO but NOT YET in Control de Ubicación -> AUTO-CREATE IT!
+  } else if (shouldSyncClientAndCondition || isOperativo) {
+    // Machine exists in Gestor PRO and has reached LISTO or OPERATIVO status, but NOT YET in Control de Ubicación -> AUTO-CREATE IT!
     const modelName = (eq.modelo || eq.tipoTrabajo || eq.marcaModelo || 'Equipo Gestor PRO').trim();
     const nowStr = new Date().toLocaleString('es-CR');
+    const initialLocation = isOperativo ? 'INSTALADO' : (eq.lugar || eq.terminal || 'BODEGA / TALLER').trim();
 
     await addMachine({
       modelo: modelName,
       activo: eq.activo ? eq.activo.trim() : 'N/A',
       serie: eq.serie ? eq.serie.trim() : 'N/A',
-      condicion: hasValidClient ? 'A' : 'C',
-      ubicacion: isOperativo ? 'INSTALADO' : (eq.lugar || eq.terminal || 'BODEGA / TALLER').trim(),
+      condicion: shouldSyncClientAndCondition ? 'A' : 'C',
+      ubicacion: initialLocation,
       responsable: eq.tecnico || 'Gestor PRO (Auto)',
       clienteAsignado: hasValidClient,
       nombreCliente: hasValidClient ? rawClient : '',
-      notas: `Equipo importado automáticamente desde Gestor de Equipos PRO (${nowStr})`
+      notas: `Sincronizado automáticamente desde Gestor PRO (Estado: ${isOperativo ? 'Operativo' : 'Listo'})`
     });
     return true;
   }
@@ -170,7 +178,6 @@ export const subscribeToGestorProSync = (onStatusChange) => {
   try {
     const equiposRef = collection(gestorDb, 'equipos');
 
-    // Notify status active immediately on init
     if (onStatusChange) {
       onStatusChange({ active: true, lastSyncTime: new Date().toLocaleTimeString('es-CR') });
     }
