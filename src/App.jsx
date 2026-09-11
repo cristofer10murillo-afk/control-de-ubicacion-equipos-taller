@@ -72,7 +72,11 @@ export default function App() {
     try {
       showToast('Sincronizando clientes desde Gestor de Equipos PRO...', 'info');
       const count = await syncAllFromGestorPro();
-      showToast(`Sincronización completada. ${count} equipo(s) actualizados con cliente.`);
+      if (count > 0) {
+        showToast(`Sincronización completada. ${count} equipo(s) actualizados.`);
+      } else {
+        showToast('Sincronización completada. Todos los equipos ya están al día.');
+      }
     } catch (err) {
       showToast(`Error al sincronizar: ${err.message}`, 'error');
     }

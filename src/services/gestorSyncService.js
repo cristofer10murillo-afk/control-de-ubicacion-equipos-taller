@@ -29,6 +29,19 @@ const isValidClient = (clientStr) => {
 };
 
 /**
+ * Helper to get fresh local machines list
+ */
+const getFreshLocalMachines = () => {
+  try {
+    const stored = localStorage.getItem('workshop_machines_data');
+    if (stored) return JSON.parse(stored);
+  } catch (e) {
+    console.error('Error reading local machines:', e);
+  }
+  return [];
+};
+
+/**
  * Subscribe to real-time updates from Gestor de Equipos PRO
  */
 export const subscribeToGestorProSync = (onStatusChange) => {
@@ -40,13 +53,10 @@ export const subscribeToGestorProSync = (onStatusChange) => {
   try {
     const equiposRef = collection(gestorDb, 'equipos');
 
-    const unsubscribe = onSnapshot(equiposRef, (snapshot) => {
+    const unsubscribe = onSnapshot(equiposRef, async (snapshot) => {
       let syncCount = 0;
-      
-      // Get current local machines from localStorage cache
-      const stored = localStorage.getItem('workshop_machines_data');
-      if (!stored) return;
-      const currentMachines = JSON.parse(stored);
+      const currentMachines = getFreshLocalMachines();
+      if (currentMachines.length === 0) return;
 
       // Create lookup maps for fast matching by Activo and Serie
       const machineByActivo = new Map();
@@ -60,9 +70,9 @@ export const subscribeToGestorProSync = (onStatusChange) => {
         if (normSerie && normSerie !== 'NA') machineBySerie.set(normSerie, m);
       });
 
-      snapshot.docs.forEach(docSnap => {
+      for (const docSnap of snapshot.docs) {
         const eq = docSnap.data();
-        if (!eq) return;
+        if (!eq) continue;
 
         const eqActivo = normalizeKey(eq.activo);
         const eqSerie = normalizeKey(eq.serie);
@@ -112,11 +122,11 @@ export const subscribeToGestorProSync = (onStatusChange) => {
           }
 
           if (changed) {
-            updateMachine(targetMachine.id, updates);
+            await updateMachine(targetMachine.id, updates);
             syncCount++;
           }
         }
-      });
+      }
 
       if (onStatusChange) {
         onStatusChange({
@@ -145,26 +155,23 @@ export const syncAllFromGestorPro = async () => {
   if (!gestorDb) throw new Error('Conexión a Gestor de Equipos PRO no disponible.');
 
   const snapshot = await getDocs(collection(gestorDb, 'equipos'));
-  const stored = localStorage.getItem('workshop_machines_data');
-  if (!stored) return 0;
-  const currentMachines = JSON.parse(stored);
-
-  const machineByActivo = new Map();
-  const machineBySerie = new Map();
-
-  currentMachines.forEach(m => {
-    const normActivo = normalizeKey(m.activo);
-    const normSerie = normalizeKey(m.serie);
-
-    if (normActivo && normActivo !== 'NA') machineByActivo.set(normActivo, m);
-    if (normSerie && normSerie !== 'NA') machineBySerie.set(normSerie, m);
-  });
-
   let syncedCount = 0;
 
-  snapshot.docs.forEach(docSnap => {
+  for (const docSnap of snapshot.docs) {
     const eq = docSnap.data();
-    if (!eq) return;
+    if (!eq) continue;
+
+    const currentMachines = getFreshLocalMachines();
+    const machineByActivo = new Map();
+    const machineBySerie = new Map();
+
+    currentMachines.forEach(m => {
+      const normActivo = normalizeKey(m.activo);
+      const normSerie = normalizeKey(m.serie);
+
+      if (normActivo && normActivo !== 'NA') machineByActivo.set(normActivo, m);
+      if (normSerie && normSerie !== 'NA') machineBySerie.set(normSerie, m);
+    });
 
     const eqActivo = normalizeKey(eq.activo);
     const eqSerie = normalizeKey(eq.serie);
@@ -208,11 +215,11 @@ export const syncAllFromGestorPro = async () => {
       }
 
       if (changed) {
-        updateMachine(targetMachine.id, updates);
+        await updateMachine(targetMachine.id, updates);
         syncedCount++;
       }
     }
-  });
+  }
 
   return syncedCount;
 };
