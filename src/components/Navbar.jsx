@@ -3,7 +3,8 @@ import {
   Plus, 
   FileSpreadsheet, 
   Search,
-  Download
+  RefreshCw,
+  Zap
 } from 'lucide-react';
 import * as XLSX from 'xlsx';
 import PWAInstallPrompt from './PWAInstallPrompt';
@@ -12,7 +13,9 @@ export default function Navbar({
   searchQuery, 
   setSearchQuery, 
   onOpenAddModal,
-  machines
+  machines,
+  syncStatus,
+  onManualSync
 }) {
   // Export current inventory directly to Excel
   const handleExportExcel = () => {
@@ -28,6 +31,7 @@ export default function Navbar({
       'N° Serie': m.serie,
       Condicion: m.condicion,
       Ubicacion: m.ubicacion,
+      'Reserva / Cliente': m.clienteAsignado ? m.nombreCliente : 'Sin asignar',
       Responsable: m.responsable,
       'Correo electrónico': m.correo,
       'Fecha Ingreso': m.fechaIngreso,
@@ -53,9 +57,30 @@ export default function Navbar({
             style={{ width: 44, height: 44, borderRadius: 12, objectFit: 'cover', boxShadow: '0 4px 14px rgba(99, 102, 241, 0.4)' }} 
           />
           <div>
-            <h1 style={{ fontSize: '1.25rem', fontWeight: 800, letterSpacing: '-0.02em', background: 'linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-              Control de Ubicación de Equipos
-            </h1>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <h1 style={{ fontSize: '1.25rem', fontWeight: 800, letterSpacing: '-0.02em', background: 'linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                Control de Ubicación de Equipos
+              </h1>
+              {syncStatus?.active && (
+                <span 
+                  className="badge" 
+                  style={{ 
+                    background: 'rgba(16, 185, 129, 0.2)', 
+                    color: '#34d399', 
+                    border: '1px solid rgba(16, 185, 129, 0.4)',
+                    fontSize: '0.7rem',
+                    padding: '3px 8px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 4
+                  }}
+                  title={`Sincronización automática activa con Gestor de Equipos PRO. Última act: ${syncStatus.lastSyncTime || 'Reciente'}`}
+                >
+                  <Zap size={11} color="#34d399" />
+                  Sync PRO Activo
+                </span>
+              )}
+            </div>
             <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
               Taller & Bodega | Tiempo Real
             </p>
@@ -68,7 +93,7 @@ export default function Navbar({
           <input 
             type="text"
             className="input-control"
-            placeholder="Buscar por activo, serie, modelo, condición o ubicación..."
+            placeholder="Buscar por activo, serie, cliente, modelo, ubicación..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             style={{ paddingLeft: 42, background: 'rgba(15, 23, 42, 0.9)' }}
@@ -80,6 +105,17 @@ export default function Navbar({
           
           {/* PWA Install Button */}
           <PWAInstallPrompt />
+
+          {/* Sync Button */}
+          <button 
+            onClick={onManualSync}
+            className="btn btn-secondary"
+            title="Forzar actualización manual de clientes desde Gestor de Equipos PRO"
+            style={{ fontSize: '0.82rem' }}
+          >
+            <RefreshCw size={15} color="#c084fc" />
+            <span>Sincronizar Clientes</span>
+          </button>
 
           {/* Export to Excel Button */}
           <button 
@@ -107,3 +143,4 @@ export default function Navbar({
     </header>
   );
 }
+

@@ -14,11 +14,16 @@ import {
   updateMachine, 
   deleteMachine 
 } from './services/machineService';
+import { 
+  subscribeToGestorProSync, 
+  syncAllFromGestorPro 
+} from './services/gestorSyncService';
 
 export default function App() {
   const [machines, setMachines] = useState([]);
   const [loading, setLoading] = useState(true);
   const [notification, setNotification] = useState(null);
+  const [syncStatus, setSyncStatus] = useState({ active: false });
 
   // Global Quick Search
   const [searchQuery, setSearchQuery] = useState('');
@@ -47,14 +52,32 @@ export default function App() {
   // Subscribe to machines (Firestore / LocalStorage)
   useEffect(() => {
     setLoading(true);
-    const unsubscribe = subscribeToMachines((data) => {
+    const unsubscribeMachines = subscribeToMachines((data) => {
       setMachines(data);
       setLoading(false);
     });
+
+    // Start real-time sync with Gestor de Equipos PRO
+    const unsubscribeSync = subscribeToGestorProSync((status) => {
+      setSyncStatus(status);
+    });
+
     return () => {
-      if (typeof unsubscribe === 'function') unsubscribe();
+      if (typeof unsubscribeMachines === 'function') unsubscribeMachines();
+      if (typeof unsubscribeSync === 'function') unsubscribeSync();
     };
   }, []);
+
+  const handleManualSync = async () => {
+    try {
+      showToast('Sincronizando clientes desde Gestor de Equipos PRO...', 'info');
+      const count = await syncAllFromGestorPro();
+      showToast(`Sincronización completada. ${count} equipo(s) actualizados con cliente.`);
+    } catch (err) {
+      showToast(`Error al sincronizar: ${err.message}`, 'error');
+    }
+  };
+
 
   // Dynamically extract available models & locations for dropdowns
   const availableModels = useMemo(() => {
@@ -182,6 +205,8 @@ export default function App() {
         setSearchQuery={setSearchQuery}
         onOpenAddModal={() => setIsAddModalOpen(true)}
         machines={machines}
+        syncStatus={syncStatus}
+        onManualSync={handleManualSync}
       />
 
       {/* Main Container */}

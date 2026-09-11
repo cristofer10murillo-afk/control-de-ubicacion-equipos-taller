@@ -42,16 +42,36 @@ export const isFirebaseConfigured = Boolean(
 let app = null;
 let db = null;
 let auth = null;
+let gestorApp = null;
+let gestorDb = null;
+
+export const GESTOR_PRO_FIREBASE_CONFIG = {
+  apiKey: import.meta.env.VITE_GESTOR_FIREBASE_API_KEY || 'AIzaSyBSdiVpgstJrbBq5KdRoEvMNoKNK9O_VRA',
+  authDomain: import.meta.env.VITE_GESTOR_FIREBASE_AUTH_DOMAIN || 'gestor-de-equipos-pro-3ed23.firebaseapp.com',
+  projectId: import.meta.env.VITE_GESTOR_FIREBASE_PROJECT_ID || 'gestor-de-equipos-pro-3ed23',
+  storageBucket: import.meta.env.VITE_GESTOR_FIREBASE_STORAGE_BUCKET || 'gestor-de-equipos-pro-3ed23.firebasestorage.app',
+  messagingSenderId: import.meta.env.VITE_GESTOR_FIREBASE_MESSAGING_SENDER_ID || '474923440909',
+  appId: import.meta.env.VITE_GESTOR_FIREBASE_APP_ID || '1:474923440909:web:1b3103e793bf4a19512e44'
+};
 
 if (isFirebaseConfigured) {
   try {
-    app = !getApps().length ? initializeApp(currentConfig) : getApp();
+    const apps = getApps();
+    const mainApp = apps.find(a => a.name === '[DEFAULT]');
+    app = mainApp || initializeApp(currentConfig);
     db = getFirestore(app);
     auth = getAuth(app);
     console.log('Firebase initialized successfully with project:', currentConfig.projectId);
+
+    // Initialize secondary app connection to Gestor de Equipos PRO
+    const gApp = apps.find(a => a.name === 'GestorProSyncApp');
+    gestorApp = gApp || initializeApp(GESTOR_PRO_FIREBASE_CONFIG, 'GestorProSyncApp');
+    gestorDb = getFirestore(gestorApp);
+    console.log('Gestor de Equipos PRO Sync connection initialized.');
   } catch (error) {
     console.error('Error initializing Firebase:', error);
   }
 }
 
-export { app, db, auth };
+export { app, db, auth, gestorApp, gestorDb };
+
