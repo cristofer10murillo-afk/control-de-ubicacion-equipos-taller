@@ -78,11 +78,12 @@ export const subscribeToGestorProSync = (onStatusChange) => {
           const updates = {};
           let changed = false;
 
-          // 1. Client sync
+          // 1. Client sync & auto-set Condición A when assigned to a client
           if (hasValidClient) {
-            if (!targetMachine.clienteAsignado || targetMachine.nombreCliente !== rawClient) {
+            if (!targetMachine.clienteAsignado || targetMachine.nombreCliente !== rawClient || targetMachine.condicion !== 'A') {
               updates.clienteAsignado = true;
               updates.nombreCliente = rawClient;
+              updates.condicion = 'A';
               changed = true;
             }
           } else if (eq.equipoRetirado || (rawClient.toLowerCase().startsWith('[retirado') && targetMachine.clienteAsignado)) {
@@ -180,9 +181,10 @@ export const syncAllFromGestorPro = async () => {
       let changed = false;
 
       if (hasValidClient) {
-        if (!targetMachine.clienteAsignado || targetMachine.nombreCliente !== rawClient) {
+        if (!targetMachine.clienteAsignado || targetMachine.nombreCliente !== rawClient || targetMachine.condicion !== 'A') {
           updates.clienteAsignado = true;
           updates.nombreCliente = rawClient;
+          updates.condicion = 'A';
           changed = true;
         }
       }
