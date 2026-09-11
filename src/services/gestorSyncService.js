@@ -73,22 +73,45 @@ export const subscribeToGestorProSync = (onStatusChange) => {
         if (targetMachine) {
           const rawClient = eq.cliente ? eq.cliente.trim() : '';
           const hasValidClient = isValidClient(rawClient);
+          const isOperativo = Boolean(eq.equipoOperativo);
 
+          const updates = {};
+          let changed = false;
+
+          // 1. Client sync
           if (hasValidClient) {
-            // Update client name if changed or newly assigned
             if (!targetMachine.clienteAsignado || targetMachine.nombreCliente !== rawClient) {
-              updateMachine(targetMachine.id, {
-                clienteAsignado: true,
-                nombreCliente: rawClient
-              });
-              syncCount++;
+              updates.clienteAsignado = true;
+              updates.nombreCliente = rawClient;
+              changed = true;
             }
           } else if (eq.equipoRetirado || (rawClient.toLowerCase().startsWith('[retirado') && targetMachine.clienteAsignado)) {
-            // If retired in Gestor PRO and currently assigned in Taller, unassign
-            updateMachine(targetMachine.id, {
-              clienteAsignado: false,
-              nombreCliente: ''
-            });
+            updates.clienteAsignado = false;
+            updates.nombreCliente = '';
+            changed = true;
+          }
+
+          // 2. Operativo status -> INSTALADO location sync
+          if (isOperativo && targetMachine.ubicacion !== 'INSTALADO') {
+            const nowStr = new Date().toLocaleString('es-CR');
+            const oldLoc = targetMachine.ubicacion || 'Bodega/Taller';
+            updates.ubicacion = 'INSTALADO';
+            updates.historial = [
+              {
+                id: `HIST-${Date.now()}`,
+                fecha: nowStr,
+                ubicacionAnterior: oldLoc,
+                ubicacionNueva: 'INSTALADO',
+                responsable: 'Gestor PRO (Auto)',
+                notas: `Marcado como Equipo Operativo (Instalado fuera de taller para cliente ${rawClient || targetMachine.nombreCliente || 'Cliente'})`
+              },
+              ...(targetMachine.historial || [])
+            ];
+            changed = true;
+          }
+
+          if (changed) {
+            updateMachine(targetMachine.id, updates);
             syncCount++;
           }
         }
@@ -150,14 +173,41 @@ export const syncAllFromGestorPro = async () => {
 
     if (targetMachine) {
       const rawClient = eq.cliente ? eq.cliente.trim() : '';
-      if (isValidClient(rawClient)) {
+      const hasValidClient = isValidClient(rawClient);
+      const isOperativo = Boolean(eq.equipoOperativo);
+
+      const updates = {};
+      let changed = false;
+
+      if (hasValidClient) {
         if (!targetMachine.clienteAsignado || targetMachine.nombreCliente !== rawClient) {
-          updateMachine(targetMachine.id, {
-            clienteAsignado: true,
-            nombreCliente: rawClient
-          });
-          syncedCount++;
+          updates.clienteAsignado = true;
+          updates.nombreCliente = rawClient;
+          changed = true;
         }
+      }
+
+      if (isOperativo && targetMachine.ubicacion !== 'INSTALADO') {
+        const nowStr = new Date().toLocaleString('es-CR');
+        const oldLoc = targetMachine.ubicacion || 'Bodega/Taller';
+        updates.ubicacion = 'INSTALADO';
+        updates.historial = [
+          {
+            id: `HIST-${Date.now()}`,
+            fecha: nowStr,
+            ubicacionAnterior: oldLoc,
+            ubicacionNueva: 'INSTALADO',
+            responsable: 'Gestor PRO (Auto)',
+            notas: `Marcado como Equipo Operativo (Instalado fuera de taller para cliente ${rawClient || targetMachine.nombreCliente || 'Cliente'})`
+          },
+          ...(targetMachine.historial || [])
+        ];
+        changed = true;
+      }
+
+      if (changed) {
+        updateMachine(targetMachine.id, updates);
+        syncedCount++;
       }
     }
   });
