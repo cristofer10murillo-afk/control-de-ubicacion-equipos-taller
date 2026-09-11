@@ -68,21 +68,21 @@ export default function App() {
 
   // Dynamically extract available models & locations for dropdowns
   const availableModels = useMemo(() => {
-    const set = new Set(machines.map(m => m.modelo).filter(Boolean));
+    const set = new Set(machines.map(m => String(m.modelo || '')).filter(Boolean));
     return Array.from(set).sort();
   }, [machines]);
 
   const availableLocations = useMemo(() => {
-    const set = new Set(machines.map(m => m.ubicacion).filter(Boolean));
+    const set = new Set(machines.map(m => String(m.ubicacion || '')).filter(Boolean));
     return Array.from(set).sort();
   }, [machines]);
 
   // Filter machines based on search + scope + advanced filters
   const filteredMachines = useMemo(() => {
     return machines.filter(m => {
-      const loc = (m.ubicacion || '').toUpperCase().trim();
+      const loc = String(m.ubicacion || '').toUpperCase().trim();
       const isInstalled = loc === 'INSTALADO';
-      const hasComment = Boolean(m.comentarios && m.comentarios.trim());
+      const hasComment = Boolean(m.comentarios && String(m.comentarios).trim());
 
       // Scope Pill Filter
       if (filters.scope === 'INSTALADO' && !isInstalled) return false;
@@ -93,35 +93,46 @@ export default function App() {
       // Global Comprehensive Search across all attributes & historical relationships
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase().trim();
+        const cleanQ = q.replace(/[^a-z0-9]/g, ''); // Stripped spaces/hyphens for flexible series/activo matching
 
-        // 1. Direct Field Matches
+        const valModelo = String(m.modelo || '').toLowerCase();
+        const valActivo = String(m.activo || '').toLowerCase();
+        const valSerie = String(m.serie || '').toLowerCase();
+        const valCondicion = String(m.condicion || '').toLowerCase();
+        const valUbicacion = String(m.ubicacion || '').toLowerCase();
+        const valCliente = String(m.nombreCliente || '').toLowerCase();
+        const valComentarios = String(m.comentarios || '').toLowerCase();
+        const valResponsable = String(m.responsable || '').toLowerCase();
+
+        // 1. Direct Field Matches (exact substring or cleaned numeric match)
         const matchDirect = 
-          (m.modelo && m.modelo.toLowerCase().includes(q)) ||
-          (m.activo && m.activo.toLowerCase().includes(q)) ||
-          (m.serie && m.serie.toLowerCase().includes(q)) ||
-          (m.condicion && m.condicion.toLowerCase().includes(q)) ||
-          (m.ubicacion && m.ubicacion.toLowerCase().includes(q)) ||
-          (m.nombreCliente && m.nombreCliente.toLowerCase().includes(q)) ||
-          (m.comentarios && m.comentarios.toLowerCase().includes(q)) ||
-          (m.responsable && m.responsable.toLowerCase().includes(q));
+          valModelo.includes(q) ||
+          valActivo.includes(q) || valActivo.replace(/[^a-z0-9]/g, '').includes(cleanQ) ||
+          valSerie.includes(q) || valSerie.replace(/[^a-z0-9]/g, '').includes(cleanQ) ||
+          valCondicion.includes(q) ||
+          valUbicacion.includes(q) ||
+          valCliente.includes(q) ||
+          valComentarios.includes(q) ||
+          valResponsable.includes(q);
 
         // 2. Historical Relationships Match (past locations, past clients, move notes, past responsibles)
-        const matchHistory = Array.isArray(m.historial) && m.historial.some(h => 
-          (h.ubicacionAnterior && h.ubicacionAnterior.toLowerCase().includes(q)) ||
-          (h.ubicacionNueva && h.ubicacionNueva.toLowerCase().includes(q)) ||
-          (h.responsable && h.responsable.toLowerCase().includes(q)) ||
-          (h.notas && h.notas.toLowerCase().includes(q))
-        );
+        const matchHistory = Array.isArray(m.historial) && m.historial.some(h => {
+          const hAnt = String(h.ubicacionAnterior || '').toLowerCase();
+          const hNue = String(h.ubicacionNueva || '').toLowerCase();
+          const hResp = String(h.responsable || '').toLowerCase();
+          const hNot = String(h.notas || '').toLowerCase();
+          return hAnt.includes(q) || hNue.includes(q) || hResp.includes(q) || hNot.includes(q);
+        });
 
         if (!matchDirect && !matchHistory) return false;
       }
 
       // Advanced Filters
-      if (filters.modelo && m.modelo !== filters.modelo) return false;
-      if (filters.condicion && m.condicion !== filters.condicion) return false;
-      if (filters.activo && (!m.activo || !m.activo.toLowerCase().includes(filters.activo.toLowerCase().trim()))) return false;
-      if (filters.serie && (!m.serie || !m.serie.toLowerCase().includes(filters.serie.toLowerCase().trim()))) return false;
-      if (filters.ubicacion && m.ubicacion !== filters.ubicacion) return false;
+      if (filters.modelo && String(m.modelo) !== filters.modelo) return false;
+      if (filters.condicion && String(m.condicion) !== filters.condicion) return false;
+      if (filters.activo && (!m.activo || !String(m.activo).toLowerCase().includes(filters.activo.toLowerCase().trim()))) return false;
+      if (filters.serie && (!m.serie || !String(m.serie).toLowerCase().includes(filters.serie.toLowerCase().trim()))) return false;
+      if (filters.ubicacion && String(m.ubicacion) !== filters.ubicacion) return false;
 
       return true;
     });
