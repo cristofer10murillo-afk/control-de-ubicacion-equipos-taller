@@ -46,6 +46,7 @@ const getFreshLocalMachines = () => {
  * Rules:
  * 1. When equipo is LISTO (equipoListo === true || equipoOperativo === true || valid client): sync client name & set Condición A.
  * 2. When equipo is OPERATIVO (equipoOperativo === true): set location to INSTALADO (Fuera de taller) & add to history.
+ * 3. When equipo moves back from OPERATIVO to LISTO (equipoOperativo === false && equipoListo === true) and location is INSTALADO: change location to ANDEN & add to history.
  */
 const syncSingleEquipo = async (eq, currentMachines) => {
   if (!eq) return false;
@@ -139,6 +140,24 @@ const syncSingleEquipo = async (eq, currentMachines) => {
       changed = true;
     }
 
+    // RULE 3: Cuando el equipo regresa de OPERATIVO a LISTOS -> Ubicación cambia de INSTALADO a ANDEN
+    if (!isOperativo && isListo && targetMachine.ubicacion === 'INSTALADO') {
+      const nowStr = new Date().toLocaleString('es-CR');
+      updates.ubicacion = 'ANDEN';
+
+      const returnHistEntry = {
+        id: `HIST-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+        fecha: nowStr,
+        ubicacionAnterior: 'INSTALADO',
+        ubicacionNueva: 'ANDEN',
+        responsable: 'Gestor PRO (Auto)',
+        notas: `Retornado de Operativos a Equipos Listos en Gestor PRO (Ubicación de taller actualizada a ANDEN)`
+      };
+      updates.historial = [returnHistEntry, ...(updates.historial || targetMachine.historial || [])];
+
+      changed = true;
+    }
+
     if (changed) {
       await updateMachine(targetMachine.id, updates);
       return true;
@@ -147,7 +166,7 @@ const syncSingleEquipo = async (eq, currentMachines) => {
     // Machine exists in Gestor PRO and has reached LISTO or OPERATIVO status, but NOT YET in Control de Ubicación -> AUTO-CREATE IT!
     const modelName = (eq.modelo || eq.tipoTrabajo || eq.marcaModelo || 'Equipo Gestor PRO').trim();
     const nowStr = new Date().toLocaleString('es-CR');
-    const initialLocation = isOperativo ? 'INSTALADO' : (eq.lugar || eq.terminal || 'BODEGA / TALLER').trim();
+    const initialLocation = isOperativo ? 'INSTALADO' : (eq.lugar || eq.terminal || 'ANDEN').trim();
 
     await addMachine({
       modelo: modelName,
