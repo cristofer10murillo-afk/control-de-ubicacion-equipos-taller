@@ -71,13 +71,20 @@ const syncSingleEquipo = async (eq, currentMachines) => {
 
   const eqComentario = String(eq.comentario || eq.comentarios || '').trim();
   const rawClient = eq.cliente ? eq.cliente.trim() : '';
+
+  // Detect retired equipment in Gestor PRO (including '[RETIRADO...]' in comment)
   const isRetirado = parseBool(eq.equipoRetirado) || 
-                     eqComentario.toLowerCase().includes('[retirado') || 
+                     eqComentario.toLowerCase().includes('retirado') || 
                      rawClient.toLowerCase().startsWith('[retirado');
+
+  // Skip syncing retired records from Gestor PRO
+  if (isRetirado) {
+    return false;
+  }
 
   const isListo = parseBool(eq.equipoListo);
   const isOperativo = parseBool(eq.equipoOperativo) || String(eq.estado || '').toLowerCase() === 'operativo';
-  const hasValidClient = isValidClient(rawClient) && !isRetirado;
+  const hasValidClient = isValidClient(rawClient);
 
   // Match existing machine by Activo or Serie
   const targetMachine = currentMachines.find(m => {
@@ -93,11 +100,7 @@ const syncSingleEquipo = async (eq, currentMachines) => {
     const updates = {};
     let changed = false;
 
-    // Sync comment if changed
-    if ((targetMachine.comentarios || '') !== eqComentario) {
-      updates.comentarios = eqComentario;
-      changed = true;
-    }
+    // NOTE: Comentarios are intentionally NOT synced. Each app keeps independent comments.
 
     // RULE 1: Sincronizar Cliente y Condición A cuando el equipo pasa a LISTO u OPERATIVO
     if (shouldSyncClientAndCondition) {
@@ -122,26 +125,6 @@ const syncSingleEquipo = async (eq, currentMachines) => {
           };
           updates.historial = [clientHistEntry, ...(updates.historial || targetMachine.historial || [])];
         }
-
-        changed = true;
-      }
-    } else if (isRetirado || (rawClient.toLowerCase().startsWith('[retirado') && targetMachine.clienteAsignado)) {
-      if (targetMachine.clienteAsignado || targetMachine.nombreCliente) {
-        const oldClientName = targetMachine.nombreCliente || 'Cliente';
-        const nowStr = new Date().toLocaleString('es-CR');
-
-        updates.clienteAsignado = false;
-        updates.nombreCliente = '';
-        
-        const clientHistEntry = {
-          id: `HIST-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
-          fecha: nowStr,
-          ubicacionAnterior: targetMachine.ubicacion || 'Bodega/Taller',
-          ubicacionNueva: targetMachine.ubicacion || 'Bodega/Taller',
-          responsable: 'Gestor PRO (Auto)',
-          notas: `Cliente retirado / desasignado (Cliente anterior: "${oldClientName}")`
-        };
-        updates.historial = [clientHistEntry, ...(updates.historial || targetMachine.historial || [])];
 
         changed = true;
       }
@@ -191,7 +174,6 @@ const syncSingleEquipo = async (eq, currentMachines) => {
   } else if (shouldSyncClientAndCondition || isOperativo) {
     // Machine exists in Gestor PRO and has reached LISTO or OPERATIVO status, but NOT YET in Control de Ubicación -> AUTO-CREATE IT!
     const modelName = (eq.modelo || eq.tipoTrabajo || eq.marcaModelo || 'Equipo Gestor PRO').trim();
-    const nowStr = new Date().toLocaleString('es-CR');
     const initialLocation = isOperativo ? 'INSTALADO' : (eq.lugar || eq.terminal || 'ANDEN').trim();
 
     await addMachine({
@@ -203,7 +185,7 @@ const syncSingleEquipo = async (eq, currentMachines) => {
       responsable: eq.tecnico || 'Gestor PRO (Auto)',
       clienteAsignado: hasValidClient,
       nombreCliente: hasValidClient ? rawClient : '',
-      comentarios: eqComentario,
+      comentarios: '', // Keep comments independent
       notas: `Sincronizado automáticamente desde Gestor PRO (Estado: ${isOperativo ? 'Operativo' : 'Listo'})`
     });
     return true;
