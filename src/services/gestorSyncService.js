@@ -96,11 +96,18 @@ const syncSingleEquipo = async (eq, currentMachines) => {
 
   const shouldSyncClientAndCondition = (isListo || isOperativo || hasValidClient) && hasValidClient;
 
+  // Determine machine type from Gestor PRO (tipoEquipo || modelo || marcaModelo)
+  const eqTipoModelo = (eq.tipoEquipo || eq.modelo || eq.marcaModelo || '').trim();
+
   if (targetMachine) {
     const updates = {};
     let changed = false;
 
-    // NOTE: Comentarios are intentionally NOT synced. Each app keeps independent comments.
+    // Sync Modelo / Tipo de Equipo if present in Gestor PRO and valid
+    if (eqTipoModelo && eqTipoModelo.toUpperCase() !== 'PENDIENTE' && targetMachine.modelo !== eqTipoModelo) {
+      updates.modelo = eqTipoModelo;
+      changed = true;
+    }
 
     // RULE 1: Sincronizar Cliente y Condición A cuando el equipo pasa a LISTO u OPERATIVO
     if (shouldSyncClientAndCondition) {
@@ -173,7 +180,7 @@ const syncSingleEquipo = async (eq, currentMachines) => {
     }
   } else if (shouldSyncClientAndCondition || isOperativo) {
     // Machine exists in Gestor PRO and has reached LISTO or OPERATIVO status, but NOT YET in Control de Ubicación -> AUTO-CREATE IT!
-    const modelName = (eq.modelo || eq.marcaModelo || 'Sin Especificar').trim();
+    const modelName = (eqTipoModelo && eqTipoModelo.toUpperCase() !== 'PENDIENTE') ? eqTipoModelo : 'Sin Especificar';
     const initialLocation = isOperativo ? 'INSTALADO' : 'ANDEN';
 
     await addMachine({
