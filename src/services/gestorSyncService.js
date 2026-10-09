@@ -173,8 +173,8 @@ const syncSingleEquipo = async (eq, currentMachines) => {
     }
   } else if (shouldSyncClientAndCondition || isOperativo) {
     // Machine exists in Gestor PRO and has reached LISTO or OPERATIVO status, but NOT YET in Control de Ubicación -> AUTO-CREATE IT!
-    const modelName = (eq.modelo || eq.tipoTrabajo || eq.marcaModelo || 'Equipo Gestor PRO').trim();
-    const initialLocation = isOperativo ? 'INSTALADO' : (eq.lugar || eq.terminal || 'ANDEN').trim();
+    const modelName = (eq.modelo || eq.marcaModelo || 'Sin Especificar').trim();
+    const initialLocation = isOperativo ? 'INSTALADO' : 'ANDEN';
 
     await addMachine({
       modelo: modelName,
