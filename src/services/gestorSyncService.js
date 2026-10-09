@@ -69,10 +69,15 @@ const syncSingleEquipo = async (eq, currentMachines) => {
 
   if (!eqActivo && !eqSerie) return false;
 
+  const eqComentario = String(eq.comentario || eq.comentarios || '').trim();
+  const rawClient = eq.cliente ? eq.cliente.trim() : '';
+  const isRetirado = parseBool(eq.equipoRetirado) || 
+                     eqComentario.toLowerCase().includes('[retirado') || 
+                     rawClient.toLowerCase().startsWith('[retirado');
+
   const isListo = parseBool(eq.equipoListo);
   const isOperativo = parseBool(eq.equipoOperativo) || String(eq.estado || '').toLowerCase() === 'operativo';
-  const rawClient = eq.cliente ? eq.cliente.trim() : '';
-  const hasValidClient = isValidClient(rawClient);
+  const hasValidClient = isValidClient(rawClient) && !isRetirado;
 
   // Match existing machine by Activo or Serie
   const targetMachine = currentMachines.find(m => {
@@ -87,6 +92,12 @@ const syncSingleEquipo = async (eq, currentMachines) => {
   if (targetMachine) {
     const updates = {};
     let changed = false;
+
+    // Sync comment if changed
+    if ((targetMachine.comentarios || '') !== eqComentario) {
+      updates.comentarios = eqComentario;
+      changed = true;
+    }
 
     // RULE 1: Sincronizar Cliente y Condición A cuando el equipo pasa a LISTO u OPERATIVO
     if (shouldSyncClientAndCondition) {
@@ -114,24 +125,26 @@ const syncSingleEquipo = async (eq, currentMachines) => {
 
         changed = true;
       }
-    } else if (eq.equipoRetirado || (rawClient.toLowerCase().startsWith('[retirado') && targetMachine.clienteAsignado)) {
-      const oldClientName = targetMachine.nombreCliente || 'Cliente';
-      const nowStr = new Date().toLocaleString('es-CR');
+    } else if (isRetirado || (rawClient.toLowerCase().startsWith('[retirado') && targetMachine.clienteAsignado)) {
+      if (targetMachine.clienteAsignado || targetMachine.nombreCliente) {
+        const oldClientName = targetMachine.nombreCliente || 'Cliente';
+        const nowStr = new Date().toLocaleString('es-CR');
 
-      updates.clienteAsignado = false;
-      updates.nombreCliente = '';
-      
-      const clientHistEntry = {
-        id: `HIST-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
-        fecha: nowStr,
-        ubicacionAnterior: targetMachine.ubicacion || 'Bodega/Taller',
-        ubicacionNueva: targetMachine.ubicacion || 'Bodega/Taller',
-        responsable: 'Gestor PRO (Auto)',
-        notas: `Cliente retirado / desasignado (Cliente anterior: "${oldClientName}")`
-      };
-      updates.historial = [clientHistEntry, ...(updates.historial || targetMachine.historial || [])];
+        updates.clienteAsignado = false;
+        updates.nombreCliente = '';
+        
+        const clientHistEntry = {
+          id: `HIST-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+          fecha: nowStr,
+          ubicacionAnterior: targetMachine.ubicacion || 'Bodega/Taller',
+          ubicacionNueva: targetMachine.ubicacion || 'Bodega/Taller',
+          responsable: 'Gestor PRO (Auto)',
+          notas: `Cliente retirado / desasignado (Cliente anterior: "${oldClientName}")`
+        };
+        updates.historial = [clientHistEntry, ...(updates.historial || targetMachine.historial || [])];
 
-      changed = true;
+        changed = true;
+      }
     }
 
     // RULE 2: Cuando el equipo pasa a OPERATIVO -> Ubicación cambia automáticamente a INSTALADO (Fuera de taller)
@@ -190,6 +203,7 @@ const syncSingleEquipo = async (eq, currentMachines) => {
       responsable: eq.tecnico || 'Gestor PRO (Auto)',
       clienteAsignado: hasValidClient,
       nombreCliente: hasValidClient ? rawClient : '',
+      comentarios: eqComentario,
       notas: `Sincronizado automáticamente desde Gestor PRO (Estado: ${isOperativo ? 'Operativo' : 'Listo'})`
     });
     return true;
