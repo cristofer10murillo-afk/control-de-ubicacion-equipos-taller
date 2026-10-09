@@ -11,6 +11,19 @@ const normalizeKey = (str) => {
 };
 
 /**
+ * Robust boolean parser for Firestore values
+ */
+const parseBool = (val) => {
+  if (typeof val === 'boolean') return val;
+  if (typeof val === 'number') return val === 1;
+  if (typeof val === 'string') {
+    const s = val.trim().toLowerCase();
+    return s === 'true' || s === '1' || s === 'si' || s === 'sí';
+  }
+  return Boolean(val);
+};
+
+/**
  * Check if client string is a valid assigned client name
  */
 const isValidClient = (clientStr) => {
@@ -56,8 +69,8 @@ const syncSingleEquipo = async (eq, currentMachines) => {
 
   if (!eqActivo && !eqSerie) return false;
 
-  const isListo = Boolean(eq.equipoListo);
-  const isOperativo = Boolean(eq.equipoOperativo);
+  const isListo = parseBool(eq.equipoListo);
+  const isOperativo = parseBool(eq.equipoOperativo) || String(eq.estado || '').toLowerCase() === 'operativo';
   const rawClient = eq.cliente ? eq.cliente.trim() : '';
   const hasValidClient = isValidClient(rawClient);
 
@@ -122,7 +135,7 @@ const syncSingleEquipo = async (eq, currentMachines) => {
     }
 
     // RULE 2: Cuando el equipo pasa a OPERATIVO -> Ubicación cambia automáticamente a INSTALADO (Fuera de taller)
-    if (isOperativo && targetMachine.ubicacion !== 'INSTALADO') {
+    if (isOperativo && (targetMachine.ubicacion || '').toUpperCase().trim() !== 'INSTALADO') {
       const nowStr = new Date().toLocaleString('es-CR');
       const oldLoc = targetMachine.ubicacion || 'Bodega/Taller';
       updates.ubicacion = 'INSTALADO';
@@ -141,7 +154,7 @@ const syncSingleEquipo = async (eq, currentMachines) => {
     }
 
     // RULE 3: Cuando el equipo regresa de OPERATIVO a LISTOS -> Ubicación cambia de INSTALADO a ANDEN
-    if (!isOperativo && isListo && targetMachine.ubicacion === 'INSTALADO') {
+    if (!isOperativo && isListo && (targetMachine.ubicacion || '').toUpperCase().trim() === 'INSTALADO') {
       const nowStr = new Date().toLocaleString('es-CR');
       updates.ubicacion = 'ANDEN';
 
