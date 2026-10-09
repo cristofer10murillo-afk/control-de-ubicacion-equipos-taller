@@ -14,6 +14,10 @@ import {
   updateMachine, 
   deleteMachine 
 } from './services/machineService';
+import { 
+  subscribeToGestorProSync, 
+  syncAllFromGestorPro 
+} from './services/gestorSyncService';
 
 export default function App() {
   const [machines, setMachines] = useState([]);
@@ -45,25 +49,38 @@ export default function App() {
     setTimeout(() => setNotification(null), 4000);
   };
 
-  // Subscribe to machines (Firestore / LocalStorage)
+  // Subscribe to machines (Firestore / LocalStorage) and Gestor PRO sync
   useEffect(() => {
     setLoading(true);
-    const unsubscribe = subscribeToMachines((data) => {
+    const unsubscribeMachines = subscribeToMachines((data) => {
       setMachines(data);
       setLoading(false);
       setSyncStatus({ state: 'connected', text: 'En vivo (Firestore)' });
     });
+
+    const unsubscribeGestor = subscribeToGestorProSync((status) => {
+      if (status && status.error) {
+        console.warn('Gestor PRO Sync warning:', status.error);
+      }
+    });
+
     return () => {
-      if (typeof unsubscribe === 'function') unsubscribe();
+      if (typeof unsubscribeMachines === 'function') unsubscribeMachines();
+      if (typeof unsubscribeGestor === 'function') unsubscribeGestor();
     };
   }, []);
 
-  const handleManualSync = () => {
+  const handleManualSync = async () => {
     setSyncStatus({ state: 'syncing', text: 'Sincronizando...' });
-    setTimeout(() => {
+    try {
+      const count = await syncAllFromGestorPro();
       setSyncStatus({ state: 'connected', text: 'Sincronizado' });
-      showToast('Datos sincronizados correctamente.');
-    }, 800);
+      showToast(count > 0 ? `Sincronización completada. ${count} equipo(s) actualizados.` : 'Todos los equipos ya están al día.');
+    } catch (err) {
+      console.error('Error during manual sync:', err);
+      setSyncStatus({ state: 'error', text: 'Error' });
+      showToast('Error al conectar con Gestor PRO para sincronizar.', 'error');
+    }
   };
 
   // Dynamically extract available models & locations for dropdowns
