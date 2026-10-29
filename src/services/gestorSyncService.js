@@ -1,6 +1,6 @@
 import { collection, onSnapshot, getDocs } from 'firebase/firestore';
 import { gestorDb } from '../firebase/config';
-import { updateMachine, addMachine } from './machineService';
+import { updateMachine } from './machineService';
 
 /**
  * Clean string for accurate matching (removes special chars, extra spaces, upper case)
@@ -178,24 +178,6 @@ const syncSingleEquipo = async (eq, currentMachines) => {
       await updateMachine(targetMachine.id, updates);
       return true;
     }
-  } else if (shouldSyncClientAndCondition || isOperativo) {
-    // Machine exists in Gestor PRO and has reached LISTO or OPERATIVO status, but NOT YET in Control de Ubicación -> AUTO-CREATE IT!
-    const modelName = (eqTipoModelo && eqTipoModelo.toUpperCase() !== 'PENDIENTE') ? eqTipoModelo : 'Sin Especificar';
-    const initialLocation = isOperativo ? 'INSTALADO' : 'ANDEN';
-
-    await addMachine({
-      modelo: modelName,
-      activo: eq.activo ? eq.activo.trim() : 'N/A',
-      serie: eq.serie ? eq.serie.trim() : 'N/A',
-      condicion: shouldSyncClientAndCondition ? 'A' : 'C',
-      ubicacion: initialLocation,
-      responsable: eq.tecnico || 'Gestor PRO (Auto)',
-      clienteAsignado: hasValidClient,
-      nombreCliente: hasValidClient ? rawClient : '',
-      comentarios: '', // Keep comments independent
-      notas: `Sincronizado automáticamente desde Gestor PRO (Estado: ${isOperativo ? 'Operativo' : 'Listo'})`
-    });
-    return true;
   }
 
   return false;
