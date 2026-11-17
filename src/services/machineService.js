@@ -16,6 +16,38 @@ let latestMachinesCache = [];
 
 export const getCachedMachines = () => latestMachinesCache;
 
+// Provider registered by gestorSyncService to acknowledge current Gestor PRO operative orders when user moves a machine manually
+let gestorOperativeProvider = null;
+
+export const registerGestorOperativeProvider = (providerFn) => {
+  gestorOperativeProvider = providerFn;
+};
+
+const getAcknowledgedOperativeFields = (machine, targetLocation) => {
+  const isTargetBodega = String(targetLocation || '').toUpperCase().trim() !== 'INSTALADO';
+  if (!isTargetBodega) {
+    return { acknowledgePendingOperativeOnNextSync: false };
+  }
+
+  const existingIds = Array.isArray(machine?.processedGestorOperativoIds)
+    ? machine.processedGestorOperativoIds
+    : [];
+
+  if (typeof gestorOperativeProvider === 'function') {
+    const { loaded, operativeIds } = gestorOperativeProvider(machine);
+    const mergedIds = Array.from(new Set([...existingIds, ...(operativeIds || [])]));
+    return {
+      processedGestorOperativoIds: mergedIds,
+      acknowledgePendingOperativeOnNextSync: !loaded
+    };
+  }
+
+  return {
+    processedGestorOperativoIds: existingIds,
+    acknowledgePendingOperativeOnNextSync: true
+  };
+};
+
 /**
  * Recursively strip undefined values so Firestore never rejects a write
  */
@@ -213,6 +245,11 @@ export const addMachine = async (newMachineData) => {
   const newId = generateDeterministicId(newMachineData.activo, newMachineData.serie);
   const nowStr = new Date().toLocaleString('es-CR');
 
+  const ackFields = getAcknowledgedOperativeFields(
+    { activo: newMachineData.activo, serie: newMachineData.serie, processedGestorOperativoIds: [] },
+    newMachineData.ubicacion
+  );
+
   const machineObj = stripUndefined({
     id: newId,
     excelId: nextExcelId,
@@ -227,6 +264,7 @@ export const addMachine = async (newMachineData) => {
     comentarios: newMachineData.comentarios ? String(newMachineData.comentarios).trim() : '',
     fechaIngreso: nowStr,
     fechaActualizacion: nowStr,
+    ...ackFields,
     historial: [
       {
         id: `HIST-${Date.now()}`,
@@ -282,11 +320,15 @@ export const moveMachine = async (machineId, newLocation, responsable, notas, cl
 
   const updatedHistory = [newHistoryEntry, ...(Array.isArray(machine.historial) ? machine.historial : [])];
 
+  // Acknowledge any current Gestor PRO operative order so this manual location is NEVER reverted
+  const ackFields = getAcknowledgedOperativeFields(machine, cleanNewLocation);
+
   const updatedFields = stripUndefined({
     ubicacion: cleanNewLocation,
     responsable: cleanResponsable,
     fechaActualizacion: nowStr,
-    historial: updatedHistory
+    historial: updatedHistory,
+    ...ackFields
   });
 
   if (typeof clienteAsignado === 'boolean') {
@@ -322,9 +364,22 @@ export const updateMachine = async (machineId, fields) => {
   const machine = localList.find(m => m.id === machineId);
   if (!machine) throw new Error('Máquina no encontrada');
 
+  const { _fromGestorSync, ...cleanInputFields } = fields || {};
   const nowStr = new Date().toLocaleString('es-CR');
+
+  // If user manually edited ubicacion into bodega/taller, acknowledge current Gestor PRO operative order
+  let ackFields = {};
+  if (!_fromGestorSync && cleanInputFields.ubicacion !== undefined) {
+    const prevLoc = String(machine.ubicacion || '').trim().toUpperCase();
+    const nextLoc = String(cleanInputFields.ubicacion || '').trim().toUpperCase();
+    if (prevLoc !== nextLoc || nextLoc !== 'INSTALADO') {
+      ackFields = getAcknowledgedOperativeFields(machine, cleanInputFields.ubicacion);
+    }
+  }
+
   const updatedFields = stripUndefined({
-    ...fields,
+    ...cleanInputFields,
+    ...ackFields,
     fechaActualizacion: nowStr
   });
 
