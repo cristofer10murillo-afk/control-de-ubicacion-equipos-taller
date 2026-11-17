@@ -3,7 +3,6 @@ import {
   doc, 
   onSnapshot, 
   setDoc, 
-  updateDoc, 
   deleteDoc, 
   writeBatch 
 } from 'firebase/firestore';
@@ -11,6 +10,30 @@ import { db, isFirebaseConfigured } from '../firebase/config';
 import initialMachines from '../data/initialMachines.json';
 
 const LOCAL_STORAGE_KEY = 'workshop_machines_data';
+
+// Live in-memory cache synced with Firestore (Single Source of Truth)
+let latestMachinesCache = [];
+
+export const getCachedMachines = () => latestMachinesCache;
+
+/**
+ * Recursively strip undefined values so Firestore never rejects a write
+ */
+const stripUndefined = (val) => {
+  if (Array.isArray(val)) {
+    return val.map(stripUndefined);
+  }
+  if (val && typeof val === 'object') {
+    const clean = {};
+    for (const [k, v] of Object.entries(val)) {
+      if (v !== undefined) {
+        clean[k] = stripUndefined(v);
+      }
+    }
+    return clean;
+  }
+  return val;
+};
 
 // Helper for local storage persistence
 const getLocalMachines = () => {
@@ -28,7 +51,15 @@ const getLocalMachines = () => {
   return initialMachines;
 };
 
+const getCurrentMachines = () => {
+  if (Array.isArray(latestMachinesCache) && latestMachinesCache.length > 0) {
+    return latestMachinesCache;
+  }
+  return getLocalMachines();
+};
+
 const saveLocalMachines = (machines) => {
+  latestMachinesCache = machines;
   try {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(machines));
   } catch (e) {
@@ -48,16 +79,30 @@ const sortMachines = (list) => {
 };
 
 /**
- * Deduplicate machines array by ID, Activo, and Serie
- * Keeps the most recently updated entry and eliminates duplicates
+ * Extract a numeric recency key so deduplication always preserves the newest record
+ */
+const getRecencyKey = (m) => {
+  if (!m) return 0;
+  if (Array.isArray(m.historial) && m.historial.length > 0 && m.historial[0]?.id) {
+    const match = String(m.historial[0].id).match(/HIST-(\d+)/);
+    if (match) return parseInt(match[1], 10);
+  }
+  if (typeof m.excelId === 'number') return m.excelId;
+  return 0;
+};
+
+/**
+ * Deduplicate machines array by ID, Activo, and Serie (pure in-memory, never deletes from Firestore)
+ * Keeps the most recently updated entry and skips older duplicates
  */
 export const deduplicateMachines = (list) => {
+  const ordered = [...list].sort((a, b) => getRecencyKey(b) - getRecencyKey(a));
   const seenIds = new Set();
   const seenActivos = new Map();
   const seenSeries = new Map();
   const result = [];
 
-  for (const m of list) {
+  for (const m of ordered) {
     if (!m || !m.id) continue;
     if (seenIds.has(m.id)) continue;
 
@@ -67,11 +112,7 @@ export const deduplicateMachines = (list) => {
     // Check Activo duplicate (excluding N/A, SIN RESPUESTA, NUEVA)
     if (actClean && actClean !== 'NA' && !actClean.includes('SINRESPUESTA') && actClean !== 'NUEVA') {
       if (seenActivos.has(actClean)) {
-        console.warn(`[Deduplicate] Found duplicate Activo "${m.activo}" (ID: ${m.id}). Skipping older duplicate.`);
-        // Clean up duplicate from Firestore in background if configured
-        if (isFirebaseConfigured && db) {
-          deleteDoc(doc(db, 'maquinas', m.id)).catch(() => {});
-        }
+        console.warn(`[Deduplicate] Found duplicate Activo "${m.activo}" (ID: ${m.id}). Keeping newest (${seenActivos.get(actClean)}).`);
         continue;
       }
       seenActivos.set(actClean, m.id);
@@ -80,10 +121,7 @@ export const deduplicateMachines = (list) => {
     // Check Serie duplicate (excluding N/A, SIN RESPUESTA)
     if (serClean && serClean !== 'NA' && !serClean.includes('SINRESPUESTA')) {
       if (seenSeries.has(serClean)) {
-        console.warn(`[Deduplicate] Found duplicate Serie "${m.serie}" (ID: ${m.id}). Skipping older duplicate.`);
-        if (isFirebaseConfigured && db) {
-          deleteDoc(doc(db, 'maquinas', m.id)).catch(() => {});
-        }
+        console.warn(`[Deduplicate] Found duplicate Serie "${m.serie}" (ID: ${m.id}). Keeping newest (${seenSeries.get(serClean)}).`);
         continue;
       }
       seenSeries.set(serClean, m.id);
@@ -166,7 +204,7 @@ export const subscribeToMachines = (callback) => {
  * Add a new machine with deterministic Document ID
  */
 export const addMachine = async (newMachineData) => {
-  const localList = getLocalMachines();
+  const localList = getCurrentMachines();
   
   // Calculate next excelId for sequence
   const maxExcelId = localList.reduce((max, m) => Math.max(max, Number(m.excelId) || 0), 0);
@@ -175,7 +213,7 @@ export const addMachine = async (newMachineData) => {
   const newId = generateDeterministicId(newMachineData.activo, newMachineData.serie);
   const nowStr = new Date().toLocaleString('es-CR');
 
-  const machineObj = {
+  const machineObj = stripUndefined({
     id: newId,
     excelId: nextExcelId,
     modelo: String(newMachineData.modelo || '').trim(),
@@ -199,22 +237,23 @@ export const addMachine = async (newMachineData) => {
         notas: newMachineData.notas || 'Creación inicial del registro de equipo'
       }
     ]
-  };
+  });
 
-  // 1. Save to LocalStorage immediately
-  const updatedList = deduplicateMachines([machineObj, ...localList]);
-  const sorted = sortMachines(updatedList);
-  saveLocalMachines(sorted);
-
-  // 2. Save to Firestore using deterministic ID
+  // 1. Save to Firestore using deterministic ID
   if (isFirebaseConfigured && db) {
     try {
       const docRef = doc(db, 'maquinas', newId);
       await setDoc(docRef, machineObj, { merge: true });
     } catch (e) {
       console.error('Error writing new machine to Firestore:', e);
+      throw new Error('No se pudo guardar en la nube (Firestore). Verifica tu conexión a internet.');
     }
   }
+
+  // 2. Save to cache & LocalStorage
+  const updatedList = deduplicateMachines([machineObj, ...localList]);
+  const sorted = sortMachines(updatedList);
+  saveLocalMachines(sorted);
 
   return machineObj;
 };
@@ -223,49 +262,54 @@ export const addMachine = async (newMachineData) => {
  * Change machine location and record location history
  */
 export const moveMachine = async (machineId, newLocation, responsable, notas, clienteAsignado, nombreCliente) => {
-  const localList = getLocalMachines();
+  const localList = getCurrentMachines();
   const machine = localList.find(m => m.id === machineId);
   if (!machine) throw new Error('Máquina no encontrada');
 
   const nowStr = new Date().toLocaleString('es-CR');
-  const oldLocation = machine.ubicacion;
+  const oldLocation = String(machine.ubicacion || 'Sin ubicación');
+  const cleanNewLocation = String(newLocation || '').trim();
+  const cleanResponsable = responsable ? String(responsable).trim() : String(machine.responsable || 'Sin especificar');
 
   const newHistoryEntry = {
     id: `HIST-${Date.now()}`,
     fecha: nowStr,
     ubicacionAnterior: oldLocation,
-    ubicacionNueva: String(newLocation || '').trim(),
-    responsable: responsable ? String(responsable).trim() : 'Sin especificar',
+    ubicacionNueva: cleanNewLocation,
+    responsable: cleanResponsable,
     notas: notas ? String(notas).trim() : 'Cambio de ubicación en taller/bodega'
   };
 
-  const updatedHistory = [newHistoryEntry, ...(machine.historial || [])];
+  const updatedHistory = [newHistoryEntry, ...(Array.isArray(machine.historial) ? machine.historial : [])];
 
-  const updatedFields = {
-    ubicacion: String(newLocation || '').trim(),
-    responsable: responsable ? String(responsable).trim() : machine.responsable,
+  const updatedFields = stripUndefined({
+    ubicacion: cleanNewLocation,
+    responsable: cleanResponsable,
     fechaActualizacion: nowStr,
     historial: updatedHistory
-  };
+  });
 
   if (typeof clienteAsignado === 'boolean') {
     updatedFields.clienteAsignado = clienteAsignado;
     updatedFields.nombreCliente = nombreCliente ? String(nombreCliente).trim() : '';
   }
 
-  // Update local
-  const updatedList = localList.map(m => m.id === machineId ? { ...m, ...updatedFields } : m);
-  saveLocalMachines(sortMachines(deduplicateMachines(updatedList)));
+  const fullMergedMachine = stripUndefined({ ...machine, ...updatedFields });
 
-  // Sync to Firestore
+  // 1. Persist to Firestore FIRST with setDoc(..., { merge: true }) so it works reliably even if doc was missing
   if (isFirebaseConfigured && db) {
     try {
       const docRef = doc(db, 'maquinas', machineId);
-      await updateDoc(docRef, updatedFields);
+      await setDoc(docRef, fullMergedMachine, { merge: true });
     } catch (e) {
       console.error('Error updating move in Firestore:', e);
+      throw new Error('No se pudo guardar la nueva ubicación en la nube (Firestore). Verifica tu conexión a internet.');
     }
   }
+
+  // 2. Update local cache & LocalStorage
+  const updatedList = localList.map(m => m.id === machineId ? fullMergedMachine : m);
+  saveLocalMachines(sortMachines(deduplicateMachines(updatedList)));
 
   return updatedFields;
 };
@@ -274,27 +318,32 @@ export const moveMachine = async (machineId, newLocation, responsable, notas, cl
  * Edit existing machine fields
  */
 export const updateMachine = async (machineId, fields) => {
-  const localList = getLocalMachines();
+  const localList = getCurrentMachines();
   const machine = localList.find(m => m.id === machineId);
   if (!machine) throw new Error('Máquina no encontrada');
 
   const nowStr = new Date().toLocaleString('es-CR');
-  const updatedFields = {
+  const updatedFields = stripUndefined({
     ...fields,
     fechaActualizacion: nowStr
-  };
+  });
 
-  const updatedList = localList.map(m => m.id === machineId ? { ...m, ...updatedFields } : m);
-  saveLocalMachines(sortMachines(deduplicateMachines(updatedList)));
+  const fullMergedMachine = stripUndefined({ ...machine, ...updatedFields });
 
+  // 1. Persist to Firestore with setDoc(..., { merge: true })
   if (isFirebaseConfigured && db) {
     try {
       const docRef = doc(db, 'maquinas', machineId);
-      await updateDoc(docRef, updatedFields);
+      await setDoc(docRef, fullMergedMachine, { merge: true });
     } catch (e) {
       console.error('Error updating machine in Firestore:', e);
+      throw new Error('No se pudo actualizar el equipo en la nube (Firestore). Verifica tu conexión a internet.');
     }
   }
+
+  // 2. Update local cache & LocalStorage
+  const updatedList = localList.map(m => m.id === machineId ? fullMergedMachine : m);
+  saveLocalMachines(sortMachines(deduplicateMachines(updatedList)));
 
   return updatedFields;
 };
@@ -303,18 +352,19 @@ export const updateMachine = async (machineId, fields) => {
  * Delete a machine
  */
 export const deleteMachine = async (machineId) => {
-  const localList = getLocalMachines();
-  const updatedList = localList.filter(m => m.id !== machineId);
-  saveLocalMachines(updatedList);
-
   if (isFirebaseConfigured && db) {
     try {
       const docRef = doc(db, 'maquinas', machineId);
       await deleteDoc(docRef);
     } catch (e) {
       console.error('Error deleting machine in Firestore:', e);
+      throw new Error('No se pudo eliminar el equipo en la nube (Firestore).');
     }
   }
+
+  const localList = getCurrentMachines();
+  const updatedList = localList.filter(m => m.id !== machineId);
+  saveLocalMachines(updatedList);
 };
 
 /**

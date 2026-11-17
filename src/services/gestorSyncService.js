@@ -1,6 +1,6 @@
 import { collection, onSnapshot, getDocs } from 'firebase/firestore';
 import { gestorDb } from '../firebase/config';
-import { updateMachine } from './machineService';
+import { updateMachine, getCachedMachines } from './machineService';
 
 /**
  * Clean string for accurate matching (removes special chars, extra spaces, upper case)
@@ -42,9 +42,13 @@ const isValidClient = (clientStr) => {
 };
 
 /**
- * Helper to get fresh local machines list
+ * Helper to get fresh machines list (prefers live in-memory Firestore cache, falls back to localStorage)
  */
 const getFreshLocalMachines = () => {
+  const cached = getCachedMachines();
+  if (Array.isArray(cached) && cached.length > 0) {
+    return cached;
+  }
   try {
     const stored = localStorage.getItem('workshop_machines_data');
     if (stored) return JSON.parse(stored);
@@ -57,9 +61,9 @@ const getFreshLocalMachines = () => {
 /**
  * Process single equipo doc from Gestor PRO into Control de Ubicación
  * Rules:
- * 1. When equipo is LISTO (equipoListo === true || equipoOperativo === true || valid client): sync client name & set Condición A.
- * 2. When equipo is OPERATIVO (equipoOperativo === true): set location to INSTALADO (Fuera de taller) & add to history.
- * 3. When equipo moves back from OPERATIVO to LISTO (equipoOperativo === false && equipoListo === true) and location is INSTALADO: change location to ANDEN & add to history.
+ * - Syncs Modelo / Tipo de Equipo (if valid and different).
+ * - Syncs Cliente Asignado, Nombre de Cliente, and Condición A when equipo has a valid client and is LISTO/OPERATIVO.
+ * - NEVER modifies or overwrites targetMachine.ubicacion (physical workshop/installed location is controlled strictly by Control de Ubicación).
  */
 const syncSingleEquipo = async (eq, currentMachines) => {
   if (!eq) return false;
@@ -109,11 +113,13 @@ const syncSingleEquipo = async (eq, currentMachines) => {
       changed = true;
     }
 
-    // RULE 1: Sincronizar Cliente y Condición A cuando el equipo pasa a LISTO u OPERATIVO
+    // RULE 1: Sincronizar Cliente y Condición A cuando el equipo tiene cliente asignado en Gestor PRO
+    // IMPORTANTE: Nunca sobreescribir `ubicacion` — las ubicaciones físicas se gestionan exclusivamente en esta app.
     if (shouldSyncClientAndCondition) {
       if (!targetMachine.clienteAsignado || targetMachine.nombreCliente !== rawClient || targetMachine.condicion !== 'A') {
         const oldClientName = targetMachine.nombreCliente || 'Sin cliente';
         const nowStr = new Date().toLocaleString('es-CR');
+        const currentLocation = targetMachine.ubicacion || 'Bodega/Taller';
 
         updates.clienteAsignado = true;
         updates.nombreCliente = rawClient;
@@ -123,8 +129,8 @@ const syncSingleEquipo = async (eq, currentMachines) => {
           const clientHistEntry = {
             id: `HIST-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
             fecha: nowStr,
-            ubicacionAnterior: targetMachine.ubicacion || 'Bodega/Taller',
-            ubicacionNueva: isOperativo ? 'INSTALADO' : (targetMachine.ubicacion || 'Bodega/Taller'),
+            ubicacionAnterior: currentLocation,
+            ubicacionNueva: currentLocation,
             responsable: 'Gestor PRO (Auto)',
             notas: targetMachine.clienteAsignado && oldClientName !== 'Sin cliente'
               ? `Reasignación de cliente: Anterior ("${oldClientName}") ➔ Nuevo ("${rawClient}") [Equipo Listo]`
@@ -135,43 +141,6 @@ const syncSingleEquipo = async (eq, currentMachines) => {
 
         changed = true;
       }
-    }
-
-    // RULE 2: Cuando el equipo pasa a OPERATIVO -> Ubicación cambia automáticamente a INSTALADO (Fuera de taller)
-    if (isOperativo && (targetMachine.ubicacion || '').toUpperCase().trim() !== 'INSTALADO') {
-      const nowStr = new Date().toLocaleString('es-CR');
-      const oldLoc = targetMachine.ubicacion || 'Bodega/Taller';
-      updates.ubicacion = 'INSTALADO';
-      
-      const locationHistEntry = {
-        id: `HIST-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
-        fecha: nowStr,
-        ubicacionAnterior: oldLoc,
-        ubicacionNueva: 'INSTALADO',
-        responsable: 'Gestor PRO (Auto)',
-        notas: `Equipo promovido a OPERATIVO (Instalado fuera de taller para cliente: ${rawClient || targetMachine.nombreCliente || 'Cliente'})`
-      };
-      updates.historial = [locationHistEntry, ...(updates.historial || targetMachine.historial || [])];
-      
-      changed = true;
-    }
-
-    // RULE 3: Cuando el equipo regresa de OPERATIVO a LISTOS -> Ubicación cambia de INSTALADO a ANDEN
-    if (!isOperativo && isListo && (targetMachine.ubicacion || '').toUpperCase().trim() === 'INSTALADO') {
-      const nowStr = new Date().toLocaleString('es-CR');
-      updates.ubicacion = 'ANDEN';
-
-      const returnHistEntry = {
-        id: `HIST-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
-        fecha: nowStr,
-        ubicacionAnterior: 'INSTALADO',
-        ubicacionNueva: 'ANDEN',
-        responsable: 'Gestor PRO (Auto)',
-        notas: `Retornado de Operativos a Equipos Listos en Gestor PRO (Ubicación de taller actualizada a ANDEN)`
-      };
-      updates.historial = [returnHistEntry, ...(updates.historial || targetMachine.historial || [])];
-
-      changed = true;
     }
 
     if (changed) {

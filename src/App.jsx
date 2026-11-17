@@ -49,22 +49,30 @@ export default function App() {
     setTimeout(() => setNotification(null), 4000);
   };
 
-  // Subscribe to machines (Firestore / LocalStorage) and Gestor PRO sync
+  // Subscribe to machines (Firestore / LocalStorage) and Gestor PRO client sync
   useEffect(() => {
     setLoading(true);
+    let unsubscribeGestor = null;
+    let isMounted = true;
+
     const unsubscribeMachines = subscribeToMachines((data) => {
+      if (!isMounted) return;
       setMachines(data);
       setLoading(false);
       setSyncStatus({ state: 'connected', text: 'En vivo (Firestore)' });
-    });
 
-    const unsubscribeGestor = subscribeToGestorProSync((status) => {
-      if (status && status.error) {
-        console.warn('Gestor PRO Sync warning:', status.error);
+      // Start Gestor PRO client-only sync ONLY after live Firestore data is loaded
+      if (!unsubscribeGestor) {
+        unsubscribeGestor = subscribeToGestorProSync((status) => {
+          if (status && status.error) {
+            console.warn('Gestor PRO Sync warning:', status.error);
+          }
+        });
       }
     });
 
     return () => {
+      isMounted = false;
       if (typeof unsubscribeMachines === 'function') unsubscribeMachines();
       if (typeof unsubscribeGestor === 'function') unsubscribeGestor();
     };
