@@ -1,4 +1,4 @@
-const CACHE_NAME = 'equipos-taller-v3';
+const CACHE_NAME = 'equipos-taller-v4';
 const ASSETS_TO_CACHE = [
   '/manifest.json',
   '/pwa-192x192.png',

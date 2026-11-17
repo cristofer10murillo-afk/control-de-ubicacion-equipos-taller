@@ -117,12 +117,24 @@ export default function AddEditMachineModal({
     const val = e.target.value;
     setErrorMessage('');
     setReentryMatch(null);
+    const wasInstalled = isEditing && (machine?.ubicacion || '').toUpperCase().trim() === 'INSTALADO';
+    const clearOldClient = wasInstalled && val.toUpperCase().trim() !== 'INSTALADO';
+
     if (val === 'OTRA') {
       setIsCustomLocation(true);
-      setFormData(prev => ({ ...prev, ubicacion: 'OTRA' }));
+      setFormData(prev => ({
+        ...prev,
+        ubicacion: 'OTRA',
+        ...(clearOldClient ? { clienteAsignado: false, nombreCliente: '' } : {})
+      }));
     } else {
       setIsCustomLocation(false);
-      setFormData(prev => ({ ...prev, ubicacion: val, customUbicacion: '' }));
+      setFormData(prev => ({
+        ...prev,
+        ubicacion: val,
+        customUbicacion: '',
+        ...(clearOldClient ? { clienteAsignado: false, nombreCliente: '' } : {})
+      }));
     }
   };
 

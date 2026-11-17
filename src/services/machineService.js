@@ -23,29 +23,55 @@ export const registerGestorOperativeProvider = (providerFn) => {
   gestorOperativeProvider = providerFn;
 };
 
-const getAcknowledgedOperativeFields = (machine, targetLocation) => {
+const getAcknowledgedOperativeFields = (machine, targetLocation, nextClienteAsignado = undefined) => {
   const isTargetBodega = String(targetLocation || '').toUpperCase().trim() !== 'INSTALADO';
-  if (!isTargetBodega) {
-    return { acknowledgePendingOperativeOnNextSync: false };
-  }
+  const wasInstalled = String(machine?.ubicacion || '').toUpperCase().trim() === 'INSTALADO';
+  const wasClientCleared =
+    (wasInstalled && isTargetBodega && nextClienteAsignado !== true) ||
+    (Boolean(machine?.clienteAsignado) && nextClienteAsignado === false);
 
-  const existingIds = Array.isArray(machine?.processedGestorOperativoIds)
+  const existingOpIds = Array.isArray(machine?.processedGestorOperativoIds)
     ? machine.processedGestorOperativoIds
     : [];
+  const existingDismissedClients = Array.isArray(machine?.dismissedGestorClientKeys)
+    ? machine.dismissedGestorClientKeys
+    : [];
+
+  const result = {};
 
   if (typeof gestorOperativeProvider === 'function') {
-    const { loaded, operativeIds } = gestorOperativeProvider(machine);
-    const mergedIds = Array.from(new Set([...existingIds, ...(operativeIds || [])]));
-    return {
-      processedGestorOperativoIds: mergedIds,
-      acknowledgePendingOperativeOnNextSync: !loaded
-    };
+    const { loaded, operativeIds, clientKeys } = gestorOperativeProvider(machine);
+
+    if (isTargetBodega) {
+      result.processedGestorOperativoIds = Array.from(new Set([...existingOpIds, ...(operativeIds || [])]));
+      result.acknowledgePendingOperativeOnNextSync = !loaded;
+    } else {
+      result.acknowledgePendingOperativeOnNextSync = false;
+    }
+
+    if (wasClientCleared) {
+      result.dismissedGestorClientKeys = Array.from(new Set([...existingDismissedClients, ...(clientKeys || [])]));
+      result.acknowledgePendingClientOnNextSync = !loaded;
+    } else if (nextClienteAsignado === true) {
+      result.acknowledgePendingClientOnNextSync = false;
+    }
+  } else {
+    if (isTargetBodega) {
+      result.processedGestorOperativoIds = existingOpIds;
+      result.acknowledgePendingOperativeOnNextSync = true;
+    } else {
+      result.acknowledgePendingOperativeOnNextSync = false;
+    }
+
+    if (wasClientCleared) {
+      result.dismissedGestorClientKeys = existingDismissedClients;
+      result.acknowledgePendingClientOnNextSync = true;
+    } else if (nextClienteAsignado === true) {
+      result.acknowledgePendingClientOnNextSync = false;
+    }
   }
 
-  return {
-    processedGestorOperativoIds: existingIds,
-    acknowledgePendingOperativeOnNextSync: true
-  };
+  return result;
 };
 
 /**
@@ -246,8 +272,9 @@ export const addMachine = async (newMachineData) => {
   const nowStr = new Date().toLocaleString('es-CR');
 
   const ackFields = getAcknowledgedOperativeFields(
-    { activo: newMachineData.activo, serie: newMachineData.serie, processedGestorOperativoIds: [] },
-    newMachineData.ubicacion
+    { activo: newMachineData.activo, serie: newMachineData.serie, processedGestorOperativoIds: [], dismissedGestorClientKeys: [] },
+    newMachineData.ubicacion,
+    Boolean(newMachineData.clienteAsignado)
   );
 
   const machineObj = stripUndefined({
@@ -309,32 +336,54 @@ export const moveMachine = async (machineId, newLocation, responsable, notas, cl
   const cleanNewLocation = String(newLocation || '').trim();
   const cleanResponsable = responsable ? String(responsable).trim() : String(machine.responsable || 'Sin especificar');
 
+  const wasInstalled = oldLocation.toUpperCase().trim() === 'INSTALADO';
+  const isTargetBodega = cleanNewLocation.toUpperCase().trim() !== 'INSTALADO';
+  const prevClientName = String(machine.nombreCliente || '').trim();
+  const incomingClientName = nombreCliente ? String(nombreCliente).trim() : '';
+
+  // When a machine returns from INSTALADO into Bodega/Taller, automatically clear its previous client
+  // (unless the user explicitly assigned a brand-new, different client name during the move)
+  let finalClienteAsignado = typeof clienteAsignado === 'boolean' ? clienteAsignado : Boolean(machine.clienteAsignado);
+  let finalNombreCliente = typeof clienteAsignado === 'boolean' ? (clienteAsignado ? incomingClientName : '') : prevClientName;
+
+  if (wasInstalled && isTargetBodega) {
+    const isSameOldClient =
+      prevClientName &&
+      incomingClientName.toUpperCase() === prevClientName.toUpperCase();
+    if (!finalClienteAsignado || isSameOldClient || !incomingClientName) {
+      finalClienteAsignado = false;
+      finalNombreCliente = '';
+    }
+  }
+
+  let finalNota = notas ? String(notas).trim() : 'Cambio de ubicación en taller/bodega';
+  if (wasInstalled && isTargetBodega && !finalClienteAsignado && prevClientName) {
+    finalNota = `${finalNota} (Cliente anterior "${prevClientName}" eliminado al ingresar a bodega)`;
+  }
+
   const newHistoryEntry = {
     id: `HIST-${Date.now()}`,
     fecha: nowStr,
     ubicacionAnterior: oldLocation,
     ubicacionNueva: cleanNewLocation,
     responsable: cleanResponsable,
-    notas: notas ? String(notas).trim() : 'Cambio de ubicación en taller/bodega'
+    notas: finalNota
   };
 
   const updatedHistory = [newHistoryEntry, ...(Array.isArray(machine.historial) ? machine.historial : [])];
 
-  // Acknowledge any current Gestor PRO operative order so this manual location is NEVER reverted
-  const ackFields = getAcknowledgedOperativeFields(machine, cleanNewLocation);
+  // Acknowledge current Gestor PRO operative order AND dismissed client so neither is reverted on reload
+  const ackFields = getAcknowledgedOperativeFields(machine, cleanNewLocation, finalClienteAsignado);
 
   const updatedFields = stripUndefined({
     ubicacion: cleanNewLocation,
     responsable: cleanResponsable,
+    clienteAsignado: finalClienteAsignado,
+    nombreCliente: finalNombreCliente,
     fechaActualizacion: nowStr,
     historial: updatedHistory,
     ...ackFields
   });
-
-  if (typeof clienteAsignado === 'boolean') {
-    updatedFields.clienteAsignado = clienteAsignado;
-    updatedFields.nombreCliente = nombreCliente ? String(nombreCliente).trim() : '';
-  }
 
   const fullMergedMachine = stripUndefined({ ...machine, ...updatedFields });
 
@@ -367,13 +416,37 @@ export const updateMachine = async (machineId, fields) => {
   const { _fromGestorSync, ...cleanInputFields } = fields || {};
   const nowStr = new Date().toLocaleString('es-CR');
 
-  // If user manually edited ubicacion into bodega/taller, acknowledge current Gestor PRO operative order
+  // If user manually edited ubicacion or clienteAsignado, acknowledge current Gestor PRO operative/client state
   let ackFields = {};
-  if (!_fromGestorSync && cleanInputFields.ubicacion !== undefined) {
-    const prevLoc = String(machine.ubicacion || '').trim().toUpperCase();
-    const nextLoc = String(cleanInputFields.ubicacion || '').trim().toUpperCase();
-    if (prevLoc !== nextLoc || nextLoc !== 'INSTALADO') {
-      ackFields = getAcknowledgedOperativeFields(machine, cleanInputFields.ubicacion);
+  if (!_fromGestorSync) {
+    const nextLoc = cleanInputFields.ubicacion !== undefined ? cleanInputFields.ubicacion : machine.ubicacion;
+    const prevLocUpper = String(machine.ubicacion || '').trim().toUpperCase();
+    const nextLocUpper = String(nextLoc || '').trim().toUpperCase();
+
+    // If user switched an INSTALADO machine into bodega via Edit modal without changing to a new client, clear old client
+    if (prevLocUpper === 'INSTALADO' && nextLocUpper !== 'INSTALADO') {
+      const prevClientName = String(machine.nombreCliente || '').trim();
+      const nextClientName = String(cleanInputFields.nombreCliente || '').trim();
+      if (
+        cleanInputFields.clienteAsignado === false ||
+        !nextClientName ||
+        (prevClientName && nextClientName.toUpperCase() === prevClientName.toUpperCase())
+      ) {
+        cleanInputFields.clienteAsignado = false;
+        cleanInputFields.nombreCliente = '';
+      }
+    }
+
+    const nextClienteAsignado =
+      cleanInputFields.clienteAsignado !== undefined
+        ? Boolean(cleanInputFields.clienteAsignado)
+        : Boolean(machine.clienteAsignado);
+
+    if (
+      cleanInputFields.ubicacion !== undefined ||
+      cleanInputFields.clienteAsignado !== undefined
+    ) {
+      ackFields = getAcknowledgedOperativeFields(machine, nextLoc, nextClienteAsignado);
     }
   }
 

@@ -79,49 +79,73 @@ const getOrderTimestamp = (eq) => {
   return 0;
 };
 
-// In-memory index of currently operative Gestor PRO doc IDs per machine key (activo / serie)
+// In-memory indexes of currently operative Gestor PRO doc IDs and active client keys per machine key (activo / serie)
 let gestorSnapshotLoaded = false;
 const operativeIdsByKey = new Map();
+const clientKeysByKey = new Map();
 
 const rebuildOperativeIndex = (docEntries) => {
   operativeIdsByKey.clear();
+  clientKeysByKey.clear();
   for (const { id, data: eq } of docEntries) {
-    if (!eq || isRetiredRecord(eq) || !isOperativeRecord(eq)) continue;
+    if (!eq || isRetiredRecord(eq)) continue;
     const eqActivo = normalizeKey(eq.activo);
     const eqSerie = normalizeKey(eq.serie);
+    const rawClient = eq.cliente ? String(eq.cliente).trim() : '';
+    const hasValidClient = isValidClient(rawClient);
+    const clientKey = hasValidClient ? `${id}::${normalizeKey(rawClient)}` : '';
+    const isOp = isOperativeRecord(eq);
 
     if (eqActivo && eqActivo !== 'NA') {
       const k = `ACT:${eqActivo}`;
-      if (!operativeIdsByKey.has(k)) operativeIdsByKey.set(k, new Set());
-      operativeIdsByKey.get(k).add(id);
+      if (isOp) {
+        if (!operativeIdsByKey.has(k)) operativeIdsByKey.set(k, new Set());
+        operativeIdsByKey.get(k).add(id);
+      }
+      if (clientKey) {
+        if (!clientKeysByKey.has(k)) clientKeysByKey.set(k, new Set());
+        clientKeysByKey.get(k).add(clientKey);
+      }
     }
     if (eqSerie && eqSerie !== 'NA') {
       const k = `SER:${eqSerie}`;
-      if (!operativeIdsByKey.has(k)) operativeIdsByKey.set(k, new Set());
-      operativeIdsByKey.get(k).add(id);
+      if (isOp) {
+        if (!operativeIdsByKey.has(k)) operativeIdsByKey.set(k, new Set());
+        operativeIdsByKey.get(k).add(id);
+      }
+      if (clientKey) {
+        if (!clientKeysByKey.has(k)) clientKeysByKey.set(k, new Set());
+        clientKeysByKey.get(k).add(clientKey);
+      }
     }
   }
   gestorSnapshotLoaded = true;
 };
 
-// Register provider so manual moves in machineService.js immediately acknowledge current operative orders
+// Register provider so manual moves in machineService.js immediately acknowledge current operative & client records
 registerGestorOperativeProvider((machine) => {
-  const ids = new Set();
+  const opIds = new Set();
+  const cKeys = new Set();
   const mActivo = normalizeKey(machine?.activo);
   const mSerie = normalizeKey(machine?.serie);
 
   if (mActivo && mActivo !== 'NA') {
-    const set = operativeIdsByKey.get(`ACT:${mActivo}`);
-    if (set) set.forEach(id => ids.add(id));
+    const opSet = operativeIdsByKey.get(`ACT:${mActivo}`);
+    if (opSet) opSet.forEach(id => opIds.add(id));
+    const cSet = clientKeysByKey.get(`ACT:${mActivo}`);
+    if (cSet) cSet.forEach(ck => cKeys.add(ck));
   }
   if (mSerie && mSerie !== 'NA') {
-    const set = operativeIdsByKey.get(`SER:${mSerie}`);
-    if (set) set.forEach(id => ids.add(id));
+    const opSet = operativeIdsByKey.get(`SER:${mSerie}`);
+    if (opSet) opSet.forEach(id => opIds.add(id));
+    const cSet = clientKeysByKey.get(`SER:${mSerie}`);
+    if (cSet) cSet.forEach(ck => cKeys.add(ck));
   }
 
   return {
     loaded: gestorSnapshotLoaded,
-    operativeIds: Array.from(ids)
+    operativeIds: Array.from(opIds),
+    clientKeys: Array.from(cKeys)
   };
 });
 
@@ -204,34 +228,63 @@ const syncSingleEquipo = async (gestorDocId, eq, currentMachines, processedTarge
     visibleChange = true;
   }
 
-  // RULE 1: Sincronizar Cliente y Condición A cuando el equipo tiene cliente asignado en Gestor PRO
-  if (shouldSyncClientAndCondition) {
-    if (!targetMachine.clienteAsignado || targetMachine.nombreCliente !== rawClient || targetMachine.condicion !== 'A') {
-      const oldClientName = targetMachine.nombreCliente || 'Sin cliente';
-      const nowStr = new Date().toLocaleString('es-CR');
-      const currentLocation = targetMachine.ubicacion || 'Bodega/Taller';
+  // RULE 1 (Smart Client Sync): Sincronizar Cliente y Condición A cuando el equipo tiene un cliente activo/nuevo en Gestor PRO,
+  // respetando clientes anteriores que fueron eliminados al devolver la máquina a bodega.
+  const existingDismissedClientKeys = Array.isArray(targetMachine.dismissedGestorClientKeys)
+    ? targetMachine.dismissedGestorClientKeys
+    : [];
+  const currentClientKey = hasValidClient ? `${gestorDocId}::${normalizeKey(rawClient)}` : '';
 
-      updates.clienteAsignado = true;
-      updates.nombreCliente = rawClient;
-      updates.condicion = 'A';
+  if (shouldSyncClientAndCondition && currentClientKey) {
+    const isClientDismissed = existingDismissedClientKeys.includes(currentClientKey);
 
-      if (targetMachine.nombreCliente !== rawClient) {
-        const clientHistEntry = {
-          id: `HIST-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
-          fecha: nowStr,
-          ubicacionAnterior: currentLocation,
-          ubicacionNueva: currentLocation,
-          responsable: 'Gestor PRO (Auto)',
-          notas: targetMachine.clienteAsignado && oldClientName !== 'Sin cliente'
-            ? `Reasignación de cliente: Anterior ("${oldClientName}") ➔ Nuevo ("${rawClient}") [Equipo Listo]`
-            : `Asignación de cliente en Equipos Listos: "${rawClient}"`
-        };
-        updates.historial = [clientHistEntry, ...(updates.historial || targetMachine.historial || [])];
-      }
-
+    if (targetMachine.acknowledgePendingClientOnNextSync) {
+      // User returned machine to bodega / cleared client before Gestor PRO loaded;
+      // silently dismiss this old client so it is NEVER re-assigned.
+      updates.dismissedGestorClientKeys = Array.from(new Set([...existingDismissedClientKeys, currentClientKey]));
+      updates.acknowledgePendingClientOnNextSync = false;
       changed = true;
-      visibleChange = true;
+    } else if (!isClientDismissed) {
+      if (!targetMachine.clienteAsignado || targetMachine.nombreCliente !== rawClient || targetMachine.condicion !== 'A') {
+        const oldClientName = targetMachine.nombreCliente || 'Sin cliente';
+        const nowStr = new Date().toLocaleString('es-CR');
+        const currentLocation = targetMachine.ubicacion || 'Bodega/Taller';
+
+        updates.clienteAsignado = true;
+        updates.nombreCliente = rawClient;
+        updates.condicion = 'A';
+
+        if (targetMachine.nombreCliente !== rawClient) {
+          const clientHistEntry = {
+            id: `HIST-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+            fecha: nowStr,
+            ubicacionAnterior: currentLocation,
+            ubicacionNueva: currentLocation,
+            responsable: 'Gestor PRO (Auto)',
+            notas: targetMachine.clienteAsignado && oldClientName !== 'Sin cliente'
+              ? `Reasignación de cliente: Anterior ("${oldClientName}") ➔ Nuevo ("${rawClient}") [Equipo Listo]`
+              : `Asignación de cliente en Equipos Listos: "${rawClient}"`
+          };
+          updates.historial = [clientHistEntry, ...(updates.historial || targetMachine.historial || [])];
+        }
+
+        changed = true;
+        visibleChange = true;
+      }
     }
+  } else if (targetMachine.acknowledgePendingClientOnNextSync) {
+    updates.acknowledgePendingClientOnNextSync = false;
+    changed = true;
+  }
+
+  // Release stale dismissed client keys for this order if Gestor PRO changed/cleared its client
+  const staleDismissedForOrder = existingDismissedClientKeys.filter(
+    k => k.startsWith(`${gestorDocId}::`) && k !== currentClientKey
+  );
+  if (staleDismissedForOrder.length > 0) {
+    const base = updates.dismissedGestorClientKeys || existingDismissedClientKeys;
+    updates.dismissedGestorClientKeys = base.filter(k => !staleDismissedForOrder.includes(k));
+    changed = true;
   }
 
   // RULE 2 (Smart Operative Auto-Exit):

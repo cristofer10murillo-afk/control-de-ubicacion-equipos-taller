@@ -66,10 +66,19 @@ export default function MoveMachineModal({ machine, availableLocations = [], onC
     if (val === 'OTRA') {
       setIsCustom(true);
       setSelectedLocation('OTRA');
+      // Al ingresar desde INSTALADO a bodega, eliminar automáticamente el cliente anterior
+      if (isCurrentInstalled) {
+        setClienteAsignado(false);
+        setNombreCliente('');
+      }
     } else {
       setIsCustom(false);
       setSelectedLocation(val);
       setCustomLocation('');
+      if (isCurrentInstalled && val.toUpperCase().trim() !== 'INSTALADO') {
+        setClienteAsignado(false);
+        setNombreCliente('');
+      }
     }
   };
 
@@ -170,6 +179,14 @@ export default function MoveMachineModal({ machine, availableLocations = [], onC
                 ⚠️ <strong>¿Está seguro que desea devolver esta máquina al taller?</strong>
                 <br />
                 El equipo pasará de estar <strong>INSTALADO en cliente</strong> a estar nuevamente guardado en <strong>BODEGA/TALLER</strong> en la ubicación <span className="font-mono" style={{ color: '#22d3ee' }}>{isCustom ? customLocation : selectedLocation}</span>.
+                {!clienteAsignado && machine.nombreCliente && (
+                  <>
+                    <br />
+                    <span style={{ color: '#fcd34d', fontSize: '0.82rem' }}>
+                      El cliente anterior (<strong>{machine.nombreCliente}</strong>) se eliminará automáticamente del registro.
+                    </span>
+                  </>
+                )}
               </p>
 
               <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end' }}>
